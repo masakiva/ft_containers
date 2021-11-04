@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 19:39:54 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/02 19:58:27 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/04 17:30:39 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define __VECTOR_HPP__
 
 #include <memory> // allocator
+#include <cstddef> // NULL
 
 namespace	ft
 {
@@ -26,6 +27,8 @@ namespace	ft
 			T*		_end;
 
 		public:
+
+			typedef		std::allocator	allocator_type;
 
 			vector( void );
 			vector( const vector& src );
@@ -42,6 +45,7 @@ namespace	ft
 				public:
 
 					iterator( void );
+					iterator( T* ptr );
 					iterator( const iterator& src );
 					~iterator( void );
 
@@ -60,7 +64,7 @@ namespace	ft
 					iterator&	operator--( void );
 					iterator	operator++( int );
 					iterator	operator--( int );
-			}
+			};
 
 			iterator	begin( void );
 			iterator	end( void );
