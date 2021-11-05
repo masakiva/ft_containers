@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 19:39:54 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/04 17:30:39 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/05 14:52:54 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,34 @@
 
 namespace	ft
 {
-	template < typename T >
+	template < class T, class Alloc = std::allocator<T> >
 	class	vector
 	{
+		public:
+
+			typedef	T											value_type;
+			typedef	Alloc										allocator_type;
+			typedef	typename allocator_type::reference			reference;
+			typedef	typename allocator_type::const_reference	const_reference;
+			typedef	typename allocator_type::pointer			pointer;
+			typedef	typename allocator_type::const_pointer		const_pointer;
+			typedef	ptrdiff_t									difference_type;
+			typedef	size_t										size_type;
+
 		private:
 
-			T*		_begin;
-			T*		_end;
+			value_type*			_vec;
+			allocator_type		_alloc;
+			size_type			_size;
+			size_type			_capacity;
+			T*					_begin; //
+			T*					_end; //
 
 		public:
 
-			typedef		std::allocator	allocator_type;
-
-			vector( void );
+			explicit vector ( const allocator_type& alloc = allocator_type() );
+			explicit vector ( size_type n, const value_type& val = value_type(),
+                 const allocator_type& alloc = allocator_type() );
 			vector( const vector& src );
 			~vector( void );
 

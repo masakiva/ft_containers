@@ -8,7 +8,8 @@ vpath %.c $(SRCS_DIR)
 
 HDRS_DIR	= ./
 
-#HDRS		+= header.hpp
+HDRS		+= vector.hpp
+HDRS		+= vector.templatedef.hpp
 
 vpath %.h $(HDRS_DIR)
 
