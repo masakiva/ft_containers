@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 19:39:54 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/09 19:52:45 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/10 22:47:49 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ namespace	ft
 			value_type*			_vec;
 			allocator_type		_alloc;
 			size_type			_size;
-//			size_type			_capacity;
+			size_type			_capacity;
 
 		public:
 
@@ -85,8 +85,12 @@ namespace	ft
 			//const_iterator	end ( void ) const;
 
 			/******* CAPACITY *************************************************/
-			size_type	size( void ) const;
-			size_type	capacity( void ) const;
+			size_type	size ( void ) const;
+			size_type	max_size( void ) const;
+			void		resize( size_type n, value_type val = value_type() );
+			size_type	capacity ( void ) const;
+			bool		empty( void ) const;
+			void		reserve( size_type n );
 
 			/******* ELEMENT ACCESS *******************************************/
 			reference		operator[] ( size_type n );
