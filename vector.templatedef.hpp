@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 20:45:40 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/10 22:47:47 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/11 19:35:43 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,19 @@ namespace	ft
 	template < class T, class Alloc >
 		vector<T, Alloc>::vector ( const allocator_type& alloc ) :
 			_alloc(alloc),
-			_size(0),
-			_capacity(0)
-		{ }
+			_capacity(0),
+			_size(0)
+		{
+			_vec = _alloc.allocate( _capacity );
+		}
 
 	/* fill constructor */
 	template < class T, class Alloc >
 		vector<T, Alloc>::vector ( size_type n, const value_type& val, const
 				allocator_type& alloc ) :
 			_alloc(alloc),
-			_size(n),
-			_capacity(n)
+			_capacity(n),
+			_size(n)
 		{
 			_vec = _alloc.allocate( _capacity );
 			for ( size_type i = 0; i < _size; i++ )
@@ -45,8 +47,8 @@ namespace	ft
 	template < class T, class Alloc >
 		vector<T, Alloc>::vector ( const vector<T, Alloc>& src ) :
 			_alloc(src._alloc),
-			_size(0),
-			_capacity(0)
+			_capacity(0),
+			_size(0)
 		{
 			*this = src;
 		}
@@ -57,8 +59,7 @@ namespace	ft
 		{
 			for ( size_type i = 0; i < _size; i++ )
 				_alloc.destroy( _vec + i );
-			if ( _size != 0 )
-				_alloc.deallocate( _vec, _size );
+			_alloc.deallocate( _vec, _size );
 		}
 
 	/* = */
@@ -71,8 +72,7 @@ namespace	ft
 
 			for ( size_type i = 0; i < _size; i++ )
 				_alloc.destroy( _vec + i );
-			if ( _capacity != 0 )
-				_alloc.deallocate( _vec, _capacity );
+			_alloc.deallocate( _vec, _capacity );
 
 			_size = rhs._size;
 			_capacity = rhs._capacity;
@@ -144,16 +144,15 @@ namespace	ft
 			{
 				value_type*	new_vec;
 
-				_capacity = n;
-				new_vec = _alloc.allocate( _capacity );
+				new_vec = _alloc.allocate( n );
 				for ( size_type i = 0; i < _size; i++ )
 					_alloc.construct( new_vec + i, _vec[i] );
 
 				for ( size_type i = 0; i < _size; i++ )
-				_alloc.destroy( _vec + i );
-				if ( _capacity != 0 )
-					_alloc.deallocate( _vec, _capacity );
+					_alloc.destroy( _vec + i );
+				_alloc.deallocate( _vec, _capacity );
 				_vec = new_vec;
+				_capacity = n;
 			}
 		}
 
@@ -216,7 +215,7 @@ namespace	ft
 		typename vector<T, Alloc>::reference
 				vector<T, Alloc>::back ( void )
 		{
-			return ( _vec[_size] );
+			return ( _vec[_size - 1] );
 		}
 
 	/* back (const) */
@@ -224,17 +223,76 @@ namespace	ft
 		typename vector<T, Alloc>::const_reference
 				vector<T, Alloc>::back ( void ) const
 		{
-			return ( _vec[_size] );
+			return ( _vec[_size - 1] );
 		}
 
 
 	/******* MODIFIERS ********************************************************/
 
-//	template < class T, class Alloc >
-//	void	vector<T, Alloc>::assign ( size_type n, const value_type& val )
-//	{
-//		if ( n > _capacity )
-//	}
+	/* assign */
+	template < class T, class Alloc >
+		void	vector<T, Alloc>::assign ( size_type n, const value_type& val )
+		{
+			if ( n > _capacity )
+			{
+				for ( size_type i = 0; i < _size; i++ )
+					_alloc.destroy( _vec + i );
+				_alloc.deallocate( _vec, _capacity );
+
+				_vec = _alloc.allocate( n );
+				_capacity = n;
+				for ( size_type i = 0; i < n; i++ )
+					_alloc.construct( _vec + i, val );
+			}
+			else if ( n >= _size )
+			{
+				for ( size_type i = 0; i < _size; i++ )
+					_vec[i] = val;
+				for ( size_type i = _size; i < n; i++ )
+					_alloc.construct( _vec + i, val );
+			}
+			else
+			{
+				for ( size_type i = 0; i < n; i++ )
+					_vec[i] = val;
+				for ( size_type i = n; i < _size; i++ )
+					_alloc.destroy( _vec + i );
+			}
+			_size = n;
+		}
+
+	/* push_back */
+	template < class T, class Alloc >
+		void	vector<T, Alloc>::push_back ( const value_type& val )
+		{
+			this->reserve( _size + 1 );
+			_alloc.construct( _vec + _size, val );
+			_size++;
+		}
+
+	/* pop_back */
+	template < class T, class Alloc >
+		void	vector<T, Alloc>::pop_back ( void )
+		{
+			_alloc.destroy( _vec + _size - 1 );
+			_size--;
+		}
+
+	/* swap */
+	template < class T, class Alloc >
+		void	vector<T, Alloc>::swap ( vector<T, Alloc>& x )
+		{
+		}
+
+
+	/* clear */
+	template < class T, class Alloc >
+		void	vector<T, Alloc>::clear ( void )
+		{
+			for ( size_type i = 0; i < _size; i++ )
+				_alloc.destroy( _vec + i );
+			_size = 0;
+		}
 
 
 	/******* ITERATORS ********************************************************/
@@ -289,12 +347,12 @@ namespace	ft
 	template < class T, class Alloc >
 		vector<T, Alloc>::iterator::iterator ( void ) :
 			_ptr(NULL)
-	{ }
+		{ }
 
 	template < class T, class Alloc >
 		vector<T, Alloc>::iterator::iterator ( T* ptr ) :
 			_ptr(ptr)
-	{ }
+		{ }
 
 	template < class T, class Alloc >
 		vector<T, Alloc>::iterator::iterator

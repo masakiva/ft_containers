@@ -1,6 +1,7 @@
 # binary stuff
 *.o
 objects
+*.out
 a.out*
 ft_containers
 # libraries

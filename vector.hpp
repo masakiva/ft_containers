@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 19:39:54 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/10 22:47:49 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/11 19:36:04 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,11 @@ namespace	ft
 
 		private:
 
-			value_type*			_vec;
 			allocator_type		_alloc;
-			size_type			_size;
+			char				__pad[7];
 			size_type			_capacity;
+			size_type			_size;
+			value_type*			_vec;
 
 		public:
 
@@ -104,6 +105,10 @@ namespace	ft
 
 			/******* MODIFIERS ************************************************/
 			void	assign ( size_type n, const value_type& val );
+			void	push_back ( const value_type& val );
+			void	pop_back ( void );
+			void	swap ( vector& x );
+			void	clear ( void );
 
 	};
 }
