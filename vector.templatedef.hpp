@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 20:45:40 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/12 14:06:10 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/12 19:23:18 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -362,134 +362,6 @@ namespace	ft
 //
 //			return ( ite );
 //		}
-
-
-	/**************************************************************************/
-	/******************************** ITERATOR ********************************/
-	/**************************************************************************/
-
-	/********************** CONSTRUCTORS AND DESTRUCTOR ***********************/
-
-	template < class T, class Alloc >
-		vector<T, Alloc>::iterator::iterator ( void ) :
-			_ptr(NULL)
-		{ }
-
-	template < class T, class Alloc >
-		vector<T, Alloc>::iterator::iterator ( T* ptr ) :
-			_ptr(ptr)
-		{ }
-
-	template < class T, class Alloc >
-		vector<T, Alloc>::iterator::iterator
-				( const vector<T, Alloc>::iterator& src )
-		{ *this = src; }
-
-	template < class T, class Alloc >
-		vector<T, Alloc>::iterator::~iterator ( void ) { }
-
-	/************************** OPERATORS OVERLOADS ***************************/
-
-	template < class T, class Alloc >
-		typename vector<T, Alloc>::iterator&
-				vector<T, Alloc>::iterator::operator=
-				( const vector<T, Alloc>::iterator& rhs )
-		{
-			if ( this == &rhs )
-				return ( *this );
-
-			_ptr = rhs._ptr;
-
-			return ( *this );
-		}
-
-	template < class T, class Alloc >
-		T&		vector<T, Alloc>::iterator::operator* ( void ) const
-		{
-			return ( *_ptr );
-		}
-
-	template < class T, class Alloc >
-		bool	vector<T, Alloc>::iterator::operator>
-				( const vector<T, Alloc>::iterator &rhs ) const
-		{
-			return ( _ptr > rhs._ptr );
-		}
-
-	template < class T, class Alloc >
-		bool	vector<T, Alloc>::iterator::operator<
-				( const vector<T, Alloc>::iterator &rhs ) const
-		{
-			return ( _ptr < rhs._ptr );
-		}
-
-	template < class T, class Alloc >
-		bool	vector<T, Alloc>::iterator::operator>=
-				( const vector<T, Alloc>::iterator &rhs ) const
-		{
-			return ( _ptr >= rhs._ptr );
-		}
-
-	template < class T, class Alloc >
-		bool	vector<T, Alloc>::iterator::operator<=
-				( const vector<T, Alloc>::iterator &rhs ) const
-		{
-			return ( _ptr <= rhs._ptr );
-		}
-
-	template < class T, class Alloc >
-		bool	vector<T, Alloc>::iterator::operator==
-				( const vector<T, Alloc>::iterator &rhs ) const
-		{
-			return ( _ptr == rhs._ptr );
-		}
-
-	template < class T, class Alloc >
-		bool	vector<T, Alloc>::iterator::operator!=
-				( const vector<T, Alloc>::iterator &rhs ) const
-		{
-			return ( _ptr != rhs._ptr );
-		}
-
-	template < class T, class Alloc >
-		typename vector<T, Alloc>::iterator&
-				vector<T, Alloc>::iterator::operator++ ( void )
-		{
-			_ptr++;
-
-			return ( *this );
-		}
-
-	template < class T, class Alloc >
-		typename vector<T, Alloc>::iterator&
-				vector<T, Alloc>::iterator::operator-- ( void )
-		{
-			_ptr--;
-
-			return ( *this );
-		}
-
-	template < class T, class Alloc >
-		typename vector<T, Alloc>::iterator
-				vector<T, Alloc>::iterator::operator++ ( int )
-		{
-			iterator	before_inc( *this );
-
-			_ptr++;
-
-			return ( before_inc );
-		}
-
-	template < class T, class Alloc >
-		typename vector<T, Alloc>::iterator
-				vector<T, Alloc>::iterator::operator-- ( int )
-		{
-			iterator	before_dec( *this );
-
-			_ptr--;
-
-			return ( before_dec );
-		}
 
 }
 

@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 19:39:54 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/12 14:04:21 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/12 19:24:32 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <memory> // allocator
 #include <cstddef> // NULL
 #include <stdexcept>
+#include "vector_iterator.hpp"
 
 namespace	ft
 {
@@ -30,6 +31,10 @@ namespace	ft
 			typedef	typename allocator_type::const_reference	const_reference;
 			typedef	typename allocator_type::pointer			pointer;
 			typedef	typename allocator_type::const_pointer		const_pointer;
+			typedef	v_iterator<std::random_access_iterator_tag, T>	iterator;
+//const_iterator	a random access iterator to const value_type
+//reverse_iterator	reverse_iterator<iterator>
+//const_reverse_iterator	reverse_iterator<const_iterator>
 			typedef	ptrdiff_t									difference_type;
 			typedef	size_t										size_type;
 
@@ -53,34 +58,6 @@ namespace	ft
 			vector&		operator= ( const vector &rhs );
 
 			/******* ITERATORS ************************************************/
-			class	iterator
-			{
-				private:
-
-					T*		_ptr;
-
-				public:
-
-					iterator ( void );
-					iterator ( T* ptr );
-					iterator ( const iterator& src );
-					~iterator ( void );
-					iterator&	operator= ( const iterator &rhs );
-
-					T&		operator* ( void ) const;
-
-					bool	operator> ( const iterator &rhs ) const;
-					bool	operator< ( const iterator &rhs ) const;
-					bool	operator>= ( const iterator &rhs ) const;
-					bool	operator<= ( const iterator &rhs ) const;
-					bool	operator== ( const iterator &rhs ) const;
-					bool	operator!= ( const iterator &rhs ) const;
-
-					iterator&	operator++ ( void );
-					iterator&	operator-- ( void );
-					iterator	operator++ ( int );
-					iterator	operator-- ( int );
-			};
 			iterator		begin ( void );
 			//const_iterator	begin ( void ) const;
 			iterator		end ( void );

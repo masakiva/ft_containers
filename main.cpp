@@ -56,6 +56,7 @@ class test
 void	vector_canonicalform( void )
 {
 	std::cout << "CANONICAL FORM" << std::endl;
+
 	{
 		NAMESPACE::vector<test>	vec;
 		std::cout << "----------" << std::endl;
@@ -63,6 +64,7 @@ void	vector_canonicalform( void )
 		std::cout << "----------" << std::endl;
 	}
 	std::cout << "----------" << std::endl;
+
 	{
 		NAMESPACE::vector<test>	vec3( 2 );
 		std::cout << "----------" << std::endl;
@@ -72,12 +74,14 @@ void	vector_canonicalform( void )
 		vec5 = vec4;
 		std::cout << "----------" << std::endl;
 	}
+
 	std::cout << "--------------------" << std::endl;
 }
 
 void	vector_elementaccess( void )
 {
 	std::cout << "ELEMENT ACCESS" << std::endl;
+
 	NAMESPACE::vector<int>	vec( 3, 1 );
 	vec[1] = 2;
 	vec[2] = 3;
@@ -93,12 +97,14 @@ void	vector_elementaccess( void )
 		std::cerr << e.what() << std::endl;
 	}
 	std::cout << "----------" << std::endl;
+
 	std::cout << "for loop with brackets operator ([]):";
 	for ( NAMESPACE::vector<int>::size_type i = 0; i < vec.size(); i++ )
 	{
 		std::cout << " " << vec[i];
 	}
 	std::cout << std::endl;
+
 	std::cout << "--------------------" << std::endl;
 }
 
@@ -149,39 +155,50 @@ void	vector_capacity( void )
 void	vector_modifiers( void )
 {
 	std::cout << "MODIFIERS" << std::endl;
+
 	NAMESPACE::vector<int> vec( 2, 4 );
 	std::cout << "-> vec( 2, 4 )" << std::endl;
 	print_vector( vec );
+
 	vec.assign( 1, 3 );
 	std::cout << "-> assign( 1, 3 )" << std::endl;
 	print_vector( vec );
+
 	vec.assign( 4, 6 );
 	std::cout << "-> assign( 4, 6 )" << std::endl;
 	print_vector( vec );
+
 	vec.assign( 3, 5 );
 	std::cout << "-> assign( 3, 5 )" << std::endl;
 	print_vector( vec );
+
 	vec.push_back( 2 );
 	std::cout << "-> push_back( 2 )" << std::endl;
 	print_vector( vec );
+
 	vec.push_back( 7 );
 	std::cout << "-> push_back( 7 )" << std::endl;
 	print_vector( vec );
+
 	vec.pop_back();
 	std::cout << "-> pop_back()" << std::endl;
 	print_vector( vec );
+
 	NAMESPACE::vector<int> vec2( 2, 9 );
 	std::cout << "-> vec2( 2, 9 )" << std::endl;
 	print_vector( vec2 );
+
 	vec.swap( vec2 );
 	std::cout << "-> vec.swap( vec2 )" << std::endl;
 	std::cout << "vec: " << std::endl;
 	print_vector( vec );
 	std::cout << "vec2: " << std::endl;
 	print_vector( vec2 );
+
 	vec.clear();
 	std::cout << "-> vec.clear()" << std::endl;
 	print_vector( vec );
+
 	std::cout << "--------------------" << std::endl;
 }
 
@@ -191,6 +208,15 @@ void	vector_allocator( void )
 	vec.get_allocator();
 }
 
+void	vector_iterator( void )
+{
+	NAMESPACE::vector<int>				vec( 3, 41 );
+	NAMESPACE::vector<int>::iterator	it;
+
+	for ( it = vec.begin(); it != vec.end(); it++ )
+		std::cout << *it << std::endl;
+}
+
 int		main ( void )
 {
 //	vector_canonicalform();
@@ -198,6 +224,7 @@ int		main ( void )
 //	vector_capacity();
 //	vector_modifiers();
 //	vector_allocator();
+	vector_iterator();
 
 	return ( EXIT_SUCCESS );
 }

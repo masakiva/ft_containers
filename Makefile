@@ -10,6 +10,8 @@ HDRS_DIR	= ./
 
 HDRS		+= vector.hpp
 HDRS		+= vector.templatedef.hpp
+HDRS		+= vector_iterator.hpp
+HDRS		+= iterator_traits.hpp
 
 vpath %.h $(HDRS_DIR)
 
