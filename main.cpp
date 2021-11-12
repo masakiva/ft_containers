@@ -92,88 +92,103 @@ void	vector_elementaccess( void )
 	{
 		std::cerr << e.what() << std::endl;
 	}
+	std::cout << "----------" << std::endl;
+	std::cout << "for loop with brackets operator ([]):";
+	for ( NAMESPACE::vector<int>::size_type i = 0; i < vec.size(); i++ )
+	{
+		std::cout << " " << vec[i];
+	}
+	std::cout << std::endl;
 	std::cout << "--------------------" << std::endl;
-
 }
+
+template < class T, class Alloc >
+	void	print_vector( NAMESPACE::vector<T, Alloc>& vec )
+	{
+		std::cout << "values:";
+		for ( typename NAMESPACE::vector<T, Alloc>::size_type i = 0;
+				i < vec.size(); i++ )
+		{
+			std::cout << " " << vec[i];
+		}
+		std::cout << std::endl;
+		std::cout << "capacity = " << vec.capacity() << std::endl;
+		std::cout << "size = " << vec.size() << std::endl;
+		std::cout << "----------" << std::endl;
+	}
 
 void	vector_capacity( void )
 {
 	std::cout << "CAPACITY" << std::endl;
-	NAMESPACE::vector<int>	vec( 3 );
-	std::cout << "capacity 1 = " << vec.capacity() << std::endl;
-	std::cout << "size 1 = " << vec.size() << std::endl;
-	std::cout << "----------" << std::endl;
+	NAMESPACE::vector<int>	vec( 3, 2 );
+	std::cout << "-> vec( 3 )" << std::endl;
+	print_vector( vec );
 	vec.resize( 4 );
-	std::cout << "capacity 2 = " << vec.capacity() << std::endl;
-	std::cout << "size 2 = " << vec.size() << std::endl;
-	std::cout << "----------" << std::endl;
+	std::cout << "-> resize( 4 )" << std::endl;
+	print_vector( vec );
 	vec.reserve( 5 );
-	std::cout << "capacity 3 = " << vec.capacity() << std::endl;
-	std::cout << "size 3 = " << vec.size() << std::endl;
-	std::cout << "----------" << std::endl;
-	vec.resize( 5, 0 );
-	std::cout << "capacity 4 = " << vec.capacity() << std::endl;
-	std::cout << "size 4 = " << vec.size() << std::endl;
-	std::cout << "----------" << std::endl;
+	std::cout << "-> reserve( 5 )" << std::endl;
+	print_vector( vec );
+	vec.resize( 5, 3 );
+	std::cout << "-> resize( 5, 3 )" << std::endl;
+	print_vector( vec );
 	vec.reserve( 2 );
-	std::cout << "capacity 5 = " << vec.capacity() << std::endl;
-	std::cout << "size 5 = " << vec.size() << std::endl;
-	std::cout << "----------" << std::endl;
-	vec.resize( 1 );
-	std::cout << "capacity 6 = " << vec.capacity() << std::endl;
-	std::cout << "size 6 = " << vec.size() << std::endl;
-	std::cout << "----------" << std::endl;
+	std::cout << "-> reserve( 2 )" << std::endl;
+	print_vector( vec );
+	vec.resize( 1, 1 );
+	std::cout << "-> resize( 1, 1 )" << std::endl;
+	print_vector( vec );
 	std::cout << "max_size = " << vec.max_size() << std::endl;
-	std::cout << "empty 1 = " << vec.empty() << std::endl;
+	std::cout << "empty = " << vec.empty() << std::endl;
 	NAMESPACE::vector<test>	vec2;
-	std::cout << "empty 2 = " << vec2.empty() << std::endl;
+	std::cout << "-> vec2 ()" << std::endl;
+	std::cout << "vec2.empty = " << vec2.empty() << std::endl;
+	std::cout << "--------------------" << std::endl;
 }
 
-void	vector_modifiers()
+void	vector_modifiers( void )
 {
 	std::cout << "MODIFIERS" << std::endl;
 	NAMESPACE::vector<int> vec( 2, 4 );
-	std::cout << "vec[0] 1 = " << vec[0] << std::endl;
-	std::cout << "capacity 1 = " << vec.capacity() << std::endl;
-	std::cout << "size 1 = " << vec.size() << std::endl;
-	std::cout << "----------" << std::endl;
+	std::cout << "-> vec( 2, 4 )" << std::endl;
+	print_vector( vec );
 	vec.assign( 1, 3 );
-	std::cout << "vec[0] 2 = " << vec[0] << std::endl;
-	std::cout << "capacity 2 = " << vec.capacity() << std::endl;
-	std::cout << "size 2 = " << vec.size() << std::endl;
-	std::cout << "----------" << std::endl;
+	std::cout << "-> assign( 1, 3 )" << std::endl;
+	print_vector( vec );
 	vec.assign( 4, 6 );
-	std::cout << "vec[0] 3 = " << vec[0] << std::endl;
-	std::cout << "vec[3] = " << vec[3] << std::endl;
-	std::cout << "capacity 3 = " << vec.capacity() << std::endl;
-	std::cout << "size 3 = " << vec.size() << std::endl;
-	std::cout << "----------" << std::endl;
+	std::cout << "-> assign( 4, 6 )" << std::endl;
+	print_vector( vec );
 	vec.assign( 3, 5 );
-	std::cout << "vec[0] 4 = " << vec[0] << std::endl;
-	std::cout << "vec[2] = " << vec[2] << std::endl;
-	std::cout << "capacity 4 = " << vec.capacity() << std::endl;
-	std::cout << "size 4 = " << vec.size() << std::endl;
-	std::cout << "----------" << std::endl;
+	std::cout << "-> assign( 3, 5 )" << std::endl;
+	print_vector( vec );
 	vec.push_back( 2 );
-	std::cout << "vec[0] 5 = " << vec[0] << std::endl;
-	std::cout << "vec[3] = " << vec[3] << std::endl;
-	std::cout << "capacity 5 = " << vec.capacity() << std::endl;
-	std::cout << "size 5 = " << vec.size() << std::endl;
-	std::cout << "----------" << std::endl;
+	std::cout << "-> push_back( 2 )" << std::endl;
+	print_vector( vec );
 	vec.push_back( 7 );
-	std::cout << "vec[0] 6 = " << vec[0] << std::endl;
-	std::cout << "vec[4] = " << vec[4] << std::endl;
-	std::cout << "capacity 6 = " << vec.capacity() << std::endl;
-	std::cout << "size 6 = " << vec.size() << std::endl;
-	std::cout << "----------" << std::endl;
+	std::cout << "-> push_back( 7 )" << std::endl;
+	print_vector( vec );
 	vec.pop_back();
-	std::cout << "vec[0] 7 = " << vec[0] << std::endl;
-	std::cout << "vec[3] = " << vec[3] << std::endl;
-	std::cout << "capacity 7 = " << vec.capacity() << std::endl;
-	std::cout << "size 7 = " << vec.size() << std::endl;
+	std::cout << "-> pop_back()" << std::endl;
+	print_vector( vec );
+	NAMESPACE::vector<int> vec2( 2, 9 );
+	std::cout << "-> vec2( 2, 9 )" << std::endl;
+	print_vector( vec2 );
+	vec.swap( vec2 );
+	std::cout << "-> vec.swap( vec2 )" << std::endl;
+	std::cout << "vec: " << std::endl;
+	print_vector( vec );
+	std::cout << "vec2: " << std::endl;
+	print_vector( vec2 );
 	vec.clear();
-	std::cout << "capacity 8 = " << vec.capacity() << std::endl;
-	std::cout << "size 8 = " << vec.size() << std::endl;
+	std::cout << "-> vec.clear()" << std::endl;
+	print_vector( vec );
+	std::cout << "--------------------" << std::endl;
+}
+
+void	vector_allocator( void )
+{
+	NAMESPACE::vector<int> vec;
+	vec.get_allocator();
 }
 
 int		main ( void )
@@ -181,7 +196,8 @@ int		main ( void )
 //	vector_canonicalform();
 //	vector_elementaccess();
 //	vector_capacity();
-	vector_modifiers();
+//	vector_modifiers();
+//	vector_allocator();
 
 	return ( EXIT_SUCCESS );
 }

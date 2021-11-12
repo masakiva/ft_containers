@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 19:39:54 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/11 19:36:04 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/12 14:04:21 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,9 @@ namespace	ft
 
 			/******* CANONICAL FORM *******************************************/
 			explicit vector ( const allocator_type& alloc = allocator_type() );
-			explicit vector ( size_type n, const value_type& val = value_type(),
-                 const allocator_type& alloc = allocator_type() );
+			explicit vector ( size_type count,
+					const value_type& value = value_type(),
+					const allocator_type& alloc = allocator_type() );
 			vector ( const vector& src );
 			~vector ( void );
 			vector&		operator= ( const vector &rhs );
@@ -88,27 +89,31 @@ namespace	ft
 			/******* CAPACITY *************************************************/
 			size_type	size ( void ) const;
 			size_type	max_size( void ) const;
-			void		resize( size_type n, value_type val = value_type() );
+			void		resize( size_type count,
+					value_type value = value_type() );
 			size_type	capacity ( void ) const;
 			bool		empty( void ) const;
-			void		reserve( size_type n );
+			void		reserve( size_type new_cap );
 
 			/******* ELEMENT ACCESS *******************************************/
-			reference		operator[] ( size_type n );
-			const_reference	operator[] ( size_type n ) const;
-			reference		at ( size_type n );
-			const_reference	at ( size_type n ) const;
+			reference		operator[] ( size_type pos );
+			const_reference	operator[] ( size_type pos ) const;
+			reference		at ( size_type pos );
+			const_reference	at ( size_type pos ) const;
 			reference 		front( void );
 			const_reference	front( void ) const;
 			reference 		back( void );
 			const_reference	back( void ) const;
 
 			/******* MODIFIERS ************************************************/
-			void	assign ( size_type n, const value_type& val );
-			void	push_back ( const value_type& val );
+			void	assign ( size_type count, const value_type& value );
+			void	push_back ( const value_type& value );
 			void	pop_back ( void );
-			void	swap ( vector& x );
+			void	swap ( vector& other );
 			void	clear ( void );
+
+			/******* ALLOCATOR ************************************************/
+			allocator_type	get_allocator( void ) const;
 
 	};
 }
