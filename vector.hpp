@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 19:39:54 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/12 19:24:32 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/13 18:02:00 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <cstddef> // NULL
 #include <stdexcept>
 #include "vector_iterator.hpp"
+#include "reverse_iterator.hpp"
 
 namespace	ft
 {
@@ -33,7 +34,7 @@ namespace	ft
 			typedef	typename allocator_type::const_pointer		const_pointer;
 			typedef	v_iterator<std::random_access_iterator_tag, T>	iterator;
 //const_iterator	a random access iterator to const value_type
-//reverse_iterator	reverse_iterator<iterator>
+			typedef	reverse_iterator<iterator>					reverse_iterator;
 //const_reverse_iterator	reverse_iterator<const_iterator>
 			typedef	ptrdiff_t									difference_type;
 			typedef	size_t										size_type;
@@ -58,10 +59,12 @@ namespace	ft
 			vector&		operator= ( const vector &rhs );
 
 			/******* ITERATORS ************************************************/
-			iterator		begin ( void );
-			//const_iterator	begin ( void ) const;
-			iterator		end ( void );
-			//const_iterator	end ( void ) const;
+			iterator				begin ( void );
+			//const_iterator		begin ( void ) const;
+			iterator				end ( void );
+			//const_iterator		end ( void ) const;
+			reverse_iterator		rbegin( void );
+			//const_reverse_iterator	rbegin( void ) const;
 
 			/******* CAPACITY *************************************************/
 			size_type	size ( void ) const;

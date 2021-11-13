@@ -1,4 +1,5 @@
 #include "vector.templatedef.hpp"
+#include "reverse_iterator.hpp"
 #include <cstdlib> // EXIT_SUCCESS
 #include <iostream>
 #include <vector>
@@ -210,11 +211,52 @@ void	vector_allocator( void )
 
 void	vector_iterator( void )
 {
+	std::cout << "ITERATOR" << std::endl;
+
 	NAMESPACE::vector<int>				vec( 3, 41 );
 	NAMESPACE::vector<int>::iterator	it;
 
 	for ( it = vec.begin(); it != vec.end(); it++ )
 		std::cout << *it << std::endl;
+
+	std::cout << "--------------------" << std::endl;
+}
+
+void	reverse_iterator_vector( void )
+{
+	std::cout << "REVERSE ITERATOR" << std::endl;
+
+	std::vector<int>	vec;
+
+	for ( NAMESPACE::vector<int>::size_type i = 0; i < 10; i++ )
+		vec.push_back( i );
+
+	typedef	std::vector<int>::iterator	iter_type;
+	iter_type		from( vec.begin() );
+	iter_type		until( vec.end() );
+
+	NAMESPACE::reverse_iterator<iter_type>	rev_until( from );
+	NAMESPACE::reverse_iterator<iter_type>	rev_from( until );
+
+	std::cout << "vec rev:";
+	while ( rev_from < rev_until )
+		std::cout << ' ' << *rev_from++;
+	std::cout << std::endl;
+
+	rev_from -= 10;
+	std::cout << "vec (using underlying iterator):";
+	for ( iter_type it = rev_until.base(); it != rev_from.base(); it++ )
+		std::cout << ' ' << *it;
+	std::cout << std::endl;
+
+	std::cout << "vec span = " << rev_from - rev_until << std::endl;
+
+	std::cout << "vec rev:";
+	for ( NAMESPACE::vector<int>::size_type i = 0; i < 10; i++ )
+		std::cout << ' ' << rev_from[i];
+	std::cout << std::endl;
+
+	std::cout << "--------------------" << std::endl;
 }
 
 int		main ( void )
@@ -224,7 +266,8 @@ int		main ( void )
 //	vector_capacity();
 //	vector_modifiers();
 //	vector_allocator();
-	vector_iterator();
+//	vector_iterator();
+	reverse_iterator_vector();
 
 	return ( EXIT_SUCCESS );
 }

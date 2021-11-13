@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:49:02 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/12 19:53:18 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/13 17:55:56 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,11 @@ namespace	ft
 			}
 
 			/* * */
-			T&		operator* ( void ) const { return ( *_ptr ); }
+			reference	operator* ( void ) const { return ( *_ptr ); }
 
 			/* -> */
-			T&		operator-> ( void ) const { return ( _ptr ); }
+			pointer		operator-> ( void ) const
+			{ return ( &( operator*() ) ); }
 
 			/* ++i */
 			v_iterator&	operator++ ( void ) { _ptr++; return ( *this ); }
@@ -108,6 +109,14 @@ namespace	ft
 			/* -= */
 			v_iterator&	operator-= ( const difference_type& n )
 			{ _ptr -= n; return ( *this ); }
+
+			/* + */
+			v_iterator	operator+ ( const difference_type& n ) const
+			{ v_iterator temp( *this ); return ( temp += n ); }
+
+			/* - */
+			v_iterator	operator- ( const difference_type& n ) const
+			{ v_iterator temp( *this ); return ( temp -= n ); }
 
 	};
 }

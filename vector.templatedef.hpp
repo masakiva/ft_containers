@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 20:45:40 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/12 19:23:18 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/13 18:00:33 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,59 @@ namespace	ft
 				_capacity = new_cap;
 			}
 		}
+
+
+	/******* ITERATORS ********************************************************/
+
+	/* begin */
+	template < class T, class Alloc >
+		typename vector<T, Alloc>::iterator
+				vector<T, Alloc>::begin ( void )
+		{
+			vector<T, Alloc>::iterator	it( _vec );
+
+			return ( it );
+		}
+
+//	/* begin (const) */
+//	template < class T, class Alloc >
+//		typename vector<T, Alloc>::const_iterator
+//				vector<T, Alloc>::begin ( void ) const
+//		{
+//			vector<T, Alloc>::iterator	it( _vec );
+//
+//			return ( it );
+//		}
+
+	/* end */
+	template < class T, class Alloc >
+		typename vector<T, Alloc>::iterator
+				vector<T, Alloc>::end ( void )
+		{
+			vector<T, Alloc>::iterator	ite( _vec + _size );
+
+			return ( ite );
+		}
+
+//	/* end (const) */
+//	template < class T, class Alloc >
+//		typename vector<T, Alloc>::const_iterator
+//				vector<T, Alloc>::end ( void ) const
+//		{
+//			vector<T, Alloc>::iterator	ite( _vec + _size );
+//
+//			return ( ite );
+//		}
+
+	/* rbegin */
+	template < class T, class Alloc >
+		reverse_iterator	vector<T, Alloc>::rbegin ( void )
+		{
+			vector<T, Alloc>::iterator	it( _vec );
+
+			return ( it );
+		}
+
 
 	/******* ELEMENT ACCESS ***************************************************/
 
@@ -319,49 +372,6 @@ namespace	ft
 		{
 			return ( _alloc );
 		}
-
-
-	/******* ITERATORS ********************************************************/
-
-	/* begin */
-	template < class T, class Alloc >
-		typename vector<T, Alloc>::iterator
-				vector<T, Alloc>::begin ( void )
-		{
-			vector<T, Alloc>::iterator	it( _vec );
-
-			return ( it );
-		}
-
-//	/* begin (const) */
-//	template < class T, class Alloc >
-//		typename vector<T, Alloc>::const_iterator
-//				vector<T, Alloc>::begin ( void ) const
-//		{
-//			vector<T, Alloc>::iterator	it( _vec );
-//
-//			return ( it );
-//		}
-
-	/* end */
-	template < class T, class Alloc >
-		typename vector<T, Alloc>::iterator
-				vector<T, Alloc>::end ( void )
-		{
-			vector<T, Alloc>::iterator	ite( _vec + _size );
-
-			return ( ite );
-		}
-
-//	/* end (const) */
-//	template < class T, class Alloc >
-//		typename vector<T, Alloc>::const_iterator
-//				vector<T, Alloc>::end ( void ) const
-//		{
-//			vector<T, Alloc>::iterator	ite( _vec + _size );
-//
-//			return ( ite );
-//		}
 
 }
 
