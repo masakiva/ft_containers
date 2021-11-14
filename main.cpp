@@ -79,6 +79,80 @@ void	vector_canonicalform( void )
 	std::cout << "--------------------" << std::endl;
 }
 
+void	vector_iterator( void )
+{
+	std::cout << "ITERATOR" << std::endl;
+
+	NAMESPACE::vector<int>	vec( 5 );
+
+	int i = 0;
+
+	NAMESPACE::vector<int>::reverse_iterator rit = vec.rbegin();
+	for ( ; rit != vec.rend(); ++rit )
+		*rit = ++i;
+
+	std::cout << "vec:";
+	for ( NAMESPACE::vector<int>::iterator it = vec.begin();
+			it != vec.end(); ++it )
+		std::cout << ' ' << *it;
+	std::cout << std::endl;
+
+	std::cout << "--------------------" << std::endl;
+}
+
+template < class T, class Alloc >
+	void	print_vector( NAMESPACE::vector<T, Alloc>& vec )
+	{
+		std::cout << "values:";
+		for ( typename NAMESPACE::vector<T, Alloc>::size_type i = 0;
+				i < vec.size(); i++ )
+		{
+			std::cout << " " << vec[i];
+		}
+		std::cout << std::endl;
+		std::cout << "capacity = " << vec.capacity() << std::endl;
+		std::cout << "size = " << vec.size() << std::endl;
+		std::cout << "----------" << std::endl;
+	}
+
+void	vector_capacity( void )
+{
+	std::cout << "CAPACITY" << std::endl;
+
+	NAMESPACE::vector<int>	vec( 3, 2 );
+	std::cout << "-> vec( 3 )" << std::endl;
+	print_vector( vec );
+
+	vec.resize( 4 );
+	std::cout << "-> resize( 4 )" << std::endl;
+	print_vector( vec );
+
+	vec.reserve( 5 );
+	std::cout << "-> reserve( 5 )" << std::endl;
+	print_vector( vec );
+
+	vec.resize( 5, 3 );
+	std::cout << "-> resize( 5, 3 )" << std::endl;
+	print_vector( vec );
+
+	vec.reserve( 2 );
+	std::cout << "-> reserve( 2 )" << std::endl;
+	print_vector( vec );
+
+	vec.resize( 1, 1 );
+	std::cout << "-> resize( 1, 1 )" << std::endl;
+	print_vector( vec );
+
+	std::cout << "max_size = " << vec.max_size() << std::endl;
+	std::cout << "empty = " << vec.empty() << std::endl;
+
+	NAMESPACE::vector<test>	vec2;
+	std::cout << "-> vec2 ()" << std::endl;
+	std::cout << "vec2.empty = " << vec2.empty() << std::endl;
+
+	std::cout << "--------------------" << std::endl;
+}
+
 void	vector_elementaccess( void )
 {
 	std::cout << "ELEMENT ACCESS" << std::endl;
@@ -109,50 +183,6 @@ void	vector_elementaccess( void )
 	std::cout << "--------------------" << std::endl;
 }
 
-template < class T, class Alloc >
-	void	print_vector( NAMESPACE::vector<T, Alloc>& vec )
-	{
-		std::cout << "values:";
-		for ( typename NAMESPACE::vector<T, Alloc>::size_type i = 0;
-				i < vec.size(); i++ )
-		{
-			std::cout << " " << vec[i];
-		}
-		std::cout << std::endl;
-		std::cout << "capacity = " << vec.capacity() << std::endl;
-		std::cout << "size = " << vec.size() << std::endl;
-		std::cout << "----------" << std::endl;
-	}
-
-void	vector_capacity( void )
-{
-	std::cout << "CAPACITY" << std::endl;
-	NAMESPACE::vector<int>	vec( 3, 2 );
-	std::cout << "-> vec( 3 )" << std::endl;
-	print_vector( vec );
-	vec.resize( 4 );
-	std::cout << "-> resize( 4 )" << std::endl;
-	print_vector( vec );
-	vec.reserve( 5 );
-	std::cout << "-> reserve( 5 )" << std::endl;
-	print_vector( vec );
-	vec.resize( 5, 3 );
-	std::cout << "-> resize( 5, 3 )" << std::endl;
-	print_vector( vec );
-	vec.reserve( 2 );
-	std::cout << "-> reserve( 2 )" << std::endl;
-	print_vector( vec );
-	vec.resize( 1, 1 );
-	std::cout << "-> resize( 1, 1 )" << std::endl;
-	print_vector( vec );
-	std::cout << "max_size = " << vec.max_size() << std::endl;
-	std::cout << "empty = " << vec.empty() << std::endl;
-	NAMESPACE::vector<test>	vec2;
-	std::cout << "-> vec2 ()" << std::endl;
-	std::cout << "vec2.empty = " << vec2.empty() << std::endl;
-	std::cout << "--------------------" << std::endl;
-}
-
 void	vector_modifiers( void )
 {
 	std::cout << "MODIFIERS" << std::endl;
@@ -173,6 +203,10 @@ void	vector_modifiers( void )
 	std::cout << "-> assign( 3, 5 )" << std::endl;
 	print_vector( vec );
 
+	vec.pop_back();
+	std::cout << "-> pop_back()" << std::endl;
+	print_vector( vec );
+
 	vec.push_back( 2 );
 	std::cout << "-> push_back( 2 )" << std::endl;
 	print_vector( vec );
@@ -181,8 +215,13 @@ void	vector_modifiers( void )
 	std::cout << "-> push_back( 7 )" << std::endl;
 	print_vector( vec );
 
-	vec.pop_back();
-	std::cout << "-> pop_back()" << std::endl;
+	vec.push_back( 1 );
+	std::cout << "-> push_back( 1 )" << std::endl;
+	print_vector( vec );
+
+	NAMESPACE::vector<int>::iterator it = vec.begin() + 2;
+	std::cout << "-> erase( 2 )" << std::endl;
+	std::cout << "value erased: " << *vec.erase( it ) << std::endl;
 	print_vector( vec );
 
 	NAMESPACE::vector<int> vec2( 2, 9 );
@@ -209,26 +248,13 @@ void	vector_allocator( void )
 	vec.get_allocator();
 }
 
-void	vector_iterator( void )
-{
-	std::cout << "ITERATOR" << std::endl;
-
-	NAMESPACE::vector<int>				vec( 3, 41 );
-	NAMESPACE::vector<int>::iterator	it;
-
-	for ( it = vec.begin(); it != vec.end(); it++ )
-		std::cout << *it << std::endl;
-
-	std::cout << "--------------------" << std::endl;
-}
-
 void	reverse_iterator_vector( void )
 {
 	std::cout << "REVERSE ITERATOR" << std::endl;
 
 	std::vector<int>	vec;
 
-	for ( NAMESPACE::vector<int>::size_type i = 0; i < 10; i++ )
+	for ( std::vector<int>::size_type i = 0; i < 10; i++ )
 		vec.push_back( i );
 
 	typedef	std::vector<int>::iterator	iter_type;
@@ -252,7 +278,7 @@ void	reverse_iterator_vector( void )
 	std::cout << "vec span = " << rev_from - rev_until << std::endl;
 
 	std::cout << "vec rev:";
-	for ( NAMESPACE::vector<int>::size_type i = 0; i < 10; i++ )
+	for ( std::vector<int>::size_type i = 0; i < 10; i++ )
 		std::cout << ' ' << rev_from[i];
 	std::cout << std::endl;
 
@@ -262,12 +288,12 @@ void	reverse_iterator_vector( void )
 int		main ( void )
 {
 //	vector_canonicalform();
-//	vector_elementaccess();
-//	vector_capacity();
-//	vector_modifiers();
-//	vector_allocator();
 //	vector_iterator();
-	reverse_iterator_vector();
+//	vector_capacity();
+//	vector_elementaccess();
+	vector_modifiers();
+//	vector_allocator();
+//	reverse_iterator_vector();
 
 	return ( EXIT_SUCCESS );
 }

@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 19:39:54 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/13 18:02:00 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/14 17:41:29 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,14 @@ namespace	ft
 			typedef	typename allocator_type::const_reference	const_reference;
 			typedef	typename allocator_type::pointer			pointer;
 			typedef	typename allocator_type::const_pointer		const_pointer;
-			typedef	v_iterator<std::random_access_iterator_tag, T>	iterator;
-//const_iterator	a random access iterator to const value_type
-			typedef	reverse_iterator<iterator>					reverse_iterator;
-//const_reverse_iterator	reverse_iterator<const_iterator>
-			typedef	ptrdiff_t									difference_type;
-			typedef	size_t										size_type;
+			typedef	v_iterator<std::random_access_iterator_tag, T>
+				iterator;
+			typedef	v_iterator<std::random_access_iterator_tag, const T>
+				const_iterator;
+			typedef	reverse_iterator<iterator>			reverse_iterator;
+			//typedef	reverse_iterator<const_iterator>	const_reverse_iterator;
+			typedef	ptrdiff_t							difference_type;
+			typedef	size_t								size_type;
 
 		private:
 
@@ -60,11 +62,13 @@ namespace	ft
 
 			/******* ITERATORS ************************************************/
 			iterator				begin ( void );
-			//const_iterator		begin ( void ) const;
+			const_iterator			begin ( void ) const;
 			iterator				end ( void );
-			//const_iterator		end ( void ) const;
+			const_iterator			end ( void ) const;
 			reverse_iterator		rbegin( void );
 			//const_reverse_iterator	rbegin( void ) const;
+			reverse_iterator		rend( void );
+			//const_reverse_iterator	rend( void ) const;
 
 			/******* CAPACITY *************************************************/
 			size_type	size ( void ) const;
@@ -86,11 +90,13 @@ namespace	ft
 			const_reference	back( void ) const;
 
 			/******* MODIFIERS ************************************************/
-			void	assign ( size_type count, const value_type& value );
-			void	push_back ( const value_type& value );
-			void	pop_back ( void );
-			void	swap ( vector& other );
-			void	clear ( void );
+			void		assign ( size_type count, const value_type& value );
+			void		push_back ( const value_type& value );
+			void		pop_back ( void );
+			iterator	erase ( iterator pos );
+			//iterator	erase ( iterator first, iterator last );
+			void		swap ( vector& other );
+			void		clear ( void );
 
 			/******* ALLOCATOR ************************************************/
 			allocator_type	get_allocator( void ) const;

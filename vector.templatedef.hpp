@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 20:45:40 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/13 18:00:33 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/14 17:56:53 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,49 +164,84 @@ namespace	ft
 		typename vector<T, Alloc>::iterator
 				vector<T, Alloc>::begin ( void )
 		{
-			vector<T, Alloc>::iterator	it( _vec );
+			iterator	it( _vec );
 
 			return ( it );
 		}
 
-//	/* begin (const) */
-//	template < class T, class Alloc >
-//		typename vector<T, Alloc>::const_iterator
-//				vector<T, Alloc>::begin ( void ) const
-//		{
-//			vector<T, Alloc>::iterator	it( _vec );
-//
-//			return ( it );
-//		}
+	/* begin (const) */
+	template < class T, class Alloc >
+		typename vector<T, Alloc>::const_iterator
+				vector<T, Alloc>::begin ( void ) const
+		{
+			const_iterator	it( _vec );
+
+			return ( it );
+		}
 
 	/* end */
 	template < class T, class Alloc >
 		typename vector<T, Alloc>::iterator
 				vector<T, Alloc>::end ( void )
 		{
-			vector<T, Alloc>::iterator	ite( _vec + _size );
+			iterator	ite( _vec + _size );
 
 			return ( ite );
 		}
 
-//	/* end (const) */
-//	template < class T, class Alloc >
-//		typename vector<T, Alloc>::const_iterator
-//				vector<T, Alloc>::end ( void ) const
-//		{
-//			vector<T, Alloc>::iterator	ite( _vec + _size );
-//
-//			return ( ite );
-//		}
+	/* end (const) */
+	template < class T, class Alloc >
+		typename vector<T, Alloc>::const_iterator
+				vector<T, Alloc>::end ( void ) const
+		{
+			const_iterator	ite( _vec + _size );
+
+			return ( ite );
+		}
 
 	/* rbegin */
 	template < class T, class Alloc >
-		reverse_iterator	vector<T, Alloc>::rbegin ( void )
+		typename vector<T, Alloc>::reverse_iterator
+				vector<T, Alloc>::rbegin ( void )
 		{
-			vector<T, Alloc>::iterator	it( _vec );
+			iterator			it = this->end();
+			reverse_iterator	rev_it( it );
 
-			return ( it );
+			return ( rev_it );
 		}
+
+//	/* rbegin (const) */
+//	template < class T, class Alloc >
+//		typename vector<T, Alloc>::const_reverse_iterator
+//				vector<T, Alloc>::rbegin ( void ) const
+//		{
+//			const_iterator			it = this->end();
+//			const_reverse_iterator	rev_it( it );
+//
+//			return ( rev_it );
+//		}
+
+	/* rend */
+	template < class T, class Alloc >
+		typename vector<T, Alloc>::reverse_iterator
+				vector<T, Alloc>::rend ( void )
+		{
+			iterator			it = this->begin();
+			reverse_iterator	rev_it( it );
+
+			return ( rev_it );
+		}
+
+//	/* rend (const) */
+//	template < class T, class Alloc >
+//		typename vector<T, Alloc>::const_reverse_iterator
+//				vector<T, Alloc>::rend ( void ) const
+//		{
+//			const_iterator			it = this->begin();
+//			const_reverse_iterator	rev_it( it );
+//
+//			return ( rev_it );
+//		}
 
 
 	/******* ELEMENT ACCESS ***************************************************/
@@ -330,6 +365,22 @@ namespace	ft
 		{
 			_alloc.destroy( _vec + _size - 1 );
 			_size--;
+		}
+
+	/* erase */
+	template < class T, class Alloc >
+		typename vector<T, Alloc>::iterator
+				vector<T, Alloc>::erase ( iterator pos )
+		{
+			_alloc.destroy( &*pos );
+
+			iterator	it = pos;
+			for ( ; it != this->end(); it++ )
+			{
+				*it = *(it + 1);
+			}
+			_size--;
+			return ( pos );
 		}
 
 	/* swap */
