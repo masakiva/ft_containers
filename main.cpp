@@ -53,6 +53,12 @@ class test
 			return ( *this );
 		}
 };
+std::ostream&	operator<<( std::ostream &o, test const &rhs )
+{
+	o << rhs.id;
+	return ( o );
+}
+
 
 void	vector_canonicalform( void )
 {
@@ -79,22 +85,33 @@ void	vector_canonicalform( void )
 	std::cout << "--------------------" << std::endl;
 }
 
+struct	test_struct { int n; };
+
 void	vector_iterator( void )
 {
 	std::cout << "ITERATOR" << std::endl;
 
 	NAMESPACE::vector<int>	vec( 5 );
-
-	int i = 0;
-
-	NAMESPACE::vector<int>::reverse_iterator rit = vec.rbegin();
-	for ( ; rit != vec.rend(); ++rit )
+	int		i = 0;
+	for ( NAMESPACE::vector<int>::reverse_iterator rit = vec.rbegin();
+			rit != vec.rend(); ++rit )
 		*rit = ++i;
-
 	std::cout << "vec:";
 	for ( NAMESPACE::vector<int>::iterator it = vec.begin();
 			it != vec.end(); ++it )
 		std::cout << ' ' << *it;
+	std::cout << std::endl;
+
+	i = 1;
+	NAMESPACE::vector<test_struct>	vec2( 9 );
+	for ( NAMESPACE::vector<test_struct>::iterator it = vec2.begin() + 1;
+			it <= vec2.end(); it++ )
+		(it - 1)->n = i++;
+	std::cout << "vec2 len: " << vec2.end() - vec2.begin() << std::endl;
+	std::cout << "vec2 (odd values):";
+	for ( NAMESPACE::vector<test_struct>::iterator it = vec2.begin();
+			it < vec2.end(); it += 2 )
+		std::cout << ' ' << it->n;
 	std::cout << std::endl;
 
 	std::cout << "--------------------" << std::endl;
@@ -107,7 +124,7 @@ template < class T, class Alloc >
 		for ( typename NAMESPACE::vector<T, Alloc>::size_type i = 0;
 				i < vec.size(); i++ )
 		{
-			std::cout << " " << vec[i];
+			std::cout << ' ' << vec[i];
 		}
 		std::cout << std::endl;
 		std::cout << "capacity = " << vec.capacity() << std::endl;
@@ -207,7 +224,7 @@ void	vector_modifiers( void )
 	std::cout << "-> pop_back()" << std::endl;
 	print_vector( vec );
 
-	vec.push_back( 2 );
+	vec.push_back( 8 );
 	std::cout << "-> push_back( 2 )" << std::endl;
 	print_vector( vec );
 
@@ -219,9 +236,28 @@ void	vector_modifiers( void )
 	std::cout << "-> push_back( 1 )" << std::endl;
 	print_vector( vec );
 
-	NAMESPACE::vector<int>::iterator it = vec.begin() + 2;
+	std::cout << "-> insert( 1, 3 )" << std::endl;
+	std::cout << "value inserted: " << *vec.insert( vec.begin() + 1, 3 )
+		<< std::endl;
+	print_vector( vec );
+
+	vec.insert( vec.begin() + 1, 2, 3 );
+	std::cout << "-> insert( 1, 2, 3 )" << std::endl;
+	print_vector( vec );
+	test more
+
 	std::cout << "-> erase( 2 )" << std::endl;
-	std::cout << "value erased: " << *vec.erase( it ) << std::endl;
+	std::cout << "value following erased one: " << *vec.erase( vec.begin() + 2 )
+		<< std::endl;
+	print_vector( vec );
+
+	std::cout << "-> erase( 1, 3 )" << std::endl;
+	std::cout << "value following erased ones: "
+		<< *vec.erase( vec.begin() + 1, vec.begin() + 3 ) << std::endl;
+	print_vector( vec );
+
+	vec.assign( 4, 2 );
+	std::cout << "-> assign( 4, 2 )" << std::endl;
 	print_vector( vec );
 
 	NAMESPACE::vector<int> vec2( 2, 9 );

@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 19:07:52 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/13 17:22:00 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/15 15:23:31 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ namespace	ft
 		public:
 
 			/* default constructor */
-			reverse_iterator ( void ) { }
+			reverse_iterator ( void ) : _it(value_type()) { }
 
 			/* parameterized constructor */
 			explicit reverse_iterator ( iterator_type it ) : _it(it - 1) { }
@@ -152,15 +152,16 @@ namespace	ft
 
 	/* + */
 	template < class Iterator >
-		reverse_iterator<Iterator>	operator+ (
-             typename reverse_iterator<Iterator>::difference_type n,
-             const reverse_iterator<Iterator>& rhs )
+		reverse_iterator<Iterator>
+				operator+ (
+				typename reverse_iterator<Iterator>::difference_type n,
+				const reverse_iterator<Iterator>& rhs )
 		{ return ( rhs + n ); }
 
 	/* - */
 	template < class Iterator >
-		typename reverse_iterator<Iterator>::difference_type operator- (
-				const reverse_iterator<Iterator>& lhs,
+		typename reverse_iterator<Iterator>::difference_type
+				operator- ( const reverse_iterator<Iterator>& lhs,
 				const reverse_iterator<Iterator>& rhs)
 		{ return ( rhs.base() - lhs.base() ); }
 

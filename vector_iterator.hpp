@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:49:02 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/13 17:55:56 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/15 10:41:43 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ namespace	ft
 			~v_iterator ( void ) { }
 
 			/* = */
-			v_iterator&	operator= ( const v_iterator &rhs )
+			v_iterator&	operator= ( const v_iterator& rhs )
 			{
 				if ( this == &rhs )
 					return ( *this );
@@ -79,27 +79,27 @@ namespace	ft
 			{ v_iterator before_dec( *this ); _ptr--; return ( before_dec ); }
 
 			/* > */
-			bool	operator> ( const v_iterator &rhs ) const
+			bool	operator> ( const v_iterator& rhs ) const
 			{ return ( _ptr > rhs._ptr ); }
 
 			/* < */
-			bool	operator< ( const v_iterator &rhs ) const
+			bool	operator< ( const v_iterator& rhs ) const
 			{ return ( _ptr < rhs._ptr ); }
 
 			/* >= */
-			bool	operator>= ( const v_iterator &rhs ) const
+			bool	operator>= ( const v_iterator& rhs ) const
 			{ return ( _ptr >= rhs._ptr ); }
 
 			/* <= */
-			bool	operator<= ( const v_iterator &rhs ) const
+			bool	operator<= ( const v_iterator& rhs ) const
 			{ return ( _ptr <= rhs._ptr ); }
 
 			/* == */
-			bool	operator== ( const v_iterator &rhs ) const
+			bool	operator== ( const v_iterator& rhs ) const
 			{ return ( _ptr == rhs._ptr ); }
 
 			/* != */
-			bool	operator!= ( const v_iterator &rhs ) const
+			bool	operator!= ( const v_iterator& rhs ) const
 			{ return ( _ptr != rhs._ptr ); }
 
 			/* += */
@@ -117,6 +117,10 @@ namespace	ft
 			/* - */
 			v_iterator	operator- ( const difference_type& n ) const
 			{ v_iterator temp( *this ); return ( temp -= n ); }
+
+			/* - */
+			difference_type	operator- ( const v_iterator& rhs ) const
+			{ return ( _ptr - rhs._ptr ); }
 
 	};
 }

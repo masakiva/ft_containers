@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 20:45:40 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/14 17:56:53 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/15 20:03:58 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ namespace	ft
 
 	/* fill constructor */
 	template < class T, class Alloc >
-		vector<T, Alloc>::vector ( size_type count, const value_type& value,
+		vector<T, Alloc>::vector ( size_type count, const value_type& val,
 				const allocator_type& alloc ) :
 			_alloc(alloc),
 			_capacity(count),
@@ -40,7 +40,7 @@ namespace	ft
 		{
 			_vec = _alloc.allocate( _capacity );
 			for ( size_type i = 0; i < _size; i++ )
-				_alloc.construct( _vec + i, value );
+				_alloc.construct( _vec + i, val );
 		}
 
 	/* copy constructor */
@@ -105,13 +105,13 @@ namespace	ft
 
 	/* resize */
 	template < class T, class Alloc >
-		void	vector<T, Alloc>::resize ( size_type count, value_type value )
+		void	vector<T, Alloc>::resize ( size_type count, value_type val )
 		{
 			this->reserve( count );
 			if ( count > _size )
 			{
 				for ( size_type i = _size; i < count; i++ )
-					_alloc.construct( _vec + i, value );
+					_alloc.construct( _vec + i, val );
 			}
 			else if ( count < _size )
 			{
@@ -142,6 +142,8 @@ namespace	ft
 		{
 			if ( new_cap > _capacity )
 			{
+				if ( new_cap > this->max_size() )
+					throw std::length_error( "new capacity exceeds max_size" );
 				value_type*	new_vec;
 
 				new_vec = _alloc.allocate( new_cap );
@@ -269,6 +271,7 @@ namespace	ft
 		{
 			if ( pos >= _size )
 				throw std::out_of_range( "at() argument out of vector range" );
+
 			return ( _vec[pos] );
 		}
 
@@ -279,6 +282,7 @@ namespace	ft
 		{
 			if ( pos >= _size )
 				throw std::out_of_range( "at() argument out of vector range" );
+
 			return ( _vec[pos] );
 		}
 
@@ -320,7 +324,7 @@ namespace	ft
 	/* assign */
 	template < class T, class Alloc >
 		void	vector<T, Alloc>::assign ( size_type count,
-				const value_type& value )
+				const value_type& val )
 		{
 			if ( count > _capacity )
 			{
@@ -329,21 +333,21 @@ namespace	ft
 				_alloc.deallocate( _vec, _capacity );
 
 				_vec = _alloc.allocate( count );
-				_capacity = count;
 				for ( size_type i = 0; i < count; i++ )
-					_alloc.construct( _vec + i, value );
+					_alloc.construct( _vec + i, val );
+				_capacity = count;
 			}
 			else if ( count >= _size )
 			{
 				for ( size_type i = 0; i < _size; i++ )
-					_vec[i] = value;
+					_vec[i] = val;
 				for ( size_type i = _size; i < count; i++ )
-					_alloc.construct( _vec + i, value );
+					_alloc.construct( _vec + i, val );
 			}
 			else
 			{
 				for ( size_type i = 0; i < count; i++ )
-					_vec[i] = value;
+					_vec[i] = val;
 				for ( size_type i = count; i < _size; i++ )
 					_alloc.destroy( _vec + i );
 			}
@@ -352,10 +356,10 @@ namespace	ft
 
 	/* push_back */
 	template < class T, class Alloc >
-		void	vector<T, Alloc>::push_back ( const value_type& value )
+		void	vector<T, Alloc>::push_back ( const value_type& val )
 		{
 			this->reserve( _size + 1 );
-			_alloc.construct( _vec + _size, value );
+			_alloc.construct( _vec + _size, val );
 			_size++;
 		}
 
@@ -367,20 +371,94 @@ namespace	ft
 			_size--;
 		}
 
-	/* erase */
+	/* insert (single element) */
+	template < class T, class Alloc >
+		typename vector<T, Alloc>::iterator
+				vector<T, Alloc>::insert ( iterator pos, const value_type& val )
+		{
+			difference_type		n = pos - this->begin();
+			this->reserve( _size + 1 );
+			pos = this->begin() + n;
+
+			_size++;
+			if ( pos == this->end() - 1 )
+				_alloc.construct( _vec + _size - 1, val );
+			else
+			{
+				_alloc.construct( _vec + _size - 1, _vec[_size - 2] );
+				for ( iterator it = this->end() - 3; it >= pos ; it-- )
+				{
+					*(it + 1) = *it;
+				}
+				*pos = val;
+			}
+
+			return ( pos );
+		}
+
+	/* insert (range) */
+	template < class T, class Alloc >
+		void	vector<T, Alloc>::insert ( iterator pos, size_type count,
+				const value_type& val )
+		{
+			difference_type		n = pos - this->begin();
+			this->reserve( _size + count );
+			pos = this->begin() + n;
+
+			value_type*	ptr = _vec + _size;
+			for ( size_type i = 0; i < count; i++ )
+			{
+				_alloc.construct( ptr, *(ptr - count) );
+				ptr++;
+			}
+			_size += count;
+			for ( iterator it = this->end() - count - 2; it >= pos ; it-- )
+			{
+				*(it + count) = *it;
+			}
+			for ( size_type i = 0; i < count; i++ )
+			{
+				*pos = val;
+				pos++;
+			}
+		}
+
+	/* erase (single element) */
 	template < class T, class Alloc >
 		typename vector<T, Alloc>::iterator
 				vector<T, Alloc>::erase ( iterator pos )
 		{
-			_alloc.destroy( &*pos );
-
-			iterator	it = pos;
-			for ( ; it != this->end(); it++ )
+			iterator	it;
+			for ( it = pos; it < this->end() - 1; it++ )
 			{
 				*it = *(it + 1);
 			}
+			_alloc.destroy( &*it );
 			_size--;
+
 			return ( pos );
+		}
+
+	/* erase (range) */
+	template < class T, class Alloc >
+		typename vector<T, Alloc>::iterator
+				vector<T, Alloc>::erase ( iterator first, iterator last )
+		{
+			difference_type	range = last - first;
+
+			iterator	it = first;
+			while ( last < this->end() )
+			{
+				*it = *last;
+				it++;
+				last++;
+			}
+
+			for ( ; it < this->end(); it++ )
+				_alloc.destroy( &*it );
+			_size -= range;
+
+			return ( first );
 		}
 
 	/* swap */
