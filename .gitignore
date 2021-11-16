@@ -4,6 +4,7 @@ objects
 *.out
 a.out*
 ft_containers
+containers_test*
 # libraries
 *.a
 *.dylib

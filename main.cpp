@@ -82,7 +82,7 @@ void	vector_canonicalform( void )
 		std::cout << "----------" << std::endl;
 	}
 
-	std::cout << "--------------------" << std::endl;
+	std::cout << "--------------------" << std::endl << std::endl;
 }
 
 struct	test_struct { int n; };
@@ -114,14 +114,14 @@ void	vector_iterator( void )
 		std::cout << ' ' << it->n;
 	std::cout << std::endl;
 
-	std::cout << "--------------------" << std::endl;
+	std::cout << "--------------------" << std::endl << std::endl;
 }
 
 template < class T, class Alloc >
-	void	print_vector( NAMESPACE::vector<T, Alloc>& vec )
+	void	print_vector( NAMESPACE::vector<T,Alloc>& vec )
 	{
 		std::cout << "values:";
-		for ( typename NAMESPACE::vector<T, Alloc>::size_type i = 0;
+		for ( typename NAMESPACE::vector<T,Alloc>::size_type i = 0;
 				i < vec.size(); i++ )
 		{
 			std::cout << ' ' << vec[i];
@@ -167,7 +167,7 @@ void	vector_capacity( void )
 	std::cout << "-> vec2 ()" << std::endl;
 	std::cout << "vec2.empty = " << vec2.empty() << std::endl;
 
-	std::cout << "--------------------" << std::endl;
+	std::cout << "--------------------" << std::endl << std::endl;
 }
 
 void	vector_elementaccess( void )
@@ -197,7 +197,7 @@ void	vector_elementaccess( void )
 	}
 	std::cout << std::endl;
 
-	std::cout << "--------------------" << std::endl;
+	std::cout << "--------------------" << std::endl << std::endl;
 }
 
 void	vector_modifiers( void )
@@ -241,10 +241,9 @@ void	vector_modifiers( void )
 		<< std::endl;
 	print_vector( vec );
 
-	vec.insert( vec.begin() + 1, 2, 3 );
+	vec.insert( vec.begin() + 5, 2, 9 );
 	std::cout << "-> insert( 1, 2, 3 )" << std::endl;
 	print_vector( vec );
-	test more
 
 	std::cout << "-> erase( 2 )" << std::endl;
 	std::cout << "value following erased one: " << *vec.erase( vec.begin() + 2 )
@@ -275,7 +274,7 @@ void	vector_modifiers( void )
 	std::cout << "-> vec.clear()" << std::endl;
 	print_vector( vec );
 
-	std::cout << "--------------------" << std::endl;
+	std::cout << "--------------------" << std::endl << std::endl;
 }
 
 void	vector_allocator( void )
@@ -318,7 +317,7 @@ void	reverse_iterator_vector( void )
 		std::cout << ' ' << rev_from[i];
 	std::cout << std::endl;
 
-	std::cout << "--------------------" << std::endl;
+	std::cout << "--------------------" << std::endl << std::endl;
 }
 
 int		main ( void )

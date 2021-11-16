@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 20:45:40 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/15 20:03:58 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/16 18:28:51 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ namespace	ft
 
 	/* default constructor */
 	template < class T, class Alloc >
-		vector<T, Alloc>::vector ( const allocator_type& alloc ) :
+		vector<T,Alloc>::vector ( const allocator_type& alloc ) :
 			_alloc(alloc),
 			_capacity(0),
 			_size(0)
@@ -32,7 +32,7 @@ namespace	ft
 
 	/* fill constructor */
 	template < class T, class Alloc >
-		vector<T, Alloc>::vector ( size_type count, const value_type& val,
+		vector<T,Alloc>::vector ( size_type count, const value_type& val,
 				const allocator_type& alloc ) :
 			_alloc(alloc),
 			_capacity(count),
@@ -45,17 +45,18 @@ namespace	ft
 
 	/* copy constructor */
 	template < class T, class Alloc >
-		vector<T, Alloc>::vector ( const vector<T, Alloc>& src ) :
+		vector<T,Alloc>::vector ( const vector<T,Alloc>& src ) :
 			_alloc(src._alloc),
 			_capacity(0),
 			_size(0)
 		{
+			_vec = _alloc.allocate( _capacity );
 			*this = src;
 		}
 
 	/* destructor */
 	template < class T, class Alloc >
-		vector<T, Alloc>::~vector ( void )
+		vector<T,Alloc>::~vector ( void )
 		{
 			for ( size_type i = 0; i < _size; i++ )
 				_alloc.destroy( _vec + i );
@@ -64,8 +65,8 @@ namespace	ft
 
 	/* = */
 	template < class T, class Alloc >
-		vector<T, Alloc>&
-				vector<T, Alloc>::operator= ( const vector<T, Alloc>& rhs )
+		vector<T,Alloc>&
+				vector<T,Alloc>::operator= ( const vector<T,Alloc>& rhs )
 		{
 			if ( this == &rhs )
 				return ( *this );
@@ -89,23 +90,23 @@ namespace	ft
 
 	/* size */
 	template < class T, class Alloc >
-		typename vector<T, Alloc>::size_type
-				vector<T, Alloc>::size ( void ) const
+		typename vector<T,Alloc>::size_type
+				vector<T,Alloc>::size ( void ) const
 		{
 			return ( _size );
 		}
 
 	/* max_size */
 	template < class T, class Alloc >
-		typename vector<T, Alloc>::size_type
-				vector<T, Alloc>::max_size ( void ) const
+		typename vector<T,Alloc>::size_type
+				vector<T,Alloc>::max_size ( void ) const
 		{
 			return ( _alloc.max_size() );
 		}
 
 	/* resize */
 	template < class T, class Alloc >
-		void	vector<T, Alloc>::resize ( size_type count, value_type val )
+		void	vector<T,Alloc>::resize ( size_type count, value_type val )
 		{
 			this->reserve( count );
 			if ( count > _size )
@@ -123,22 +124,22 @@ namespace	ft
 
 	/* capacity */
 	template < class T, class Alloc >
-		typename vector<T, Alloc>::size_type
-				vector<T, Alloc>::capacity ( void ) const
+		typename vector<T,Alloc>::size_type
+				vector<T,Alloc>::capacity ( void ) const
 		{
 			return ( _capacity );
 		}
 
 	/* empty */
 	template < class T, class Alloc >
-		bool	vector<T, Alloc>::empty ( void ) const
+		bool	vector<T,Alloc>::empty ( void ) const
 		{
 			return ( _size == 0 );
 		}
 
 	/* reserve */
 	template < class T, class Alloc >
-		void	vector<T, Alloc>::reserve ( size_type new_cap )
+		void	vector<T,Alloc>::reserve ( size_type new_cap )
 		{
 			if ( new_cap > _capacity )
 			{
@@ -163,8 +164,8 @@ namespace	ft
 
 	/* begin */
 	template < class T, class Alloc >
-		typename vector<T, Alloc>::iterator
-				vector<T, Alloc>::begin ( void )
+		typename vector<T,Alloc>::iterator
+				vector<T,Alloc>::begin ( void )
 		{
 			iterator	it( _vec );
 
@@ -173,8 +174,8 @@ namespace	ft
 
 	/* begin (const) */
 	template < class T, class Alloc >
-		typename vector<T, Alloc>::const_iterator
-				vector<T, Alloc>::begin ( void ) const
+		typename vector<T,Alloc>::const_iterator
+				vector<T,Alloc>::begin ( void ) const
 		{
 			const_iterator	it( _vec );
 
@@ -183,8 +184,8 @@ namespace	ft
 
 	/* end */
 	template < class T, class Alloc >
-		typename vector<T, Alloc>::iterator
-				vector<T, Alloc>::end ( void )
+		typename vector<T,Alloc>::iterator
+				vector<T,Alloc>::end ( void )
 		{
 			iterator	ite( _vec + _size );
 
@@ -193,8 +194,8 @@ namespace	ft
 
 	/* end (const) */
 	template < class T, class Alloc >
-		typename vector<T, Alloc>::const_iterator
-				vector<T, Alloc>::end ( void ) const
+		typename vector<T,Alloc>::const_iterator
+				vector<T,Alloc>::end ( void ) const
 		{
 			const_iterator	ite( _vec + _size );
 
@@ -203,8 +204,8 @@ namespace	ft
 
 	/* rbegin */
 	template < class T, class Alloc >
-		typename vector<T, Alloc>::reverse_iterator
-				vector<T, Alloc>::rbegin ( void )
+		typename vector<T,Alloc>::reverse_iterator
+				vector<T,Alloc>::rbegin ( void )
 		{
 			iterator			it = this->end();
 			reverse_iterator	rev_it( it );
@@ -214,8 +215,8 @@ namespace	ft
 
 //	/* rbegin (const) */
 //	template < class T, class Alloc >
-//		typename vector<T, Alloc>::const_reverse_iterator
-//				vector<T, Alloc>::rbegin ( void ) const
+//		typename vector<T,Alloc>::const_reverse_iterator
+//				vector<T,Alloc>::rbegin ( void ) const
 //		{
 //			const_iterator			it = this->end();
 //			const_reverse_iterator	rev_it( it );
@@ -225,8 +226,8 @@ namespace	ft
 
 	/* rend */
 	template < class T, class Alloc >
-		typename vector<T, Alloc>::reverse_iterator
-				vector<T, Alloc>::rend ( void )
+		typename vector<T,Alloc>::reverse_iterator
+				vector<T,Alloc>::rend ( void )
 		{
 			iterator			it = this->begin();
 			reverse_iterator	rev_it( it );
@@ -236,8 +237,8 @@ namespace	ft
 
 //	/* rend (const) */
 //	template < class T, class Alloc >
-//		typename vector<T, Alloc>::const_reverse_iterator
-//				vector<T, Alloc>::rend ( void ) const
+//		typename vector<T,Alloc>::const_reverse_iterator
+//				vector<T,Alloc>::rend ( void ) const
 //		{
 //			const_iterator			it = this->begin();
 //			const_reverse_iterator	rev_it( it );
@@ -250,24 +251,24 @@ namespace	ft
 
 	/* [] */
 	template < class T, class Alloc >
-		typename vector<T, Alloc>::reference
-				vector<T, Alloc>::operator[] ( size_type pos )
+		typename vector<T,Alloc>::reference
+				vector<T,Alloc>::operator[] ( size_type pos )
 		{
 			return ( _vec[pos] );
 		}
 
 	/* [] (const) */
 	template < class T, class Alloc >
-		typename vector<T, Alloc>::const_reference
-				vector<T, Alloc>::operator[] ( size_type pos ) const
+		typename vector<T,Alloc>::const_reference
+				vector<T,Alloc>::operator[] ( size_type pos ) const
 		{
 			return ( _vec[pos] );
 		}
 
 	/* at */
 	template < class T, class Alloc >
-		typename vector<T, Alloc>::reference
-				vector<T, Alloc>::at ( size_type pos )
+		typename vector<T,Alloc>::reference
+				vector<T,Alloc>::at ( size_type pos )
 		{
 			if ( pos >= _size )
 				throw std::out_of_range( "at() argument out of vector range" );
@@ -277,8 +278,8 @@ namespace	ft
 
 	/* at (const) */
 	template < class T, class Alloc >
-		typename vector<T, Alloc>::const_reference
-				vector<T, Alloc>::at ( size_type pos ) const
+		typename vector<T,Alloc>::const_reference
+				vector<T,Alloc>::at ( size_type pos ) const
 		{
 			if ( pos >= _size )
 				throw std::out_of_range( "at() argument out of vector range" );
@@ -288,32 +289,32 @@ namespace	ft
 
 	/* front */
 	template < class T, class Alloc >
-		typename vector<T, Alloc>::reference
-				vector<T, Alloc>::front ( void )
+		typename vector<T,Alloc>::reference
+				vector<T,Alloc>::front ( void )
 		{
 			return ( _vec[0] );
 		}
 
 	/* front (const) */
 	template < class T, class Alloc >
-		typename vector<T, Alloc>::const_reference
-				vector<T, Alloc>::front ( void ) const
+		typename vector<T,Alloc>::const_reference
+				vector<T,Alloc>::front ( void ) const
 		{
 			return ( _vec[0] );
 		}
 
 	/* back */
 	template < class T, class Alloc >
-		typename vector<T, Alloc>::reference
-				vector<T, Alloc>::back ( void )
+		typename vector<T,Alloc>::reference
+				vector<T,Alloc>::back ( void )
 		{
 			return ( _vec[_size - 1] );
 		}
 
 	/* back (const) */
 	template < class T, class Alloc >
-		typename vector<T, Alloc>::const_reference
-				vector<T, Alloc>::back ( void ) const
+		typename vector<T,Alloc>::const_reference
+				vector<T,Alloc>::back ( void ) const
 		{
 			return ( _vec[_size - 1] );
 		}
@@ -323,7 +324,7 @@ namespace	ft
 
 	/* assign */
 	template < class T, class Alloc >
-		void	vector<T, Alloc>::assign ( size_type count,
+		void	vector<T,Alloc>::assign ( size_type count,
 				const value_type& val )
 		{
 			if ( count > _capacity )
@@ -356,7 +357,7 @@ namespace	ft
 
 	/* push_back */
 	template < class T, class Alloc >
-		void	vector<T, Alloc>::push_back ( const value_type& val )
+		void	vector<T,Alloc>::push_back ( const value_type& val )
 		{
 			this->reserve( _size + 1 );
 			_alloc.construct( _vec + _size, val );
@@ -365,7 +366,7 @@ namespace	ft
 
 	/* pop_back */
 	template < class T, class Alloc >
-		void	vector<T, Alloc>::pop_back ( void )
+		void	vector<T,Alloc>::pop_back ( void )
 		{
 			_alloc.destroy( _vec + _size - 1 );
 			_size--;
@@ -373,8 +374,8 @@ namespace	ft
 
 	/* insert (single element) */
 	template < class T, class Alloc >
-		typename vector<T, Alloc>::iterator
-				vector<T, Alloc>::insert ( iterator pos, const value_type& val )
+		typename vector<T,Alloc>::iterator
+				vector<T,Alloc>::insert ( iterator pos, const value_type& val )
 		{
 			difference_type		n = pos - this->begin();
 			this->reserve( _size + 1 );
@@ -398,7 +399,7 @@ namespace	ft
 
 	/* insert (range) */
 	template < class T, class Alloc >
-		void	vector<T, Alloc>::insert ( iterator pos, size_type count,
+		void	vector<T,Alloc>::insert ( iterator pos, size_type count,
 				const value_type& val )
 		{
 			difference_type		n = pos - this->begin();
@@ -425,8 +426,8 @@ namespace	ft
 
 	/* erase (single element) */
 	template < class T, class Alloc >
-		typename vector<T, Alloc>::iterator
-				vector<T, Alloc>::erase ( iterator pos )
+		typename vector<T,Alloc>::iterator
+				vector<T,Alloc>::erase ( iterator pos )
 		{
 			iterator	it;
 			for ( it = pos; it < this->end() - 1; it++ )
@@ -441,8 +442,8 @@ namespace	ft
 
 	/* erase (range) */
 	template < class T, class Alloc >
-		typename vector<T, Alloc>::iterator
-				vector<T, Alloc>::erase ( iterator first, iterator last )
+		typename vector<T,Alloc>::iterator
+				vector<T,Alloc>::erase ( iterator first, iterator last )
 		{
 			difference_type	range = last - first;
 
@@ -463,7 +464,7 @@ namespace	ft
 
 	/* swap */
 	template < class T, class Alloc >
-		void	vector<T, Alloc>::swap ( vector<T, Alloc>& other )
+		void	vector<T,Alloc>::swap ( vector<T,Alloc>& other )
 		{
 			size_type		temp_capacity;
 			size_type		temp_size;
@@ -484,7 +485,7 @@ namespace	ft
 
 	/* clear */
 	template < class T, class Alloc >
-		void	vector<T, Alloc>::clear ( void )
+		void	vector<T,Alloc>::clear ( void )
 		{
 			for ( size_type i = 0; i < _size; i++ )
 				_alloc.destroy( _vec + i );
@@ -496,10 +497,19 @@ namespace	ft
 
 	/* get_allocator */
 	template < class T, class Alloc >
-		typename vector<T, Alloc>::allocator_type
-				vector<T, Alloc>::get_allocator( void ) const
+		typename vector<T,Alloc>::allocator_type
+				vector<T,Alloc>::get_allocator( void ) const
 		{
 			return ( _alloc );
+		}
+
+
+	/******* NON-MEMBER FUNCTIONS *********************************************/
+
+	template < class T, class Alloc >
+		void	swap ( vector<T,Alloc>& lhs, vector<T,Alloc>& rhs )
+		{
+			lhs.swap( rhs );
 		}
 
 }

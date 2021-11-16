@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 19:39:54 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/15 19:07:52 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/16 18:07:02 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,12 @@ namespace	ft
 			allocator_type	get_allocator( void ) const;
 
 	};
+
+	/******* NON-MEMBER FUNCTIONS *********************************************/
+	template < class T, class Alloc >
+	void	swap ( vector<T,Alloc>& lhs, vector<T,Alloc>& rhs );
 }
 
-//#include "vector.templatedef.hpp"
+#include "vector.templatedef.hpp"
 
 #endif // __VECTOR_HPP__
