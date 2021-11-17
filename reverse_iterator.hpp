@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 19:07:52 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/15 15:23:31 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/17 16:48:59 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ namespace	ft
 		public:
 
 			/* default constructor */
-			reverse_iterator ( void ) : _it(value_type()) { }
+			reverse_iterator ( void ) : _it(Iterator()) { }
 
 			/* parameterized constructor */
 			explicit reverse_iterator ( iterator_type it ) : _it(it - 1) { }

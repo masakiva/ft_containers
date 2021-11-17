@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 20:45:40 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/16 18:28:51 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/17 17:11:20 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,24 @@ namespace	ft
 			for ( size_type i = 0; i < _size; i++ )
 				_alloc.construct( _vec + i, val );
 		}
+
+	/* range constructor */
+	template < class T, class Alloc >
+		template < class InputIt >
+			vector<T,Alloc>::vector ( typename enable_if<
+						!is_integral<InputIt>::value, InputIt
+					>::type first, InputIt last,
+					const allocator_type& alloc ) :
+				_alloc(alloc),
+				_capacity(0)
+			{
+				for ( InputIt it = first; it != last; it++ )
+					_capacity++;
+				_vec = _alloc.allocate( _capacity );
+				_size = _capacity;
+				for ( size_type i = 0; i < _size; i++ )
+					_alloc.construct( _vec + i, *first++ );
+			}
 
 	/* copy constructor */
 	template < class T, class Alloc >
@@ -213,16 +231,16 @@ namespace	ft
 			return ( rev_it );
 		}
 
-//	/* rbegin (const) */
-//	template < class T, class Alloc >
-//		typename vector<T,Alloc>::const_reverse_iterator
-//				vector<T,Alloc>::rbegin ( void ) const
-//		{
-//			const_iterator			it = this->end();
-//			const_reverse_iterator	rev_it( it );
-//
-//			return ( rev_it );
-//		}
+	/* rbegin (const) */
+	template < class T, class Alloc >
+		typename vector<T,Alloc>::const_reverse_iterator
+				vector<T,Alloc>::rbegin ( void ) const
+		{
+			const_iterator			it = this->end();
+			const_reverse_iterator	rev_it( it );
+
+			return ( rev_it );
+		}
 
 	/* rend */
 	template < class T, class Alloc >
@@ -235,16 +253,16 @@ namespace	ft
 			return ( rev_it );
 		}
 
-//	/* rend (const) */
-//	template < class T, class Alloc >
-//		typename vector<T,Alloc>::const_reverse_iterator
-//				vector<T,Alloc>::rend ( void ) const
-//		{
-//			const_iterator			it = this->begin();
-//			const_reverse_iterator	rev_it( it );
-//
-//			return ( rev_it );
-//		}
+	/* rend (const) */
+	template < class T, class Alloc >
+		typename vector<T,Alloc>::const_reverse_iterator
+				vector<T,Alloc>::rend ( void ) const
+		{
+			const_iterator			it = this->begin();
+			const_reverse_iterator	rev_it( it );
+
+			return ( rev_it );
+		}
 
 
 	/******* ELEMENT ACCESS ***************************************************/
@@ -322,6 +340,10 @@ namespace	ft
 
 	/******* MODIFIERS ********************************************************/
 
+			template < class InputIt >
+				void	assign ( typename enable_if<
+							!is_integral<InputIt>::value, InputIt
+						>::type first, InputIt last )
 	/* assign */
 	template < class T, class Alloc >
 		void	vector<T,Alloc>::assign ( size_type count,

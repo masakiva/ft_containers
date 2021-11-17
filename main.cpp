@@ -1,5 +1,4 @@
-#include "vector.templatedef.hpp"
-#include "reverse_iterator.hpp"
+#include "vector.hpp"
 #include <cstdlib> // EXIT_SUCCESS
 #include <iostream>
 #include <vector>
@@ -65,20 +64,33 @@ void	vector_canonicalform( void )
 	std::cout << "CANONICAL FORM" << std::endl;
 
 	{
+		std::cout << "-> default and copy constructors" << std::endl;
 		NAMESPACE::vector<test>	vec;
 		std::cout << "----------" << std::endl;
 		NAMESPACE::vector<test>	vec2( vec );
 		std::cout << "----------" << std::endl;
 	}
-	std::cout << "----------" << std::endl;
+	std::cout << "----------" << std::endl << std::endl;
 
 	{
+		std::cout << "-> fill constructor (with number of elements as argument), "
+			"copy constructor, and operator= overload" << std::endl;
 		NAMESPACE::vector<test>	vec3( 2 );
 		std::cout << "----------" << std::endl;
 		NAMESPACE::vector<test>	vec4( vec3 );
 		std::cout << "----------" << std::endl;
 		NAMESPACE::vector<test> vec5;
 		vec5 = vec4;
+		std::cout << "----------" << std::endl;
+	}
+	std::cout << "----------" << std::endl << std::endl;
+	{
+		std::cout << "-> range constructor (with iterators as arguments)"
+			<< std::endl;
+		NAMESPACE::vector<test>	vec( 2 );
+		NAMESPACE::vector<test>::iterator	it = vec.begin();
+		NAMESPACE::vector<test>::iterator	ite = vec.end();
+		NAMESPACE::vector<test>	vec2( it, ite );
 		std::cout << "----------" << std::endl;
 	}
 
@@ -326,9 +338,9 @@ int		main ( void )
 //	vector_iterator();
 //	vector_capacity();
 //	vector_elementaccess();
-	vector_modifiers();
+//	vector_modifiers();
 //	vector_allocator();
-//	reverse_iterator_vector();
+	reverse_iterator_vector();
 
 	return ( EXIT_SUCCESS );
 }

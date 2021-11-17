@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 19:39:54 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/16 18:07:02 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/17 17:10:48 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include <iostream>
 #include "vector_iterator.hpp"
 #include "reverse_iterator.hpp"
+#include "enable_if.hpp"
+#include "is_integral.hpp"
 
 namespace	ft
 {
@@ -38,7 +40,8 @@ namespace	ft
 			typedef	v_iterator<std::random_access_iterator_tag, const T>
 				const_iterator;
 			typedef	reverse_iterator<iterator>			reverse_iterator;
-			//typedef	reverse_iterator<const_iterator>	const_reverse_iterator;
+			typedef	ft::reverse_iterator<const_iterator>
+				const_reverse_iterator;
 			typedef	ptrdiff_t							difference_type;
 			typedef	size_t								size_type;
 
@@ -57,6 +60,11 @@ namespace	ft
 			explicit vector ( size_type count,
 					const value_type& val = value_type(),
 					const allocator_type& alloc = allocator_type() );
+			template < class InputIt >
+				vector ( typename enable_if<
+							!is_integral<InputIt>::value, InputIt
+						>::type first, InputIt last,
+						const allocator_type& alloc = allocator_type() );
 			vector ( const vector& src );
 			~vector ( void );
 			vector&		operator= ( const vector &rhs );
@@ -67,9 +75,9 @@ namespace	ft
 			iterator				end ( void );
 			const_iterator			end ( void ) const;
 			reverse_iterator		rbegin( void );
-			//const_reverse_iterator	rbegin( void ) const;
+			const_reverse_iterator	rbegin( void ) const;
 			reverse_iterator		rend( void );
-			//const_reverse_iterator	rend( void ) const;
+			const_reverse_iterator	rend( void ) const;
 
 			/******* CAPACITY *************************************************/
 			size_type	size ( void ) const;
@@ -91,6 +99,10 @@ namespace	ft
 			const_reference	back( void ) const;
 
 			/******* MODIFIERS ************************************************/
+			template < class InputIt >
+				void	assign ( typename enable_if<
+							!is_integral<InputIt>::value, InputIt
+						>::type first, InputIt last );
 			void		assign ( size_type count, const value_type& val );
 			void		push_back ( const value_type& val );
 			void		pop_back ( void );
