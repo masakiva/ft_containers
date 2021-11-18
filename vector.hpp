@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 19:39:54 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/18 15:56:35 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/18 18:54:27 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #include "reverse_iterator.hpp"
 #include "enable_if.hpp"
 #include "is_integral.hpp"
+#include "equal.hpp"
+#include "lexicographical_compare.hpp"
 
 namespace	ft
 {
@@ -78,29 +80,29 @@ namespace	ft
 			const_iterator			begin ( void ) const;
 			iterator				end ( void );
 			const_iterator			end ( void ) const;
-			reverse_iterator		rbegin( void );
-			const_reverse_iterator	rbegin( void ) const;
-			reverse_iterator		rend( void );
-			const_reverse_iterator	rend( void ) const;
+			reverse_iterator		rbegin ( void );
+			const_reverse_iterator	rbegin ( void ) const;
+			reverse_iterator		rend ( void );
+			const_reverse_iterator	rend ( void ) const;
 
 			/******* CAPACITY *************************************************/
 			size_type	size ( void ) const;
-			size_type	max_size( void ) const;
-			void		resize( size_type count,
+			size_type	max_size ( void ) const;
+			void		resize ( size_type count,
 					value_type val = value_type() );
 			size_type	capacity ( void ) const;
-			bool		empty( void ) const;
-			void		reserve( size_type new_cap );
+			bool		empty ( void ) const;
+			void		reserve ( size_type new_cap );
 
 			/******* ELEMENT ACCESS *******************************************/
 			reference		operator[] ( size_type pos );
 			const_reference	operator[] ( size_type pos ) const;
 			reference		at ( size_type pos );
 			const_reference	at ( size_type pos ) const;
-			reference 		front( void );
-			const_reference	front( void ) const;
-			reference 		back( void );
-			const_reference	back( void ) const;
+			reference 		front ( void );
+			const_reference	front ( void ) const;
+			reference 		back ( void );
+			const_reference	back ( void ) const;
 
 			/******* MODIFIERS ************************************************/
 			template < class InputIt >
@@ -113,21 +115,41 @@ namespace	ft
 			iterator	insert ( iterator pos, const value_type& val );
 			void		insert ( iterator pos, size_type count,
 					const value_type& val );
-			template <class InputIt>
-    void insert (iterator position, InputIterator first, InputIterator last);
+			template < class InputIt >
+    			void		insert (iterator pos, typename enable_if<
+								!is_integral<InputIt>::value, InputIt
+							>::type first, InputIt last);
 			iterator	erase ( iterator pos );
 			iterator	erase ( iterator first, iterator last );
 			void		swap ( vector& other );
 			void		clear ( void );
 
 			/******* ALLOCATOR ************************************************/
-			allocator_type	get_allocator( void ) const;
+			allocator_type	get_allocator ( void ) const;
 
 	};
 
 	/******* NON-MEMBER FUNCTIONS *********************************************/
 	template < class T, class Alloc >
-	void	swap ( vector<T,Alloc>& lhs, vector<T,Alloc>& rhs );
+		bool	operator== ( const vector<T,Alloc>& lhs,
+			const vector<T,Alloc>& rhs );
+	template < class T, class Alloc >
+		bool	operator!= ( const vector<T,Alloc>& lhs,
+			const vector<T,Alloc>& rhs );
+	template < class T, class Alloc >
+		bool	operator< ( const vector<T,Alloc>& lhs,
+			const vector<T,Alloc>& rhs );
+	template < class T, class Alloc >
+		bool	operator<= ( const vector<T,Alloc>& lhs,
+			const vector<T,Alloc>& rhs );
+	template < class T, class Alloc >
+		bool	operator> ( const vector<T,Alloc>& lhs,
+			const vector<T,Alloc>& rhs );
+	template < class T, class Alloc >
+		bool	operator>= ( const vector<T,Alloc>& lhs,
+			const vector<T,Alloc>& rhs );
+	template < class T, class Alloc >
+		void	swap ( vector<T,Alloc>& lhs, vector<T,Alloc>& rhs );
 }
 
 #include "vector.templatedef.hpp"

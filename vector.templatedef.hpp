@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 20:45:40 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/18 14:40:29 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/18 19:01:11 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ namespace	ft
 				for ( InputIt it = first; it != last; it++ )
 					_capacity++;
 				_vec = _alloc.allocate( _capacity );
+
 				_size = _capacity;
 				for ( size_type i = 0; i < _size; i++ )
 					_alloc.construct( _vec + i, *first++ );
@@ -350,6 +351,7 @@ namespace	ft
 				size_type	new_size = 0;
 				for ( InputIt it = first; it != last; it++ )
 					new_size++;
+
 				if ( new_size > _capacity )
 				{
 					for ( size_type i = 0; i < _size; i++ )
@@ -439,7 +441,9 @@ namespace	ft
 
 			_size++;
 			if ( pos == this->end() - 1 )
+			{
 				_alloc.construct( _vec + _size - 1, val );
+			}
 			else
 			{
 				_alloc.construct( _vec + _size - 1, _vec[_size - 2] );
@@ -447,13 +451,14 @@ namespace	ft
 				{
 					*(it + 1) = *it;
 				}
+
 				*pos = val;
 			}
 
 			return ( pos );
 		}
 
-	/* insert (range) */
+	/* insert (fill a single value) */
 	template < class T, class Alloc >
 		void	vector<T,Alloc>::insert ( iterator pos, size_type count,
 				const value_type& val )
@@ -473,12 +478,47 @@ namespace	ft
 			{
 				*(it + count) = *it;
 			}
+
 			for ( size_type i = 0; i < count; i++ )
 			{
 				*pos = val;
 				pos++;
 			}
 		}
+
+	/* insert (from a range of iterators) */
+	template < class T, class Alloc >
+		template < class InputIt >
+			void	vector<T,Alloc>::insert ( iterator pos, typename enable_if<
+						!is_integral<InputIt>::value, InputIt
+					>::type first, InputIt last )
+			{
+				size_type	count = 0;
+				for ( InputIt it = first; it != last; it++ )
+					count++;
+
+				difference_type		n = pos - this->begin();
+				this->reserve( _size + count );
+				pos = this->begin() + n;
+
+				value_type*	ptr = _vec + _size;
+				for ( size_type i = 0; i < count; i++ )
+				{
+					_alloc.construct( ptr, *(ptr - count) );
+					ptr++;
+				}
+				_size += count;
+				for ( iterator it = this->end() - count - 2; it >= pos ; it-- )
+				{
+					*(it + count) = *it;
+				}
+
+				for ( size_type i = 0; i < count; i++ )
+				{
+					*pos = *first++;
+					pos++;
+				}
+			}
 
 	/* erase (single element) */
 	template < class T, class Alloc >
@@ -554,7 +594,7 @@ namespace	ft
 	/* get_allocator */
 	template < class T, class Alloc >
 		typename vector<T,Alloc>::allocator_type
-				vector<T,Alloc>::get_allocator( void ) const
+				vector<T,Alloc>::get_allocator ( void ) const
 		{
 			return ( _alloc );
 		}
@@ -562,6 +602,58 @@ namespace	ft
 
 	/******* NON-MEMBER FUNCTIONS *********************************************/
 
+	/* == */
+	template < class T, class Alloc >
+		bool	operator== ( const vector<T,Alloc>& lhs,
+			const vector<T,Alloc>& rhs )
+		{
+			if ( lhs.size() != rhs.size() )
+				return ( false );
+			return ( ft::equal( lhs.begin(), lhs.end(), rhs.begin() ) );
+		}
+
+	/* != */
+	template < class T, class Alloc >
+		bool	operator!= ( const vector<T,Alloc>& lhs,
+			const vector<T,Alloc>& rhs )
+		{
+			return ( !operator==( lhs, rhs ) );
+		}
+
+	/* < */
+	template < class T, class Alloc >
+		bool	operator< ( const vector<T,Alloc>& lhs,
+			const vector<T,Alloc>& rhs )
+		{
+			return ( ft::lexicographical_compare( lhs.begin(), lhs.end(),
+						rhs.begin(), rhs.end() ) );
+		}
+
+	/* <= */
+	template < class T, class Alloc >
+		bool	operator<= ( const vector<T,Alloc>& lhs,
+			const vector<T,Alloc>& rhs )
+		{
+			return ( !operator<( rhs, lhs ) );
+		}
+
+	/* > */
+	template < class T, class Alloc >
+		bool	operator> ( const vector<T,Alloc>& lhs,
+			const vector<T,Alloc>& rhs )
+		{
+			return ( operator<( rhs, lhs ) );
+		}
+
+	/* >= */
+	template < class T, class Alloc >
+		bool	operator>= ( const vector<T,Alloc>& lhs,
+			const vector<T,Alloc>& rhs )
+		{
+			return ( !operator<( lhs, rhs ) );
+		}
+
+	/* swap */
 	template < class T, class Alloc >
 		void	swap ( vector<T,Alloc>& lhs, vector<T,Alloc>& rhs )
 		{

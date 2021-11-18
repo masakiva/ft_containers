@@ -161,7 +161,7 @@ void	vector_capacity( void )
 	std::cout << "CAPACITY" << std::endl;
 
 	NAMESPACE::vector<int>	vec( 3, 2 );
-	std::cout << "-> vec( 3 )" << std::endl;
+	std::cout << "-> vec( 3, 2 )" << std::endl;
 	print_vector( vec );
 
 	vec.resize( 4 );
@@ -305,6 +305,19 @@ void	vector_modifiers( void )
 	std::cout << "-> insert( 5, 2, 9 )" << std::endl;
 	print_vector( vec );
 
+	vec_input.assign( 2, 1 );
+	std::cout << "-> vec_input.assign( 2, 1 )" << std::endl;
+	std::cout << "vec_input: " << std::endl;
+	print_vector( vec_input );
+	it = vec_input.begin();
+	std::cout << "-> it = vec_input.begin()" << std::endl;
+	ite = vec_input.end();
+	std::cout << "-> ite = vec_input.end()" << std::endl;
+	vec.insert( vec.begin(), it, ite );
+	std::cout << "-> vec.insert( 0, it, ite )" << std::endl;
+	std::cout << "vec: " << std::endl;
+	print_vector( vec );
+
 	std::cout << "-> erase( 2 )" << std::endl;
 	std::cout << "value following erased one: " << *vec.erase( vec.begin() + 2 )
 		<< std::endl;
@@ -376,14 +389,57 @@ void	reverse_iterator_vector( void )
 	std::cout << "--------------------" << std::endl << std::endl;
 }
 
+void	vector_non_member_functions( void )
+{
+	std::cout << "NON MEMBER FUNCTIONS" << std::endl;
+
+	NAMESPACE::vector<int>	vec1( 8, 1 );
+	std::cout << "vec1: " << std::endl;
+	print_vector( vec1 );
+	NAMESPACE::vector<int>	vec2( 5, 3 );
+	std::cout << "vec2: " << std::endl;
+	print_vector( vec2 );
+	NAMESPACE::vector<int>	vec3( 8, 1 );
+	std::cout << "vec3: " << std::endl;
+	print_vector( vec3 );
+
+	std::cout << std::boolalpha;
+	std::cout << "vec1 == vec2: " << (vec1 == vec2) << std::endl;
+	std::cout << "vec1 == vec3: " << (vec1 == vec3) << std::endl;
+	std::cout << "----------" << std::endl;
+	std::cout << "vec1 != vec2: " << (vec1 != vec2) << std::endl;
+	std::cout << "vec1 != vec3: " << (vec1 != vec3) << std::endl;
+	std::cout << "----------" << std::endl;
+	std::cout << "vec1 < vec2: " << (vec1 < vec2) << std::endl;
+	std::cout << "vec1 < vec3: " << (vec1 < vec3) << std::endl;
+	std::cout << "----------" << std::endl;
+	std::cout << "vec1 <= vec2: " << (vec1 <= vec2) << std::endl;
+	std::cout << "vec1 <= vec3: " << (vec1 <= vec3) << std::endl;
+	std::cout << "----------" << std::endl;
+	std::cout << "vec1 > vec2: " << (vec1 > vec2) << std::endl;
+	std::cout << "vec1 > vec3: " << (vec1 > vec3) << std::endl;
+	std::cout << "----------" << std::endl;
+	std::cout << "vec1 >= vec2: " << (vec1 >= vec2) << std::endl;
+	std::cout << "vec1 >= vec3: " << (vec1 >= vec3) << std::endl;
+	std::cout << "----------" << std::endl;
+
+	std::cout << "-> swap( vec1, vec2 )" << std::endl;
+	swap( vec1, vec2 );
+	std::cout << "vec1: " << std::endl;
+	print_vector( vec1 );
+	std::cout << "vec2: " << std::endl;
+	print_vector( vec2 );
+}
+
 int		main ( void )
 {
 //	vector_canonicalform();
 //	vector_iterator();
 //	vector_capacity();
-	vector_elementaccess();
+//	vector_elementaccess();
 //	vector_modifiers();
 //	vector_allocator();
+	vector_non_member_functions();
 //	reverse_iterator_vector();
 
 	return ( EXIT_SUCCESS );
