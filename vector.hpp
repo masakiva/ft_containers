@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 19:39:54 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/17 17:10:48 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/18 15:56:35 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@ namespace	ft
 	template < class T, class Alloc = std::allocator<T> >
 	class	vector
 	{
+		/*
+		** display order of typedefs and functions taken from
+		** https://cplusplus.com/reference/vector/vector/
+		*/
 		public:
 
 			typedef	T											value_type;
@@ -100,15 +104,17 @@ namespace	ft
 
 			/******* MODIFIERS ************************************************/
 			template < class InputIt >
-				void	assign ( typename enable_if<
-							!is_integral<InputIt>::value, InputIt
-						>::type first, InputIt last );
+				void		assign ( typename enable_if<
+								!is_integral<InputIt>::value, InputIt
+							>::type first, InputIt last );
 			void		assign ( size_type count, const value_type& val );
 			void		push_back ( const value_type& val );
 			void		pop_back ( void );
 			iterator	insert ( iterator pos, const value_type& val );
 			void		insert ( iterator pos, size_type count,
 					const value_type& val );
+			template <class InputIt>
+    void insert (iterator position, InputIterator first, InputIterator last);
 			iterator	erase ( iterator pos );
 			iterator	erase ( iterator first, iterator last );
 			void		swap ( vector& other );

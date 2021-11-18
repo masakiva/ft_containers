@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 20:45:40 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/17 17:11:20 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/18 14:40:29 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -340,11 +340,45 @@ namespace	ft
 
 	/******* MODIFIERS ********************************************************/
 
-			template < class InputIt >
-				void	assign ( typename enable_if<
-							!is_integral<InputIt>::value, InputIt
-						>::type first, InputIt last )
-	/* assign */
+	/* assign (from a range of iterators) */
+	template < class T, class Alloc >
+		template < class InputIt >
+			void	vector<T,Alloc>::assign ( typename enable_if<
+						!is_integral<InputIt>::value, InputIt
+					>::type first, InputIt last )
+			{
+				size_type	new_size = 0;
+				for ( InputIt it = first; it != last; it++ )
+					new_size++;
+				if ( new_size > _capacity )
+				{
+					for ( size_type i = 0; i < _size; i++ )
+						_alloc.destroy( _vec + i );
+					_alloc.deallocate( _vec, _capacity );
+
+					_vec = _alloc.allocate( new_size );
+					for ( size_type i = 0; i < new_size; i++ )
+						_alloc.construct( _vec + i, *first++ );
+					_capacity = new_size;
+				}
+				else if ( new_size >= _size )
+				{
+					for ( size_type i = 0; i < _size; i++ )
+						_vec[i] = *first++;
+					for ( size_type i = _size; i < new_size; i++ )
+						_alloc.construct( _vec + i, *first++ );
+				}
+				else
+				{
+					for ( size_type i = 0; i < new_size; i++ )
+						_vec[i] = *first++;
+					for ( size_type i = new_size; i < _size; i++ )
+						_alloc.destroy( _vec + i );
+				}
+				_size = new_size;
+			}
+
+	/* assign (fill a single value) */
 	template < class T, class Alloc >
 		void	vector<T,Alloc>::assign ( size_type count,
 				const value_type& val )

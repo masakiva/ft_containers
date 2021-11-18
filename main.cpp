@@ -126,6 +126,18 @@ void	vector_iterator( void )
 		std::cout << ' ' << it->n;
 	std::cout << std::endl;
 
+	const NAMESPACE::vector<int>	vec3( vec.begin(), vec.begin() + 3 );
+	std::cout << "vec3 (const):";
+	for ( NAMESPACE::vector<int>::const_iterator it = vec3.begin();
+			it != vec3.end(); ++it )
+		std::cout << ' ' << *it;
+	std::cout << std::endl;
+	std::cout << "vec3 reversed (const):";
+	for ( NAMESPACE::vector<int>::const_reverse_iterator rit = vec3.rbegin();
+			rit != vec3.rend(); ++rit )
+		std::cout << ' ' << *rit;
+	std::cout << std::endl;
+
 	std::cout << "--------------------" << std::endl << std::endl;
 }
 
@@ -207,7 +219,14 @@ void	vector_elementaccess( void )
 	{
 		std::cout << " " << vec[i];
 	}
+	std::cout << "----------" << std::endl;
 	std::cout << std::endl;
+
+	const NAMESPACE::vector<int>	vec2( vec );
+	std::cout << "-> vec2( vec ) (const)" << std::endl;
+	std::cout << "vec2.front = " << vec2.front() << std::endl;
+	std::cout << "vec2.at( 1 ) = " << vec2.at( 1 ) << std::endl;
+	std::cout << "vec2.back = " << vec2.back() << std::endl;
 
 	std::cout << "--------------------" << std::endl << std::endl;
 }
@@ -220,32 +239,61 @@ void	vector_modifiers( void )
 	std::cout << "-> vec( 2, 4 )" << std::endl;
 	print_vector( vec );
 
-	vec.assign( 1, 3 );
-	std::cout << "-> assign( 1, 3 )" << std::endl;
+	NAMESPACE::vector<int> vec_input;
+	std::cout << "-> vec_input default constructed" << std::endl;
+	vec_input.assign( 1, 3 );
+	std::cout << "-> vec_input.assign( 1, 3 )" << std::endl;
+	std::cout << "vec_input: " << std::endl;
+	print_vector( vec_input );
+	NAMESPACE::vector<int>::iterator	it = vec_input.begin();
+	std::cout << "-> it = vec_input.begin()" << std::endl;
+	NAMESPACE::vector<int>::iterator	ite = vec_input.end();
+	std::cout << "-> ite = vec_input.end()" << std::endl;
+	vec.assign( it, ite );
+	std::cout << "-> vec.assign( it, ite )" << std::endl;
+	std::cout << "vec: " << std::endl;
 	print_vector( vec );
 
-	vec.assign( 4, 6 );
-	std::cout << "-> assign( 4, 6 )" << std::endl;
-	print_vector( vec );
-
-	vec.assign( 3, 5 );
-	std::cout << "-> assign( 3, 5 )" << std::endl;
+	vec_input.assign( 4, 6 );
+	std::cout << "-> vec_input.assign( 4, 6 )" << std::endl;
+	std::cout << "vec_input: " << std::endl;
+	print_vector( vec_input );
+	it = vec_input.begin();
+	std::cout << "-> it = vec_input.begin()" << std::endl;
+	ite = vec_input.end();
+	std::cout << "-> ite = vec_input.end()" << std::endl;
+	vec.assign( it, ite );
+	std::cout << "-> vec.assign( it, ite )" << std::endl;
+	std::cout << "vec: " << std::endl;
 	print_vector( vec );
 
 	vec.pop_back();
 	std::cout << "-> pop_back()" << std::endl;
 	print_vector( vec );
 
+	vec.pop_back();
+	std::cout << "-> pop_back()" << std::endl;
+	print_vector( vec );
+
+	vec_input.assign( 3, 5 );
+	std::cout << "-> vec_input.assign( 3, 5 )" << std::endl;
+	std::cout << "vec_input: " << std::endl;
+	print_vector( vec_input );
+	it = vec_input.begin();
+	std::cout << "-> it = vec_input.begin()" << std::endl;
+	ite = vec_input.end();
+	std::cout << "-> ite = vec_input.end()" << std::endl;
+	vec.assign( it, ite );
+	std::cout << "-> vec.assign( it, ite )" << std::endl;
+	std::cout << "vec: " << std::endl;
+	print_vector( vec );
+
 	vec.push_back( 8 );
-	std::cout << "-> push_back( 2 )" << std::endl;
+	std::cout << "-> push_back( 8 )" << std::endl;
 	print_vector( vec );
 
 	vec.push_back( 7 );
 	std::cout << "-> push_back( 7 )" << std::endl;
-	print_vector( vec );
-
-	vec.push_back( 1 );
-	std::cout << "-> push_back( 1 )" << std::endl;
 	print_vector( vec );
 
 	std::cout << "-> insert( 1, 3 )" << std::endl;
@@ -254,7 +302,7 @@ void	vector_modifiers( void )
 	print_vector( vec );
 
 	vec.insert( vec.begin() + 5, 2, 9 );
-	std::cout << "-> insert( 1, 2, 3 )" << std::endl;
+	std::cout << "-> insert( 5, 2, 9 )" << std::endl;
 	print_vector( vec );
 
 	std::cout << "-> erase( 2 )" << std::endl;
@@ -265,10 +313,6 @@ void	vector_modifiers( void )
 	std::cout << "-> erase( 1, 3 )" << std::endl;
 	std::cout << "value following erased ones: "
 		<< *vec.erase( vec.begin() + 1, vec.begin() + 3 ) << std::endl;
-	print_vector( vec );
-
-	vec.assign( 4, 2 );
-	std::cout << "-> assign( 4, 2 )" << std::endl;
 	print_vector( vec );
 
 	NAMESPACE::vector<int> vec2( 2, 9 );
@@ -337,10 +381,10 @@ int		main ( void )
 //	vector_canonicalform();
 //	vector_iterator();
 //	vector_capacity();
-//	vector_elementaccess();
+	vector_elementaccess();
 //	vector_modifiers();
 //	vector_allocator();
-	reverse_iterator_vector();
+//	reverse_iterator_vector();
 
 	return ( EXIT_SUCCESS );
 }
