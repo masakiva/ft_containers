@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 19:39:54 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/18 18:54:27 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/19 17:20:19 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,8 @@ namespace	ft
 			typedef	typename allocator_type::const_reference	const_reference;
 			typedef	typename allocator_type::pointer			pointer;
 			typedef	typename allocator_type::const_pointer		const_pointer;
-			typedef	v_iterator<std::random_access_iterator_tag, T>
-				iterator;
-			typedef	v_iterator<std::random_access_iterator_tag, const T>
-				const_iterator;
+			typedef	v_iterator<T>						iterator;
+			typedef	v_iterator<T, true>					const_iterator;
 			typedef	reverse_iterator<iterator>			reverse_iterator;
 			typedef	ft::reverse_iterator<const_iterator>
 				const_reverse_iterator;
@@ -127,7 +125,7 @@ namespace	ft
 			/******* ALLOCATOR ************************************************/
 			allocator_type	get_allocator ( void ) const;
 
-	};
+	}; // class vector
 
 	/******* NON-MEMBER FUNCTIONS *********************************************/
 	template < class T, class Alloc >
@@ -150,7 +148,8 @@ namespace	ft
 			const vector<T,Alloc>& rhs );
 	template < class T, class Alloc >
 		void	swap ( vector<T,Alloc>& lhs, vector<T,Alloc>& rhs );
-}
+
+} // namespace ft
 
 #include "vector.templatedef.hpp"
 

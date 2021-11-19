@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 14:31:44 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/17 15:44:12 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/19 20:37:13 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,6 @@ namespace	ft
 	template < >
 	struct	is_integral<unsigned long long> : ft::true_type { };
 
-}
+} // namespace ft
 
 #endif // __IS_INTEGRAL_HPP__

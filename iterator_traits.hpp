@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:51:40 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/12 19:41:48 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/19 15:38:38 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ namespace	ft
 		typedef	const T&							reference;
 		typedef	std::random_access_iterator_tag		iterator_category;
 	};
-}
+
+} // namespace ft
 
 #endif // __ITERATOR_TRAITS_HPP__

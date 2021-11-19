@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 18:42:38 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/18 18:53:59 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/19 15:39:18 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ namespace	ft
 			}
 			return ( ( first1 == last1 ) && ( first2 != last2 ) );
 		}
-}
+
+} // namespace ft
 
 #endif // __LEXICOGRAPHICAL_COMPARE_HPP__

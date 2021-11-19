@@ -105,38 +105,49 @@ void	vector_iterator( void )
 
 	NAMESPACE::vector<int>	vec( 5 );
 	int		i = 0;
+	NAMESPACE::vector<int>::const_reverse_iterator crite = vec.rend();
 	for ( NAMESPACE::vector<int>::reverse_iterator rit = vec.rbegin();
-			rit != vec.rend(); ++rit )
+			rit != crite; ++rit )
 		*rit = ++i;
-	std::cout << "vec:";
-	for ( NAMESPACE::vector<int>::iterator it = vec.begin();
-			it != vec.end(); ++it )
-		std::cout << ' ' << *it;
+	std::cout << "vec (backwards):";
+	NAMESPACE::vector<int>::const_iterator cit = vec.begin();
+	for ( NAMESPACE::vector<int>::iterator ite = vec.end() - 1;
+			ite >= cit; --ite )
+		std::cout << ' ' << *ite;
 	std::cout << std::endl;
 
-	i = 1;
-	NAMESPACE::vector<test_struct>	vec2( 9 );
+	i = 0;
+	NAMESPACE::vector<test_struct>	vec2( 10 );
+	NAMESPACE::vector<test_struct>::const_iterator cite2 = vec2.end();
 	for ( NAMESPACE::vector<test_struct>::iterator it = vec2.begin() + 1;
-			it <= vec2.end(); it++ )
+			it <= cite2; it++ )
 		(it - 1)->n = i++;
 	std::cout << "vec2 len: " << vec2.end() - vec2.begin() << std::endl;
 	std::cout << "vec2 (odd values):";
 	for ( NAMESPACE::vector<test_struct>::iterator it = vec2.begin();
-			it < vec2.end(); it += 2 )
-		std::cout << ' ' << it->n;
+			cite2 > it; it += 2 )
+		std::cout << ' ' << it[1].n;
 	std::cout << std::endl;
 
-	const NAMESPACE::vector<int>	vec3( vec.begin(), vec.begin() + 3 );
+	const NAMESPACE::vector<int>	vec3( vec.begin(), 3 + vec.begin() );
 	std::cout << "vec3 (const):";
-	for ( NAMESPACE::vector<int>::const_iterator it = vec3.begin();
-			it != vec3.end(); ++it )
-		std::cout << ' ' << *it;
+	for ( NAMESPACE::vector<int>::const_iterator cit = vec3.begin();
+			cit != vec3.end(); ++cit )
+		std::cout << ' ' << *cit;
 	std::cout << std::endl;
 	std::cout << "vec3 reversed (const):";
-	for ( NAMESPACE::vector<int>::const_reverse_iterator rit = vec3.rbegin();
-			rit != vec3.rend(); ++rit )
-		std::cout << ' ' << *rit;
+	for ( NAMESPACE::vector<int>::const_reverse_iterator crit = vec3.rbegin();
+			crit != vec3.rend(); ++crit )
+		std::cout << ' ' << *crit;
 	std::cout << std::endl;
+
+	NAMESPACE::vector<int>::iterator		it = vec.begin();
+	NAMESPACE::vector<int>::const_iterator	cit2( it );
+	cit2 = it;
+
+	NAMESPACE::vector<int>::reverse_iterator		rit = vec.rbegin();
+	NAMESPACE::vector<int>::const_reverse_iterator	crit( rit );
+	crit = rit;
 
 	std::cout << "--------------------" << std::endl << std::endl;
 }
@@ -352,43 +363,6 @@ void	vector_allocator( void )
 	vec.get_allocator();
 }
 
-void	reverse_iterator_vector( void )
-{
-	std::cout << "REVERSE ITERATOR" << std::endl;
-
-	std::vector<int>	vec;
-
-	for ( std::vector<int>::size_type i = 0; i < 10; i++ )
-		vec.push_back( i );
-
-	typedef	std::vector<int>::iterator	iter_type;
-	iter_type		from( vec.begin() );
-	iter_type		until( vec.end() );
-
-	NAMESPACE::reverse_iterator<iter_type>	rev_until( from );
-	NAMESPACE::reverse_iterator<iter_type>	rev_from( until );
-
-	std::cout << "vec rev:";
-	while ( rev_from < rev_until )
-		std::cout << ' ' << *rev_from++;
-	std::cout << std::endl;
-
-	rev_from -= 10;
-	std::cout << "vec (using underlying iterator):";
-	for ( iter_type it = rev_until.base(); it != rev_from.base(); it++ )
-		std::cout << ' ' << *it;
-	std::cout << std::endl;
-
-	std::cout << "vec span = " << rev_from - rev_until << std::endl;
-
-	std::cout << "vec rev:";
-	for ( std::vector<int>::size_type i = 0; i < 10; i++ )
-		std::cout << ' ' << rev_from[i];
-	std::cout << std::endl;
-
-	std::cout << "--------------------" << std::endl << std::endl;
-}
-
 void	vector_non_member_functions( void )
 {
 	std::cout << "NON MEMBER FUNCTIONS" << std::endl;
@@ -431,15 +405,52 @@ void	vector_non_member_functions( void )
 	print_vector( vec2 );
 }
 
+void	reverse_iterator_vector( void )
+{
+	std::cout << "REVERSE ITERATOR" << std::endl;
+
+	std::vector<int>	vec;
+
+	for ( std::vector<int>::size_type i = 0; i < 10; i++ )
+		vec.push_back( i );
+
+	typedef	std::vector<int>::iterator	iter_type;
+	iter_type		from( vec.begin() );
+	iter_type		until( vec.end() );
+
+	NAMESPACE::reverse_iterator<iter_type>	rev_until( from );
+	NAMESPACE::reverse_iterator<iter_type>	rev_from( until );
+
+	std::cout << "vec rev:";
+	while ( rev_from < rev_until )
+		std::cout << ' ' << *rev_from++;
+	std::cout << std::endl;
+
+	rev_from -= 10;
+	std::cout << "vec (using underlying iterator):";
+	for ( iter_type it = rev_until.base(); it != rev_from.base(); it++ )
+		std::cout << ' ' << *it;
+	std::cout << std::endl;
+
+	std::cout << "vec span = " << rev_from - rev_until << std::endl;
+
+	std::cout << "vec rev:";
+	for ( std::vector<int>::size_type i = 0; i < 10; i++ )
+		std::cout << ' ' << rev_from[i];
+	std::cout << std::endl;
+
+	std::cout << "--------------------" << std::endl << std::endl;
+}
+
 int		main ( void )
 {
 //	vector_canonicalform();
-//	vector_iterator();
+	vector_iterator();
 //	vector_capacity();
 //	vector_elementaccess();
 //	vector_modifiers();
 //	vector_allocator();
-	vector_non_member_functions();
+//	vector_non_member_functions();
 //	reverse_iterator_vector();
 
 	return ( EXIT_SUCCESS );

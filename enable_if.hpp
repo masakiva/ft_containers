@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 18:40:56 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/16 18:43:00 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/19 15:39:06 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ namespace	ft
 	{
 		typedef T type;
 	};
-}
+
+} // namespace ft
 
 #endif // __ENABLE_IF_HPP__

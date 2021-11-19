@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 19:07:52 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/17 16:48:59 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/19 21:16:34 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,20 @@ namespace	ft
 		public:
 
 			/* default constructor */
-			reverse_iterator ( void ) : _it(Iterator()) { }
+			reverse_iterator ( void ) : _it( Iterator() ) { }
 
 			/* parameterized constructor */
-			explicit reverse_iterator ( iterator_type it ) : _it(it - 1) { }
+			explicit reverse_iterator ( iterator_type it ) : _it( it - 1 ) { }
 
 			/* copy constructor */
-			reverse_iterator ( const reverse_iterator<Iterator>& src )
-			{ *this = src; }
+			template < class U >
+			reverse_iterator ( const reverse_iterator<U>& src ) :
+				_it( src.base() ) { }
 
 			/* destructor */
 			~reverse_iterator ( void ) { }
 
-			/* = */
+			/* rit_copy = rit */
 			reverse_iterator&	operator= ( const reverse_iterator& rhs )
 			{
 				if ( this == &rhs )
@@ -66,17 +67,20 @@ namespace	ft
 			/* base */
 			iterator_type		base( void ) const { return ( _it + 1 ); }
 
-			/* * */
+			/* *rit */
 			reference			operator* ( void ) const { return ( *_it ); }
 
-			/* -> */
+			/* rit->struct_arg */
 			pointer		operator-> ( void ) const
 			{ return ( &( operator*() ) ); }
 
-			/* ++i */
+			/* ++rit */
 			reverse_iterator&	operator++( void ) { _it--; return ( *this ); }
 
-			/* i++ */
+			/* --rit */
+			reverse_iterator&	operator--( void ) { _it++; return ( *this ); }
+
+			/* rit++ */
 			reverse_iterator 	operator++( int )
 			{
 				reverse_iterator	before_inc( *this );
@@ -84,7 +88,7 @@ namespace	ft
 				return ( before_inc );
 			}
 
-			/* i-- */
+			/* rit-- */
 			reverse_iterator 	operator--( int )
 			{
 				reverse_iterator	before_dec( *this );
@@ -92,65 +96,65 @@ namespace	ft
 				return ( before_dec );
 			}
 
-			/* += */
+			/* rit += n */
 			reverse_iterator&	operator+= ( difference_type n )
 			{ _it -= n; return ( *this ); }
 
-			/* -= */
+			/* rit -= n */
 			reverse_iterator&	operator-= ( difference_type n )
 			{ _it += n; return ( *this ); }
 
-			/* + */
+			/* rit + n */
 			reverse_iterator	operator+ ( difference_type n ) const
 			{ reverse_iterator temp( *this ); return ( temp.operator+=( n ) ); }
 
-			/* - */
+			/* rit - n */
 			reverse_iterator	operator- ( difference_type n ) const
 			{ reverse_iterator temp( *this ); return ( temp.operator-=( n ) ); }
 
-			/* [] */
+			/* rit[i] */
 			reference			operator[] ( difference_type n ) const
 			{ return ( base()[-1 * n - 1] ); }
 
-	};
+	}; // class reverse_iterator
 
-	/* == */
-	template < class Iterator >
-		bool operator== ( const reverse_iterator<Iterator>& lhs,
-				const reverse_iterator<Iterator>& rhs )
+	/* rit == rit2 */
+	template < class Iterator1, class Iterator2 >
+		bool operator== ( const reverse_iterator<Iterator1>& lhs,
+				const reverse_iterator<Iterator2>& rhs )
 		{ return ( lhs.base() == rhs.base() ); }
 
-	/* != */
-	template < class Iterator >
-		bool operator!= ( const reverse_iterator<Iterator>& lhs,
-				const reverse_iterator<Iterator>& rhs )
+	/* rit != rit2 */
+	template < class Iterator1, class Iterator2 >
+		bool operator!= ( const reverse_iterator<Iterator1>& lhs,
+				const reverse_iterator<Iterator2>& rhs )
 		{ return ( lhs.base() != rhs.base() ); }
 
-	/* < */
-	template < class Iterator >
-		bool operator<  ( const reverse_iterator<Iterator>& lhs,
-				const reverse_iterator<Iterator>& rhs )
+	/* rit < rit2 */
+	template < class Iterator1, class Iterator2 >
+		bool operator<  ( const reverse_iterator<Iterator1>& lhs,
+				const reverse_iterator<Iterator2>& rhs )
 		{ return ( lhs.base() > rhs.base() ); }
 
-	/* <= */
-	template < class Iterator >
-		bool operator<= ( const reverse_iterator<Iterator>& lhs,
-				const reverse_iterator<Iterator>& rhs )
+	/* rit <= rit2 */
+	template < class Iterator1, class Iterator2 >
+		bool operator<= ( const reverse_iterator<Iterator1>& lhs,
+				const reverse_iterator<Iterator2>& rhs )
 		{ return ( lhs.base() >= rhs.base() ); }
 
-	/* > */
-	template < class Iterator >
-		bool operator>  ( const reverse_iterator<Iterator>& lhs,
-				const reverse_iterator<Iterator>& rhs )
+	/* rit > rit2 */
+	template < class Iterator1, class Iterator2 >
+		bool operator>  ( const reverse_iterator<Iterator1>& lhs,
+				const reverse_iterator<Iterator2>& rhs )
 		{ return ( lhs.base() < rhs.base() ); }
 
-	/* >= */
-	template < class Iterator >
-		bool operator>= ( const reverse_iterator<Iterator>& lhs,
-				const reverse_iterator<Iterator>& rhs )
+	/* rit >= rit2 */
+	template < class Iterator1, class Iterator2 >
+		bool operator>= ( const reverse_iterator<Iterator1>& lhs,
+				const reverse_iterator<Iterator2>& rhs )
 		{ return ( lhs.base() <= rhs.base() ); }
 
-	/* + */
+	/* rit + n */
 	template < class Iterator >
 		reverse_iterator<Iterator>
 				operator+ (
@@ -158,14 +162,14 @@ namespace	ft
 				const reverse_iterator<Iterator>& rhs )
 		{ return ( rhs + n ); }
 
-	/* - */
+	/* rit - rit2 */
 	template < class Iterator >
 		typename reverse_iterator<Iterator>::difference_type
 				operator- ( const reverse_iterator<Iterator>& lhs,
 				const reverse_iterator<Iterator>& rhs)
 		{ return ( rhs.base() - lhs.base() ); }
 
-}
+} // namespace ft
 
 
 #endif // __REVERSE_ITERATOR_HPP__

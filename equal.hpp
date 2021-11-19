@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 18:21:39 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/18 18:27:52 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/19 15:38:57 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ namespace	ft
 		}
 		return ( true );
 	}
-}
+
+} // namespace ft
 
 #endif // __EQUAL_HPP__
