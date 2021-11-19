@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 19:07:52 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/19 21:16:34 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/19 21:27:46 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ namespace	ft
 			reverse_iterator ( void ) : _it( Iterator() ) { }
 
 			/* parameterized constructor */
-			explicit reverse_iterator ( iterator_type it ) : _it( it - 1 ) { }
+			explicit reverse_iterator ( iterator_type it ) : _it( it ) { }
 
 			/* copy constructor */
 			template < class U >
@@ -65,10 +65,10 @@ namespace	ft
 			}
 
 			/* base */
-			iterator_type		base( void ) const { return ( _it + 1 ); }
+			iterator_type		base( void ) const { return ( _it ); }
 
 			/* *rit */
-			reference			operator* ( void ) const { return ( *_it ); }
+			reference			operator* ( void ) const { return ( *(_it - 1) ); }
 
 			/* rit->struct_arg */
 			pointer		operator-> ( void ) const
