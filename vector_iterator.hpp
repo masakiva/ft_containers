@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:49:02 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/19 20:41:46 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/20 11:39:54 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,16 @@ namespace	ft
 			/* it - it2 */
 			difference_type	operator- ( const v_iterator& rhs ) const
 			{ return ( _ptr - rhs._ptr ); }
+
+			/* it - const it2 */
+			template < class U >
+			difference_type	operator- ( const v_iterator<U, true>& rhs ) const
+			{ return ( _ptr - &*rhs ); }
+
+			/* const it - it2 */
+			template < class U >
+			difference_type	operator- ( const v_iterator<U, false>& rhs ) const
+			{ return ( _ptr - &*rhs ); }
 
 			/* it[i] */
 			reference	operator[] ( size_type pos ) { return ( _ptr[pos] ); }
