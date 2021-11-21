@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:51:40 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/19 15:38:38 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/21 16:32:19 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ namespace	ft
 	template < class T >
 	struct iterator_traits<T*>
 	{
-		typedef	ptrdiff_t							difference_type;
+		typedef	std::ptrdiff_t						difference_type;
 		typedef	T									value_type;
 		typedef	T*									pointer;
 		typedef	T&									reference;
@@ -38,7 +38,7 @@ namespace	ft
 	template < class T >
 	struct iterator_traits<const T*>
 	{
-		typedef	ptrdiff_t							difference_type;
+		typedef	std::ptrdiff_t						difference_type;
 		typedef	T									value_type;
 		typedef	const T*							pointer;
 		typedef	const T&							reference;

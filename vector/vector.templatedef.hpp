@@ -6,14 +6,12 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 20:45:40 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/19 20:35:06 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/21 13:20:20 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef __VECTOR_TEMPLATEDEF_HPP__
 # define __VECTOR_TEMPLATEDEF_HPP__
-
-#include "vector.hpp"
 
 namespace	ft
 {

@@ -1,63 +1,4 @@
-#include "vector.hpp"
-#include <cstdlib> // EXIT_SUCCESS
-#include <iostream>
-#include <vector>
-
-class test
-{
-	public:
-
-		int		id;
-
-		test ( void )
-		{
-			static int i = 1000;
-			id = i;
-			i++;
-			std::cout << "[" << id << "] default constructor" << std::endl;
-		}
-		test ( int arg )
-		{
-			(void)arg;
-			static int i = 0;
-			id = i;
-			i++;
-			std::cout << "[" << id << "] parameterized constructor"
-				<< std::endl;
-		}
-		test ( const test &src )
-		{
-			id = src.id + 10;
-			std::cout << "[" << id << "] copy constructor from " << src.id
-				<< std::endl;
-			*this = src;
-		}
-		~test ( void )
-		{
-			std::cout << "[" << id << "] destructor" << std::endl;
-		}
-		test&	operator= ( const test &rhs )
-		{
-			std::cout << "[" << id << "-->" << rhs.id + 100
-				<< "] operator= (test &) from " << rhs.id << std::endl;
-			id = rhs.id + 100;
-			return ( *this );
-		}
-		test&	operator= ( int arg )
-		{
-			std::cout << "[" << id << "-->" << arg + 100
-				<< "] operator= (int) from " << arg << " (int arg) "
-				<< std::endl;
-			id = arg + 100;
-			return ( *this );
-		}
-};
-std::ostream&	operator<<( std::ostream &o, test const &rhs )
-{
-	o << rhs.id;
-	return ( o );
-}
-
+#include "main.hpp"
 
 void	vector_canonicalform( void )
 {
@@ -96,8 +37,6 @@ void	vector_canonicalform( void )
 
 	std::cout << "--------------------" << std::endl << std::endl;
 }
-
-struct	test_struct { int n; };
 
 void	vector_iterator( void )
 {
@@ -440,18 +379,4 @@ void	reverse_iterator_vector( void )
 	std::cout << std::endl;
 
 	std::cout << "--------------------" << std::endl << std::endl;
-}
-
-int		main ( void )
-{
-//	vector_canonicalform();
-	vector_iterator();
-//	vector_capacity();
-//	vector_elementaccess();
-//	vector_modifiers();
-//	vector_allocator();
-//	vector_non_member_functions();
-//	reverse_iterator_vector();
-
-	return ( EXIT_SUCCESS );
 }

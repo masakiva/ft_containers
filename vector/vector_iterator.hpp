@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:49:02 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/20 11:39:54 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/21 16:34:54 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ namespace	ft
 
 			typedef	std::random_access_iterator_tag			iterator_category;
 			typedef	typename is_const<T, constness>::type	value_type;
-			typedef	ptrdiff_t								difference_type;
+			typedef	std::ptrdiff_t							difference_type;
 			typedef	typename is_const<T, constness>::type*	pointer;
 			typedef	typename is_const<T, constness>::type&	reference;
-			typedef	size_t									size_type;
+			typedef	std::size_t								size_type;
 
 		private:
 

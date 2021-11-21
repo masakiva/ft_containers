@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack.hpp                                          :+:      :+:    :+:   */
+/*   map.templatedef.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/20 14:51:32 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/20 15:00:41 by mvidal-a         ###   ########.fr       */
+/*   Created: 2021/11/21 17:43:33 by mvidal-a          #+#    #+#             */
+/*   Updated: 2021/11/21 17:44:27 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __STACK_HPP__
-# define __STACK_HPP__
-
-#include "vector.hpp"
+#ifndef __MAP_TEMPLATEDEF_HPP__
+# define __MAP_TEMPLATEDEF_HPP__
 
 namespace	ft
 {
-	template < class T >
-	class	stack : public vector
+
+	/******* CANONICAL FORM ***************************************************/
+
+	/* default constructor */
+	explicit map ( const key_compare& comp = key_compare(),
+			const allocator_type& alloc = allocator_type() )
 	{
-		public:
-
-			typedef	T			value_type;
-			typedef	vector<T>	container_type;
-			typedef	size_t		size_type;
-
-	};
+	}
 
 } // namespace ft
 
-#endif __STACK_HPP__
+#endif // __MAP_TEMPLATEDEF_HPP__

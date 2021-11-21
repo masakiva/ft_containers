@@ -1,21 +1,38 @@
 NAME		+= ft_containers
 
-SRCS_DIR	+= ./
+SRCS_DIRS	+= main/
 
 SRCS		+= main.cpp
+SRCS		+= main_vector.cpp
+SRCS		+= main_stack.cpp
 
-vpath %.cpp $(SRCS_DIR)
+vpath %.cpp $(SRCS_DIRS)
 
-HDRS_DIR	= ./
+HDRS_DIRS	+= ./
+HDRS_DIRS	+= vector/
+HDRS_DIRS	+= stack/
+HDRS_DIRS	+= map/
+HDRS_DIRS	+= main/
 
 HDRS		+= vector.hpp
 HDRS		+= vector.templatedef.hpp
 HDRS		+= vector_iterator.hpp
 HDRS		+= iterator_traits.hpp
+HDRS		+= reverse_iterator.hpp
+HDRS		+= enable_if.hpp
+HDRS		+= is_integral.hpp
+HDRS		+= equal.hpp
+HDRS		+= lexicographical_compare.hpp
+HDRS		+= stack.hpp
+HDRS		+= map.hpp
+HDRS		+= map.templatedef.hpp
+HDRS		+= pair.hpp
 
-vpath %.h $(HDRS_DIR)
+HDRS		+= main.hpp
 
-OBJS_DIR	= ./objects/
+vpath %.hpp $(HDRS_DIRS)
+
+OBJS_DIR	= objects/
 
 OBJS		= $(addprefix $(OBJS_DIR), $(SRCS:.cpp=.o))
 
@@ -26,12 +43,12 @@ CXXFLAGS	+= -Wall
 CXXFLAGS	+= -Werror
 CXXFLAGS	+= -Wextra
 
-CPPFLAGS	+= -I $(HDRS_DIR)
+CPPFLAGS	+= $(foreach DIR, $(HDRS_DIRS), $(addprefix -I , $(DIR)))
 
-ifeq ($(n), ft)
-	CPPFLAGS	+= -D NAMESPACE=ft
-else ifeq ($(n), std)
+ifeq ($(n), std)
 	CPPFLAGS	+= -D NAMESPACE=std
+else
+	CPPFLAGS	+= -D NAMESPACE=ft
 endif
 
 ifeq ($(d), 0)

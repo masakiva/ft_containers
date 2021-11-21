@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 19:39:54 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/19 17:20:19 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/21 16:31:51 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <memory> // allocator
 #include <cstddef> // NULL
 #include <stdexcept>
-#include <iostream>
 #include "vector_iterator.hpp"
 #include "reverse_iterator.hpp"
 #include "enable_if.hpp"
@@ -46,8 +45,8 @@ namespace	ft
 			typedef	reverse_iterator<iterator>			reverse_iterator;
 			typedef	ft::reverse_iterator<const_iterator>
 				const_reverse_iterator;
-			typedef	ptrdiff_t							difference_type;
-			typedef	size_t								size_type;
+			typedef	std::ptrdiff_t						difference_type;
+			typedef	std::size_t							size_type;
 
 		private:
 
@@ -130,22 +129,22 @@ namespace	ft
 	/******* NON-MEMBER FUNCTIONS *********************************************/
 	template < class T, class Alloc >
 		bool	operator== ( const vector<T,Alloc>& lhs,
-			const vector<T,Alloc>& rhs );
+				const vector<T,Alloc>& rhs );
 	template < class T, class Alloc >
 		bool	operator!= ( const vector<T,Alloc>& lhs,
-			const vector<T,Alloc>& rhs );
+				const vector<T,Alloc>& rhs );
 	template < class T, class Alloc >
 		bool	operator< ( const vector<T,Alloc>& lhs,
-			const vector<T,Alloc>& rhs );
+				const vector<T,Alloc>& rhs );
 	template < class T, class Alloc >
 		bool	operator<= ( const vector<T,Alloc>& lhs,
-			const vector<T,Alloc>& rhs );
+				const vector<T,Alloc>& rhs );
 	template < class T, class Alloc >
 		bool	operator> ( const vector<T,Alloc>& lhs,
-			const vector<T,Alloc>& rhs );
+				const vector<T,Alloc>& rhs );
 	template < class T, class Alloc >
 		bool	operator>= ( const vector<T,Alloc>& lhs,
-			const vector<T,Alloc>& rhs );
+				const vector<T,Alloc>& rhs );
 	template < class T, class Alloc >
 		void	swap ( vector<T,Alloc>& lhs, vector<T,Alloc>& rhs );
 
