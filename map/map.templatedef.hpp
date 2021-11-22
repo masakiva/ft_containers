@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 17:43:33 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/21 17:44:27 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/22 15:30:54 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,14 @@ namespace	ft
 	/******* CANONICAL FORM ***************************************************/
 
 	/* default constructor */
-	explicit map ( const key_compare& comp = key_compare(),
-			const allocator_type& alloc = allocator_type() )
-	{
-	}
+	template <	class Key, class T, class Compare, class Alloc >
+		map<Key,T,Compare,Alloc>::map ( const key_compare& comp,
+				const allocator_type& alloc ) :
+			_alloc( alloc ),
+			_size( 0 )
+		{
+			_map = _alloc.allocate( _size );
+		}
 
 } // namespace ft
 
