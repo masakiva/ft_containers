@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:17:16 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/21 17:42:16 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/23 16:50:08 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <stdexcept>
 #include <iostream>
 #include "pair.hpp"
+#include "rbtree.hpp"
 
 namespace	ft
 {

@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 17:52:52 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/22 18:41:32 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/23 17:20:41 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ namespace	ft
 		RED
 	};
 
-	template < class Key, class T >
 	struct	RBnode
 	{
 		RBnode*			parent;   // == NULL if root of the tree
@@ -30,7 +29,7 @@ namespace	ft
 		//   LEFT  := 0, if (key < parent->key)
 		//   RIGHT := 1, if (key > parent->key)
 		enum color_t	color;
-		pair<Key, T>*	data;
+		void*			content;
 	};
 
 	struct	RBtree
@@ -94,10 +93,10 @@ namespace	ft
 		parent = get_parent( node );
 		if ( parent == NULL )
 			return ( NULL );
+		dir = child_dir( node );
 		sibling = parent->child[1 - dir];
 		if ( sibling == NIL )
 			return ( NULL );
-		dir = child_dir( node );
 
 		return ( sibling->child[dir] );
 	}
@@ -111,24 +110,21 @@ namespace	ft
 		parent = get_parent( node );
 		if ( parent == NULL )
 			return ( NULL );
+		dir = child_dir( node );
 		sibling = parent->child[1 - dir];
 		if ( sibling == NIL )
 			return ( NULL );
-		dir = child_dir( node );
 
 		return ( sibling->child[1 - dir] );
 	}
 
-	RBnode*	RotateDirRoot(
-			RBtree* tree,   // red–black tree
-			RBnode* parent,   // root of subtree (may be the root of tree)
-			int dir)
+	RBnode*	rotate_subtree( RBtree* tree, RBnode* parent /* root of subtree (may be the root of tree) */, int dir )
 	{
 		RBnode*	grandparent;
 		RBnode* sibling;
 		RBnode* closenephew;
 		
-		parent = get_parent( parent );
+		grandparent = get_parent( parent );
 		sibling = parent->child[1 - dir];
 		if ( sibling == NIL ) // pointer to true RBnode required
 			return ( NULL );
@@ -141,15 +137,16 @@ namespace	ft
 		parent->parent = sibling;
 		sibling->parent = grandparent;
 		if ( grandparent != NULL )
-			grandparent->child[ parent == grandparent->right ? RIGHT : LEFT ] = sibling;
+			grandparent->child[child_dir( parent )] = sibling;
 		else
 			tree->root = sibling;
+
 		return ( sibling ); // new root of subtree
 	}
 
-#define RotateDir(node,dir) RotateDirRoot(tree,node,dir)
-#define RotateLeft(node)    RotateDirRoot(tree,node,LEFT)
-#define RotateRight(node)   RotateDirRoot(tree,node,RIGHT)
+#define rotate(node,dir) rotate_subtree(tree,node,dir)
+#define rotate_left(node)    rotate_subtree(tree,node,LEFT)
+#define rotate_right(node)   rotate_subtree(tree,node,RIGHT)
 
 } // namespace ft
 
