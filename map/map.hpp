@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:17:16 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/23 16:50:08 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/25 18:12:32 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ namespace	ft
 			typedef	typename allocator_type::const_reference	const_reference;
 			typedef	typename allocator_type::pointer			pointer;
 			typedef	typename allocator_type::const_pointer		const_pointer;
-			//typedef	m_iterator<T>						iterator;
+			typedef	m_iterator<T>						iterator;
 			//typedef	m_iterator<T, true>					const_iterator;
 			//typedef	reverse_iterator<iterator>			reverse_iterator;
 			//typedef	ft::reverse_iterator<const_iterator>
@@ -101,6 +101,7 @@ namespace	ft
 //			const_reference	back ( void ) const;
 //
 //			/******* MODIFIERS ************************************************/
+			//pair<iterator,bool>	insert ( const value_type& val );
 //			template < class InputIt >
 //				void		assign ( typename enable_if<
 //								!is_integral<InputIt>::value, InputIt

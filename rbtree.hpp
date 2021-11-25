@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 17:52:52 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/23 17:20:41 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/25 17:55:55 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 namespace	ft
 {
-	enum	color_t
+	enum	e_color
 	{
 		BLACK,
 		RED
@@ -28,7 +28,7 @@ namespace	ft
 		// Index is:
 		//   LEFT  := 0, if (key < parent->key)
 		//   RIGHT := 1, if (key > parent->key)
-		enum color_t	color;
+		enum e_color	color;
 		void*			content;
 	};
 
@@ -45,12 +45,12 @@ namespace	ft
 
 	// Get the child direction (∈ { LEFT, RIGHT })
 	//   of the non-root non-NIL  RBnode* node:
-	bool	child_dir( RBnode* node )
+	bool	child_dir ( RBnode* node )
 	{
 		return ( node == node->parent->right ? RIGHT : LEFT );
 	}
 
-	RBnode*	get_parent( RBnode* node )
+	RBnode*	get_parent ( RBnode* node )
 	{
 		// The parent of the root RBnode is set to NULL.
 		return ( node == NULL ? NULL : node->parent );
@@ -62,7 +62,7 @@ namespace	ft
 		return ( get_parent( get_parent( node ) ) );
 	}
 
-	RBnode*	get_sibling( RBnode* node )
+	RBnode*	get_sibling ( RBnode* node )
 	{
 		RBnode*	parent;
 		
@@ -73,7 +73,7 @@ namespace	ft
 		return ( parent->child[1 - child_dir( node )] );
 	}
 
-	RBnode*	get_uncle( RBnode* node )
+	RBnode*	get_uncle ( RBnode* node )
 	{
 		RBnode*	parent;
 		
@@ -84,11 +84,11 @@ namespace	ft
 		return ( get_sibling( parent ) );
 	}
 
-	RBnode*	get_closenephew( RBnode* node )
+	RBnode*	get_closenephew ( RBnode* node )
 	{
-		RBnode* parent;
-		RBnode* sibling;
-		int		dir;
+		RBnode*	parent;
+		RBnode*	sibling;
+		bool	dir;
 		
 		parent = get_parent( node );
 		if ( parent == NULL )
@@ -101,11 +101,11 @@ namespace	ft
 		return ( sibling->child[dir] );
 	}
 
-	RBnode*	get_distantnephew( RBnode* node )
+	RBnode*	get_distantnephew ( RBnode* node )
 	{
-		RBnode* parent;
-		RBnode* sibling;
-		int		dir;
+		RBnode*	parent;
+		RBnode*	sibling;
+		bool	dir;
 		
 		parent = get_parent( node );
 		if ( parent == NULL )
@@ -118,11 +118,11 @@ namespace	ft
 		return ( sibling->child[1 - dir] );
 	}
 
-	RBnode*	rotate_subtree( RBtree* tree, RBnode* parent /* root of subtree (may be the root of tree) */, int dir )
+	RBnode*	rotate_subtree ( RBtree* tree, RBnode* parent /* root of subtree (may be the root of tree) */, int dir )
 	{
 		RBnode*	grandparent;
-		RBnode* sibling;
-		RBnode* closenephew;
+		RBnode*	sibling;
+		RBnode*	closenephew;
 		
 		grandparent = get_parent( parent );
 		sibling = parent->child[1 - dir];
@@ -144,9 +144,68 @@ namespace	ft
 		return ( sibling ); // new root of subtree
 	}
 
-#define rotate(node,dir) rotate_subtree(tree,node,dir)
-#define rotate_left(node)    rotate_subtree(tree,node,LEFT)
-#define rotate_right(node)   rotate_subtree(tree,node,RIGHT)
+	void	insert_rebalancing_loop ( RBtree* tree, RBnode* node,
+			RBnode* parent, bool dir )
+	{
+		RBnode*	grandparent;  // -> parent node of parent
+		RBnode*	uncle;  // -> uncle of node
+
+		while ( parent != NULL )
+		{
+			if (parent->color == BLACK)
+				return ; // insertion complete
+			// From now on parent is red.
+			grandparent = get_parent( parent );
+			if ( grandparent == NULL )
+			{ // parent is the root and red:
+				parent->color = BLACK;
+				return ; // insertion complete
+			}
+			// else: parent red and grandparent!=NULL.
+			dir = child_dir( parent ); // the side of parent grandparent on which node parent is located
+			uncle = grandparent->child[1 - dir]; // uncle
+			if ( uncle == NIL || uncle->color == BLACK ) // considered black
+			{ // parent red && uncle black:
+				if ( node == parent->child[1 - dir] )
+				{ // Case_I5 (parent red && uncle black && node inner grandchild of grandparent):
+					rotate_subtree( tree, parent, dir ); // parent is never the root
+					node = parent; // new current node
+					parent = grandparent->child[dir]; // new parent of node
+					// fall through to Case_I6
+				}
+				// Case_I6 (parent red && uncle black && node outer grandchild of grandparent):
+				rotate_subtree( tree, grandparent, 1 - dir ); // grandparent may be the root
+				parent->color = BLACK;
+				grandparent->color = RED;
+				return ; // insertion complete
+			}
+			// Case_I2 (parent+uncle red):
+			parent->color = BLACK;
+			uncle->color = BLACK;
+			grandparent->color = RED;
+			node = grandparent; // new current node
+			// iterate 1 black level
+			//   (= 2 tree levels) higher
+			parent = node->parent;
+		}
+	}
+
+	void	rbtree_insert ( RBtree* tree, RBnode* node, RBnode* parent /* -> parent node of node ( may be NULL ) */,
+			bool dir )
+	{
+		node->color = RED;
+		node->left  = NIL;
+		node->right = NIL;
+		node->parent = parent;
+		if ( parent == NULL )
+		{   // There is no parent
+			tree->root = node;     // node is the new root of the tree tree.
+			return ; // insertion complete
+		}
+		parent->child[dir] = node; // insert node as dir-child of parent
+
+		insert_rebalancing_loop( tree, node, parent, dir );
+	}
 
 } // namespace ft
 

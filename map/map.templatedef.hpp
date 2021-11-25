@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 17:43:33 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/22 15:30:54 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/25 18:12:09 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,15 @@ namespace	ft
 		{
 			_map = _alloc.allocate( _size );
 		}
+
+	/******* MODIFIERS ********************************************************/
+
+	/* insert (single element) */
+//	template <	class Key, class T, class Compare, class Alloc >
+//		pair<iterator,bool>
+//			map<Key,T,Compare,Alloc>::insert ( const value_type& val )
+//		{
+//		}
 
 } // namespace ft
 
