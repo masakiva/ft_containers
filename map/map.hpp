@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:17:16 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/25 18:12:32 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/26 16:31:43 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <stdexcept>
 #include <iostream>
 #include "pair.hpp"
-#include "rbtree.hpp"
+#include "RBtree.class.hpp"
 
 namespace	ft
 {
@@ -44,7 +44,7 @@ namespace	ft
 			typedef	typename allocator_type::const_reference	const_reference;
 			typedef	typename allocator_type::pointer			pointer;
 			typedef	typename allocator_type::const_pointer		const_pointer;
-			typedef	m_iterator<T>						iterator;
+			//typedef	m_iterator<T>						iterator;
 			//typedef	m_iterator<T, true>					const_iterator;
 			//typedef	reverse_iterator<iterator>			reverse_iterator;
 			//typedef	ft::reverse_iterator<const_iterator>
@@ -54,10 +54,15 @@ namespace	ft
 
 		private:
 
-			allocator_type		_alloc;
-			//char				__pad[7];
-			size_type			_size;
-			value_type*			_map;
+			allocator_type	_alloc;
+			//char			__pad[7];
+			size_type		_size;
+			key_compare		_comp;
+			RBtree			_tree;
+
+			typedef typename allocator_type::template rebind<RBnode>::other
+				_allocator_type_rbnode;
+			_allocator_type_rbnode	_alloc_node;
 
 		public:
 
@@ -101,7 +106,7 @@ namespace	ft
 //			const_reference	back ( void ) const;
 //
 //			/******* MODIFIERS ************************************************/
-			//pair<iterator,bool>	insert ( const value_type& val );
+			void	insert ( const value_type& val );
 //			template < class InputIt >
 //				void		assign ( typename enable_if<
 //								!is_integral<InputIt>::value, InputIt
@@ -120,6 +125,10 @@ namespace	ft
 //			iterator	erase ( iterator first, iterator last );
 //			void		swap ( map& other );
 //			void		clear ( void );
+
+			/******* OPERATIONS ***********************************************/
+			//iterator		find ( const key_type& key );
+			//const_iterator	find ( const key_type& key ) const;
 
 			/******* ALLOCATOR ************************************************/
 			allocator_type	get_allocator ( void ) const;

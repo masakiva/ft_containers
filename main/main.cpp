@@ -12,7 +12,11 @@ int		main ( void )
 //	vector_non_member_functions();
 //	reverse_iterator_vector();
 
-	stack_tests();
+//	stack_tests();
+
+	std::cout << "MAP TESTS" << std::endl << std::endl;
+	pair();
+	map_modifiers();
 
 	return ( EXIT_SUCCESS );
 }

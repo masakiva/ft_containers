@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 18:13:36 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/25 18:18:59 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/26 11:17:01 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,11 @@ namespace	ft
 			{ return ( &( operator*() ) ); }
 
 			/* ++it */
-			m_iterator&	operator++ ( void ) { _ptr++; return ( *this ); }
+			m_iterator&	operator++ ( void )
+			{
+				;
+				return ( *this );
+			}
 
 			/* --it */
 			m_iterator&	operator-- ( void ) { _ptr--; return ( *this ); }

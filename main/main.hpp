@@ -83,4 +83,7 @@ void	reverse_iterator_vector( void );
 
 void	stack_tests( void );
 
+void	pair( void );
+void	map_modifiers( void );
+
 #endif // __MAIN_HPP__

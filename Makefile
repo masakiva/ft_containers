@@ -3,8 +3,11 @@ NAME		+= ft_containers
 SRCS_DIRS	+= main/
 
 SRCS		+= main.cpp
-SRCS		+= main_vector.cpp
-SRCS		+= main_stack.cpp
+#SRCS		+= main_vector.cpp
+#SRCS		+= main_stack.cpp
+SRCS		+= main_map.cpp
+SRCS		+= RBnode.class.cpp
+SRCS		+= RBtree.class.cpp
 
 vpath %.cpp $(SRCS_DIRS)
 
@@ -27,6 +30,8 @@ HDRS		+= stack.hpp
 HDRS		+= map.hpp
 HDRS		+= map.templatedef.hpp
 HDRS		+= pair.hpp
+HDRS		+= RBtree.class.hpp
+HDRS		+= RBnode.class.hpp
 
 HDRS		+= main.hpp
 
