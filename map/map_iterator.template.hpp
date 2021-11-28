@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 18:13:36 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/28 14:11:35 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/28 14:52:04 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,22 @@ namespace	ft
 	//		pointer		operator-> ( void ) const
 	//		{ return ( &( operator*() ) ); }
 
+			void		get_next_parent( void )
+			{
+				value_type*		next_node;
+
+				next_node = _node_ptr->get_parent();
+				if ( next_node == NIL )
+					; // END
+				else if ( _node_ptr->child_dir() == LEFT )
+					_node_ptr = next_node;
+				else
+				{
+					_node_ptr = next_node;
+					get_next_parent();
+				}
+			}
+
 			/* ++it */
 			m_iterator&	operator++ ( void )
 			{
@@ -89,21 +105,17 @@ namespace	ft
 				value_type*		next_node;
 
 				next_node = _node_ptr->get_child( RIGHT );
-				if ( next_node == NIL )
-				{
-					next_node = _node_ptr->get_parent();
-					if ( next_node == NIL )
-						;
-					else if ( _node_ptr->child_dir() == RIGHT )
-						next_node = 
-
-				else
+				if ( next_node != NIL )
 				{
 					while ( next_node != NIL )
 					{
 						_node_ptr = next_node;
 						next_node = _node_ptr->get_child( LEFT );
 					}
+				}
+				else
+				{
+					get_next_parent();
 				}
 
 				return ( *this );
