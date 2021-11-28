@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 19:39:54 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/21 16:31:51 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/28 00:55:46 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,16 @@
 #include <memory> // allocator
 #include <cstddef> // NULL
 #include <stdexcept>
-#include "vector_iterator.hpp"
-#include "reverse_iterator.hpp"
-#include "enable_if.hpp"
-#include "is_integral.hpp"
-#include "equal.hpp"
-#include "lexicographical_compare.hpp"
+#include "vector_iterator.template.hpp"
+#include "reverse_iterator.template.hpp"
+#include "enable_if.template.hpp"
+#include "is_integral.template.hpp"
+#include "equal.template.hpp"
+#include "lexicographical_compare.template.hpp"
 
 namespace	ft
 {
+
 	template < class T, class Alloc = std::allocator<T> >
 	class	vector
 	{
@@ -40,8 +41,8 @@ namespace	ft
 			typedef	typename allocator_type::const_reference	const_reference;
 			typedef	typename allocator_type::pointer			pointer;
 			typedef	typename allocator_type::const_pointer		const_pointer;
-			typedef	v_iterator<T>						iterator;
-			typedef	v_iterator<T, true>					const_iterator;
+			typedef	v_iterator<value_type>				iterator;
+			typedef	v_iterator<value_type, true>		const_iterator;
 			typedef	reverse_iterator<iterator>			reverse_iterator;
 			typedef	ft::reverse_iterator<const_iterator>
 				const_reverse_iterator;

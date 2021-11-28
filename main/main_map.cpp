@@ -26,15 +26,29 @@ void	pair( void )
 	std::cout << "----------" << std::endl << std::endl;
 }
 
+template < class T >
+struct	more
+{
+	bool	operator() ( const T& a, const T& b ) const { return ( a > b ); }
+};
+
+template < class T >
+struct	same
+{
+	bool	operator() ( const T& a, const T& b ) const { return ( a == b ); }
+};
+
 void	map_modifiers( void )
 {
 	std::cout << "MODIFIERS" << std::endl;
 
-	NAMESPACE::map<char,int>	map;
+	NAMESPACE::map<char,int, more<char> >	map;
 
-	char	c = 'a';
-	int		i = 100;
-	map.insert ( NAMESPACE::make_pair( c, i ) );
+	map.insert ( NAMESPACE::make_pair( 'b', 2 ) );
+	map.insert ( NAMESPACE::make_pair( 'c', 3 ) );
+	map.insert ( NAMESPACE::make_pair( 'a', 1 ) );
+
+	NAMESPACE::map<char,int>::iterator it;
 
 	std::cout << "----------" << std::endl << std::endl;
 }

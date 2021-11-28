@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 17:43:33 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/26 19:11:00 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/28 01:47:38 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ namespace	ft
 	/******* CANONICAL FORM ***************************************************/
 
 	/* default constructor */
-	template <	class Key, class T, class Compare, class Alloc >
+	template < class Key, class T, class Compare, class Alloc >
 		map<Key,T,Compare,Alloc>::map ( const key_compare& comp,
 				const allocator_type& alloc ) :
 			_alloc( alloc ),
@@ -30,33 +30,83 @@ namespace	ft
 		}
 
 
+	/******* ITERATORS ********************************************************/
+
+	/* begin */
+	template < class Key, class T, class Compare, class Alloc >
+		typename map<Key,T,Compare,Alloc>::iterator
+				map<Key,T,Compare,Alloc>::begin ( void )
+		{
+			iterator	it( _tree.get_root() );
+
+			return ( it );
+		}
+
+
 	/******* MODIFIERS ********************************************************/
 
-	/* insert (single element) */
-	template <	class Key, class T, class Compare, class Alloc >
-		void
-			map<Key,T,Compare,Alloc>::insert ( const value_type& val )
+	template < class Key, class T, class Compare, class Alloc >
+		void map<Key,T,Compare,Alloc>::_insert_in_tree ( RBnode* new_node,
+						value_type* new_pair )
 		{
-			RBnode*		node;
-			value_type*	pair;
-			RBnode*		root;
+			RBnode*		parent;
+			RBnode*		cur_node;
+			value_type*	cur_pair;
+			bool		cur_comp;
 
-			pair = _alloc.allocate( 1 );
-			_alloc.construct( pair, val );
-			node = _alloc_node.allocate( 1 );
-			_alloc_node.construct( node, pair );
+			parent = _tree.get_root();
+			while ( parent != NIL )
+			{
+				cur_pair = static_cast<value_type*>( parent->get_content() );
+				if ( cur_pair->first == new_pair->first )
+					return ;
+				cur_comp = _comp( new_pair->first, cur_pair->first ); // how does less work
+				if ( cur_comp )
+				{
+					cur_node = parent->get_child( LEFT );
+					if ( cur_node == NIL )
+					{
+						_tree.insert( new_node, parent, LEFT );
+						return ;
+					}
+					else
+						parent = cur_node;
+				}
+				else
+				{
+					cur_node = parent->get_child( RIGHT );
+					if ( cur_node == NIL )
+					{
+						_tree.insert( new_node, parent, RIGHT );
+						return ;
+					}
+					else
+						parent = cur_node;
+				}
+			}
+			_tree.insert( new_node, NULL, LEFT );
+		}
 
-			root = _tree.get_root();
-			if ( root == NIL )
-				_tree.insert( node, NULL, LEFT );
-			else if ( root
+	/* insert (single element) */
+	template < class Key, class T, class Compare, class Alloc >
+		void map<Key,T,Compare,Alloc>::insert ( const value_type& val )
+		{
+			RBnode*		new_node;
+			value_type*	new_pair;
+
+			new_pair = _alloc.allocate( 1 ); // allocate for the pair
+			_alloc.construct( new_pair, val );
+			new_node = _alloc_node.allocate( 1 ); // allocate for the node
+			_alloc_node.construct( new_node, new_pair );
+
+			this->_insert_in_tree( new_node, new_pair );
 		}
 
 
 	/******* ALLOCATOR ********************************************************/
 
 	/* get_allocator */
-	template <	class Key, class T, class Compare, class Alloc >
+	template < class Key, class T, class Compare, class Alloc >
 		typename map<Key,T,Compare,Alloc>::allocator_type
 				map<Key,T,Compare,Alloc>::get_allocator ( void ) const
 		{

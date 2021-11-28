@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   equal.hpp                                          :+:      :+:    :+:   */
+/*   equal.template.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 18:21:39 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/19 15:38:57 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/28 00:51:17 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __EQUAL_HPP__
-# define __EQUAL_HPP__
+#ifndef __EQUAL_TEMPLATE_HPP__
+# define __EQUAL_TEMPLATE_HPP__
 
 namespace	ft
 {
+
+	// are the contents in a range of iterators equal to the ones
+	// in another range
 	template < class InputIt1, class InputIt2 >
 	bool equal ( InputIt1 first1, InputIt1 last1, InputIt2 first2 )
 	{
@@ -44,4 +47,4 @@ namespace	ft
 
 } // namespace ft
 
-#endif // __EQUAL_HPP__
+#endif // __EQUAL_TEMPLATE_HPP__

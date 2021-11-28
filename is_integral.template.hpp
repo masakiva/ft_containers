@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_integral.hpp                                    :+:      :+:    :+:   */
+/*   is_integral.template.hpp                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 14:31:44 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/20 12:32:38 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/28 00:44:17 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __IS_INTEGRAL_HPP__
-# define __IS_INTEGRAL_HPP__
+#ifndef __IS_INTEGRAL_TEMPLATE_HPP__
+# define __IS_INTEGRAL_TEMPLATE_HPP__
 
 namespace	ft
 {
@@ -22,16 +22,16 @@ namespace	ft
 		static const T value = v;
 	};
 
-	typedef	integral_constant<bool, true>	true_type;
-	typedef	integral_constant<bool, false>	false_type;
+	typedef	integral_constant<bool, true>	true_type; // value set to true
+	typedef	integral_constant<bool, false>	false_type; // value set to false
 
 	template < class T >
-	struct	is_integral : ft::false_type { };
+	struct	is_integral : ft::false_type { }; // no type is integral type...
 
 	template < >
-	struct	is_integral<bool> : ft::true_type { };
+	struct	is_integral<bool> : ft::true_type { }; // ... except bool, ...
 	template < >
-	struct	is_integral<char> : ft::true_type { };
+	struct	is_integral<char> : ft::true_type { }; // ... char, etc.
 	template < >
 	struct	is_integral<unsigned char> : ft::true_type { };
 	template < >
@@ -51,4 +51,4 @@ namespace	ft
 
 } // namespace ft
 
-#endif // __IS_INTEGRAL_HPP__
+#endif // __IS_INTEGRAL_TEMPLATE_HPP__

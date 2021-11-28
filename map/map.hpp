@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:17:16 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/26 16:31:43 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/28 14:05:27 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,15 @@
 #include <memory> // allocator
 #include <cstddef> // NULL
 #include <stdexcept>
-#include <iostream>
-#include "pair.hpp"
+#include "map_iterator.template.hpp"
+#include "pair.template.hpp"
 #include "RBtree.class.hpp"
+
+#include <iostream>
 
 namespace	ft
 {
+
 	template <	class Key,
 			 	class T,
 				class Compare = std::less<Key>,
@@ -44,7 +47,7 @@ namespace	ft
 			typedef	typename allocator_type::const_reference	const_reference;
 			typedef	typename allocator_type::pointer			pointer;
 			typedef	typename allocator_type::const_pointer		const_pointer;
-			//typedef	m_iterator<T>						iterator;
+			typedef	m_iterator<key_compare>					iterator;
 			//typedef	m_iterator<T, true>					const_iterator;
 			//typedef	reverse_iterator<iterator>			reverse_iterator;
 			//typedef	ft::reverse_iterator<const_iterator>
@@ -64,6 +67,8 @@ namespace	ft
 				_allocator_type_rbnode;
 			_allocator_type_rbnode	_alloc_node;
 
+			void	_insert_in_tree ( RBnode* new_node, value_type* new_pair );
+
 		public:
 
 			/******* CANONICAL FORM *******************************************/
@@ -77,7 +82,7 @@ namespace	ft
 			map&		operator= ( const map &rhs );
 //
 //			/******* ITERATORS ************************************************/
-//			iterator				begin ( void );
+			iterator				begin ( void );
 //			const_iterator			begin ( void ) const;
 //			iterator				end ( void );
 //			const_iterator			end ( void ) const;

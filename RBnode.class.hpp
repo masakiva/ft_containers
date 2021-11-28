@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 17:52:52 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/26 15:03:04 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/27 19:39:25 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ namespace	ft
 
 			RBnode ( void* content );
 
+			void*		get_content ( void );
 			bool		get_color ( void );
 			void		set_color ( bool color );
 			bool		child_dir ( void );

@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 11:30:10 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/26 16:10:12 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/27 19:39:32 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,9 @@ namespace	ft
 		_child[RIGHT] = NULL;
 	}
 
-	// Get the child direction (∈ { LEFT, RIGHT })
-	//   of the non-root non-NIL  RBnode* node:
-	bool	RBnode::child_dir ( void )
+	void*	RBnode::get_content ( void )
 	{
-		return ( this == _parent->_child[LEFT] ? LEFT : RIGHT );
+		return ( _content );
 	}
 
 	void	RBnode::set_color ( bool color )
@@ -39,6 +37,13 @@ namespace	ft
 	bool	RBnode::get_color ( void )
 	{
 		return ( _color );
+	}
+
+	// Get the child direction (∈ { LEFT, RIGHT })
+	//   of the non-root non-NIL  RBnode* node:
+	bool	RBnode::child_dir ( void )
+	{
+		return ( this == _parent->_child[LEFT] ? LEFT : RIGHT );
 	}
 
 	void	RBnode::set_child ( bool dir, RBnode* child )

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pair.hpp                                           :+:      :+:    :+:   */
+/*   pair.template.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:43:38 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/26 18:27:43 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/28 00:44:24 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __PAIR_HPP__
-# define __PAIR_HPP__
+#ifndef __PAIR_TEMPLATE_HPP__
+# define __PAIR_TEMPLATE_HPP__
 
 namespace	ft
 {
@@ -96,4 +96,4 @@ namespace	ft
 
 } // namespace ft
 
-#endif // __PAIR_HPP__
+#endif // __PAIR_TEMPLATE_HPP__

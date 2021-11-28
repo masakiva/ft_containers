@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 20:45:40 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/21 13:20:20 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/27 23:43:08 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,14 +162,15 @@ namespace	ft
 			{
 				if ( new_cap > this->max_size() )
 					throw std::length_error( "new capacity exceeds max_size" );
+
 				value_type*	new_vec;
 
-				new_vec = _alloc.allocate( new_cap );
+				new_vec = _alloc.allocate( new_cap ); // allocate new capacity
 				for ( size_type i = 0; i < _size; i++ )
-					_alloc.construct( new_vec + i, _vec[i] );
+					_alloc.construct( new_vec + i, _vec[i] ); // do the copy
 
 				for ( size_type i = 0; i < _size; i++ )
-					_alloc.destroy( _vec + i );
+					_alloc.destroy( _vec + i ); // destroy old array
 				_alloc.deallocate( _vec, _capacity );
 				_vec = new_vec;
 				_capacity = new_cap;
@@ -348,10 +349,10 @@ namespace	ft
 			{
 				size_type	new_size = 0;
 				for ( InputIt it = first; it != last; it++ )
-					new_size++;
+					new_size++; // compute new size
 
 				if ( new_size > _capacity )
-				{
+				{ // reallocate and replace all content
 					for ( size_type i = 0; i < _size; i++ )
 						_alloc.destroy( _vec + i );
 					_alloc.deallocate( _vec, _capacity );
@@ -364,16 +365,16 @@ namespace	ft
 				else if ( new_size >= _size )
 				{
 					for ( size_type i = 0; i < _size; i++ )
-						_vec[i] = *first++;
+						_vec[i] = *first++; // overwrite previous content
 					for ( size_type i = _size; i < new_size; i++ )
-						_alloc.construct( _vec + i, *first++ );
+						_alloc.construct( _vec + i, *first++ ); // add the rest
 				}
 				else
 				{
 					for ( size_type i = 0; i < new_size; i++ )
-						_vec[i] = *first++;
+						_vec[i] = *first++; // overwrite previous content
 					for ( size_type i = new_size; i < _size; i++ )
-						_alloc.destroy( _vec + i );
+						_alloc.destroy( _vec + i ); // remove the remainder
 				}
 				_size = new_size;
 			}
@@ -384,7 +385,7 @@ namespace	ft
 				const value_type& val )
 		{
 			if ( count > _capacity )
-			{
+			{ // reallocate and replace all content
 				for ( size_type i = 0; i < _size; i++ )
 					_alloc.destroy( _vec + i );
 				_alloc.deallocate( _vec, _capacity );
@@ -397,16 +398,16 @@ namespace	ft
 			else if ( count >= _size )
 			{
 				for ( size_type i = 0; i < _size; i++ )
-					_vec[i] = val;
+					_vec[i] = val; // overwrite previous content
 				for ( size_type i = _size; i < count; i++ )
-					_alloc.construct( _vec + i, val );
+					_alloc.construct( _vec + i, val ); // add the rest
 			}
 			else
 			{
 				for ( size_type i = 0; i < count; i++ )
-					_vec[i] = val;
+					_vec[i] = val; // overwrite previous content
 				for ( size_type i = count; i < _size; i++ )
-					_alloc.destroy( _vec + i );
+					_alloc.destroy( _vec + i ); // remove the remainder
 			}
 			_size = count;
 		}
@@ -435,21 +436,22 @@ namespace	ft
 		{
 			difference_type		n = pos - this->begin();
 			this->reserve( _size + 1 );
-			pos = this->begin() + n;
+			pos = this->begin() + n; // set position in newly allocated array
 
 			_size++;
 			if ( pos == this->end() - 1 )
-			{
+			{ // equivalent to push_back( val )
 				_alloc.construct( _vec + _size - 1, val );
 			}
 			else
 			{
+				// add one element at the end of the array
 				_alloc.construct( _vec + _size - 1, _vec[_size - 2] );
 				for ( iterator it = this->end() - 3; it >= pos ; it-- )
-				{
+				{ // forward shift of every element after pos
 					*(it + 1) = *it;
 				}
-
+				// fill element at pos with val
 				*pos = val;
 			}
 
@@ -463,22 +465,22 @@ namespace	ft
 		{
 			difference_type		n = pos - this->begin();
 			this->reserve( _size + count );
-			pos = this->begin() + n;
+			pos = this->begin() + n; // set position in newly allocated array
 
 			value_type*	ptr = _vec + _size;
 			for ( size_type i = 0; i < count; i++ )
-			{
+			{ // add count elements at the end of the array
 				_alloc.construct( ptr, *(ptr - count) );
 				ptr++;
 			}
 			_size += count;
 			for ( iterator it = this->end() - count - 2; it >= pos ; it-- )
-			{
+			{ // forward shift of every element after pos
 				*(it + count) = *it;
 			}
 
 			for ( size_type i = 0; i < count; i++ )
-			{
+			{ // fill count elements from pos, with val
 				*pos = val;
 				pos++;
 			}
@@ -493,26 +495,27 @@ namespace	ft
 			{
 				size_type	count = 0;
 				for ( InputIt it = first; it != last; it++ )
-					count++;
+					count++; // compute new size
 
 				difference_type		n = pos - this->begin();
 				this->reserve( _size + count );
+				// set position in newly allocated array
 				pos = this->begin() + n;
 
 				value_type*	ptr = _vec + _size;
 				for ( size_type i = 0; i < count; i++ )
-				{
+				{ // add count elements at the end of the array
 					_alloc.construct( ptr, *(ptr - count) );
 					ptr++;
 				}
 				_size += count;
 				for ( iterator it = this->end() - count - 2; it >= pos ; it-- )
-				{
+				{ // forward shift of every element after pos
 					*(it + count) = *it;
 				}
 
 				for ( size_type i = 0; i < count; i++ )
-				{
+				{ // do the copy, starting from pos
 					*pos = *first++;
 					pos++;
 				}
@@ -525,10 +528,10 @@ namespace	ft
 		{
 			iterator	it;
 			for ( it = pos; it < this->end() - 1; it++ )
-			{
+			{ // shift backwards every element after pos
 				*it = *(it + 1);
 			}
-			_alloc.destroy( &*it );
+			_alloc.destroy( &*it ); // remove element at pos
 			_size--;
 
 			return ( pos );
@@ -543,14 +546,14 @@ namespace	ft
 
 			iterator	it = first;
 			while ( last < this->end() )
-			{
+			{ // shift backwards every element after pos
 				*it = *last;
 				it++;
 				last++;
 			}
 
 			for ( ; it < this->end(); it++ )
-				_alloc.destroy( &*it );
+				_alloc.destroy( &*it ); // remove elements at end of array
 			_size -= range;
 
 			return ( first );
@@ -603,7 +606,7 @@ namespace	ft
 	/* == */
 	template < class T, class Alloc >
 		bool	operator== ( const vector<T,Alloc>& lhs,
-			const vector<T,Alloc>& rhs )
+				const vector<T,Alloc>& rhs )
 		{
 			if ( lhs.size() != rhs.size() )
 				return ( false );
@@ -613,7 +616,7 @@ namespace	ft
 	/* != */
 	template < class T, class Alloc >
 		bool	operator!= ( const vector<T,Alloc>& lhs,
-			const vector<T,Alloc>& rhs )
+				const vector<T,Alloc>& rhs )
 		{
 			return ( !operator==( lhs, rhs ) );
 		}
@@ -621,7 +624,7 @@ namespace	ft
 	/* < */
 	template < class T, class Alloc >
 		bool	operator< ( const vector<T,Alloc>& lhs,
-			const vector<T,Alloc>& rhs )
+				const vector<T,Alloc>& rhs )
 		{
 			return ( ft::lexicographical_compare( lhs.begin(), lhs.end(),
 						rhs.begin(), rhs.end() ) );
@@ -630,7 +633,7 @@ namespace	ft
 	/* <= */
 	template < class T, class Alloc >
 		bool	operator<= ( const vector<T,Alloc>& lhs,
-			const vector<T,Alloc>& rhs )
+				const vector<T,Alloc>& rhs )
 		{
 			return ( !operator<( rhs, lhs ) );
 		}
@@ -638,7 +641,7 @@ namespace	ft
 	/* > */
 	template < class T, class Alloc >
 		bool	operator> ( const vector<T,Alloc>& lhs,
-			const vector<T,Alloc>& rhs )
+				const vector<T,Alloc>& rhs )
 		{
 			return ( operator<( rhs, lhs ) );
 		}
@@ -646,7 +649,7 @@ namespace	ft
 	/* >= */
 	template < class T, class Alloc >
 		bool	operator>= ( const vector<T,Alloc>& lhs,
-			const vector<T,Alloc>& rhs )
+				const vector<T,Alloc>& rhs )
 		{
 			return ( !operator<( lhs, rhs ) );
 		}

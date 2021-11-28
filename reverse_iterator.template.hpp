@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reverse_iterator.hpp                               :+:      :+:    :+:   */
+/*   reverse_iterator.template.hpp                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 19:07:52 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/20 11:32:51 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/28 00:52:29 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __REVERSE_ITERATOR_HPP__
-# define __REVERSE_ITERATOR_HPP__
+#ifndef __REVERSE_ITERATOR_TEMPLATE_HPP__
+# define __REVERSE_ITERATOR_TEMPLATE_HPP__
 
-#include "iterator_traits.hpp"
+#include "iterator_traits.template.hpp"
 
 namespace	ft
 {
+
 	template < class Iterator >
 	class reverse_iterator
 	{
@@ -65,10 +66,10 @@ namespace	ft
 			}
 
 			/* base */
-			iterator_type		base( void ) const { return ( _it ); }
+			iterator_type	base( void ) const { return ( _it ); }
 
 			/* *rit */
-			reference			operator* ( void ) const { return ( *(_it - 1) ); }
+			reference		operator* ( void ) const { return ( *(_it - 1) ); }
 
 			/* rit->struct_arg */
 			pointer		operator-> ( void ) const
@@ -114,7 +115,7 @@ namespace	ft
 
 			/* rit[i] */
 			reference			operator[] ( difference_type n ) const
-			{ return ( base()[-1 * n - 1] ); }
+			{ return ( this->base()[-1 * n - 1] ); }
 
 	}; // class reverse_iterator
 
@@ -172,4 +173,4 @@ namespace	ft
 } // namespace ft
 
 
-#endif // __REVERSE_ITERATOR_HPP__
+#endif // __REVERSE_ITERATOR_TEMPLATE_HPP__

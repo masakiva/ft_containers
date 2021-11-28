@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   iterator_traits.hpp                                :+:      :+:    :+:   */
+/*   iterator_traits.template.hpp                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:51:40 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/21 16:32:19 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/28 00:51:10 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __ITERATOR_TRAITS_HPP__
-# define __ITERATOR_TRAITS_HPP__
+#ifndef __ITERATOR_TRAITS_TEMPLATE_HPP__
+# define __ITERATOR_TRAITS_TEMPLATE_HPP__
 
 namespace	ft
 {
+
 	template < class Iterator >
 	struct	iterator_traits
 	{
@@ -47,4 +48,4 @@ namespace	ft
 
 } // namespace ft
 
-#endif // __ITERATOR_TRAITS_HPP__
+#endif // __ITERATOR_TRAITS_TEMPLATE_HPP__

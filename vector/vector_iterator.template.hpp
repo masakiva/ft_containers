@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector_iterator.hpp                                :+:      :+:    :+:   */
+/*   vector_iterator.template.hpp                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:49:02 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/21 16:34:54 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/28 00:54:06 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __VECTOR_ITERATOR_HPP__
-# define __VECTOR_ITERATOR_HPP__
+#ifndef __VECTOR_ITERATOR_TEMPLATE_HPP__
+# define __VECTOR_ITERATOR_TEMPLATE_HPP__
+
+#include "is_const.template.hpp"
 
 namespace	ft
 {
-	template < class T, bool constness >
-	struct is_const
-	{
-		typedef	T			type;
-	};
-
-	template < class T >
-	struct is_const<T, true>
-	{
-		typedef	const T		type;
-	};
 
 	template < class T, bool constness = false >
 	class	v_iterator
@@ -225,4 +216,4 @@ namespace	ft
 
 } // namespace ft
 
-#endif // __VECTOR_ITERATOR_HPP__
+#endif // __VECTOR_ITERATOR_TEMPLATE_HPP__

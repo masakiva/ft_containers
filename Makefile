@@ -19,17 +19,17 @@ HDRS_DIRS	+= main/
 
 HDRS		+= vector.hpp
 HDRS		+= vector.templatedef.hpp
-HDRS		+= vector_iterator.hpp
-HDRS		+= iterator_traits.hpp
-HDRS		+= reverse_iterator.hpp
-HDRS		+= enable_if.hpp
-HDRS		+= is_integral.hpp
-HDRS		+= equal.hpp
-HDRS		+= lexicographical_compare.hpp
+HDRS		+= vector_iterator.template.hpp
+HDRS		+= iterator_traits.template.hpp
+HDRS		+= reverse_iterator.template.hpp
+HDRS		+= enable_if.template.hpp
+HDRS		+= is_integral.template.hpp
+HDRS		+= equal.template.hpp
+HDRS		+= lexicographical_compare.template.hpp
 HDRS		+= stack.hpp
 HDRS		+= map.hpp
 HDRS		+= map.templatedef.hpp
-HDRS		+= pair.hpp
+HDRS		+= pair.template.hpp
 HDRS		+= RBtree.class.hpp
 HDRS		+= RBnode.class.hpp
 
