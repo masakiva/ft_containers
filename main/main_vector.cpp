@@ -193,7 +193,7 @@ void	vector_modifiers( void )
 	std::cout << "-> vec_input default constructed" << std::endl;
 	vec_input.assign( 1, 3 );
 	std::cout << "-> vec_input.assign( 1, 3 )" << std::endl;
-	std::cout << "vec_input: " << std::endl;
+	std::cout << "=== print vec_input ===" << std::endl;
 	print_vector( vec_input );
 	NAMESPACE::vector<int>::iterator	it = vec_input.begin();
 	std::cout << "-> it = vec_input.begin()" << std::endl;
@@ -201,12 +201,12 @@ void	vector_modifiers( void )
 	std::cout << "-> ite = vec_input.end()" << std::endl;
 	vec.assign( it, ite );
 	std::cout << "-> vec.assign( it, ite )" << std::endl;
-	std::cout << "vec: " << std::endl;
+	std::cout << "=== print vec ===" << std::endl;
 	print_vector( vec );
 
 	vec_input.assign( 4, 6 );
 	std::cout << "-> vec_input.assign( 4, 6 )" << std::endl;
-	std::cout << "vec_input: " << std::endl;
+	std::cout << "=== print vec_input ===" << std::endl;
 	print_vector( vec_input );
 	it = vec_input.begin();
 	std::cout << "-> it = vec_input.begin()" << std::endl;
@@ -214,7 +214,7 @@ void	vector_modifiers( void )
 	std::cout << "-> ite = vec_input.end()" << std::endl;
 	vec.assign( it, ite );
 	std::cout << "-> vec.assign( it, ite )" << std::endl;
-	std::cout << "vec: " << std::endl;
+	std::cout << "=== print vec ===" << std::endl;
 	print_vector( vec );
 
 	vec.pop_back();
@@ -227,7 +227,7 @@ void	vector_modifiers( void )
 
 	vec_input.assign( 3, 5 );
 	std::cout << "-> vec_input.assign( 3, 5 )" << std::endl;
-	std::cout << "vec_input: " << std::endl;
+	std::cout << "=== print vec_input ===" << std::endl;
 	print_vector( vec_input );
 	it = vec_input.begin();
 	std::cout << "-> it = vec_input.begin()" << std::endl;
@@ -235,7 +235,7 @@ void	vector_modifiers( void )
 	std::cout << "-> ite = vec_input.end()" << std::endl;
 	vec.assign( it, ite );
 	std::cout << "-> vec.assign( it, ite )" << std::endl;
-	std::cout << "vec: " << std::endl;
+	std::cout << "=== print vec ===" << std::endl;
 	print_vector( vec );
 
 	vec.push_back( 8 );
@@ -257,7 +257,7 @@ void	vector_modifiers( void )
 
 	vec_input.assign( 2, 1 );
 	std::cout << "-> vec_input.assign( 2, 1 )" << std::endl;
-	std::cout << "vec_input: " << std::endl;
+	std::cout << "=== print vec_input ===" << std::endl;
 	print_vector( vec_input );
 	it = vec_input.begin();
 	std::cout << "-> it = vec_input.begin()" << std::endl;
@@ -265,7 +265,7 @@ void	vector_modifiers( void )
 	std::cout << "-> ite = vec_input.end()" << std::endl;
 	vec.insert( vec.begin(), it, ite );
 	std::cout << "-> vec.insert( 0, it, ite )" << std::endl;
-	std::cout << "vec: " << std::endl;
+	std::cout << "=== print vec ===" << std::endl;
 	print_vector( vec );
 
 	std::cout << "-> erase( 2 )" << std::endl;
@@ -282,12 +282,21 @@ void	vector_modifiers( void )
 	std::cout << "-> vec2( 2, 9 )" << std::endl;
 	print_vector( vec2 );
 
+	std::cout << "-> it_vec = vec.begin()" << std::endl;
+	NAMESPACE::vector<int>::iterator	it_vec = vec.begin();
+	std::cout << "-> ite_vec = vec.end()" << std::endl;
+	NAMESPACE::vector<int>::iterator	ite_vec = vec.end();
 	vec.swap( vec2 );
 	std::cout << "-> vec.swap( vec2 )" << std::endl;
-	std::cout << "vec: " << std::endl;
+	std::cout << "=== print vec ===" << std::endl;
 	print_vector( vec );
-	std::cout << "vec2: " << std::endl;
+	std::cout << "=== print vec2 ===" << std::endl;
 	print_vector( vec2 );
+	std::cout << "contents from it_vec until ite_vec:";
+	for ( ; it_vec != ite_vec; it_vec++ )
+		std::cout << " " << *it_vec;
+	std::cout << std::endl;
+	std::cout << "----------" << std::endl << std::endl;
 
 	vec.clear();
 	std::cout << "-> vec.clear()" << std::endl;
@@ -307,13 +316,13 @@ void	vector_non_member_functions( void )
 	std::cout << "NON MEMBER FUNCTIONS" << std::endl;
 
 	NAMESPACE::vector<int>	vec1( 8, 1 );
-	std::cout << "vec1: " << std::endl;
+	std::cout << "=== print vec1 ===" << std::endl;
 	print_vector( vec1 );
 	NAMESPACE::vector<int>	vec2( 5, 3 );
-	std::cout << "vec2: " << std::endl;
+	std::cout << "=== print vec2 ===" << std::endl;
 	print_vector( vec2 );
 	NAMESPACE::vector<int>	vec3( 8, 1 );
-	std::cout << "vec3: " << std::endl;
+	std::cout << "=== print vec3 ===" << std::endl;
 	print_vector( vec3 );
 
 	std::cout << std::boolalpha;
@@ -338,9 +347,9 @@ void	vector_non_member_functions( void )
 
 	std::cout << "-> swap( vec1, vec2 )" << std::endl;
 	swap( vec1, vec2 );
-	std::cout << "vec1: " << std::endl;
+	std::cout << "=== print vec1 ===" << std::endl;
 	print_vector( vec1 );
-	std::cout << "vec2: " << std::endl;
+	std::cout << "=== print vec2 ===" << std::endl;
 	print_vector( vec2 );
 }
 

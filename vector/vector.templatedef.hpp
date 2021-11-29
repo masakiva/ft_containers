@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 20:45:40 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/27 23:43:08 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/29 15:41:13 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ namespace	ft
 	/* default constructor */
 	template < class T, class Alloc >
 		vector<T,Alloc>::vector ( const allocator_type& alloc ) :
-			_alloc( alloc ),
 			_capacity( 0 ),
-			_size( 0 )
+			_size( 0 ),
+			_alloc( alloc )
 		{
 			_vec = _alloc.allocate( _capacity );
 		}
@@ -32,9 +32,9 @@ namespace	ft
 	template < class T, class Alloc >
 		vector<T,Alloc>::vector ( size_type count, const value_type& val,
 				const allocator_type& alloc ) :
-			_alloc( alloc ),
 			_capacity( count ),
-			_size( count )
+			_size( count ),
+			_alloc( alloc )
 		{
 			_vec = _alloc.allocate( _capacity );
 			for ( size_type i = 0; i < _size; i++ )
@@ -48,8 +48,8 @@ namespace	ft
 						!is_integral<InputIt>::value, InputIt
 					>::type first, InputIt last,
 					const allocator_type& alloc ) :
-				_alloc( alloc ),
-				_capacity( 0 )
+				_capacity( 0 ),
+				_alloc( alloc )
 			{
 				for ( InputIt it = first; it != last; it++ )
 					_capacity++;
@@ -63,9 +63,9 @@ namespace	ft
 	/* copy constructor */
 	template < class T, class Alloc >
 		vector<T,Alloc>::vector ( const vector<T,Alloc>& src ) :
-			_alloc( src._alloc ),
 			_capacity( 0 ),
-			_size( 0 )
+			_size( 0 ),
+			_alloc( src._alloc )
 		{
 			_vec = _alloc.allocate( _capacity );
 			*this = src;

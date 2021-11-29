@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 17:52:52 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/27 19:39:25 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/29 19:18:23 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ namespace	ft
 #define BLACK	0
 #define RED		1
 
-#define	NIL		NULL // null pointer  or  pointer to sentinel RBnode
+#define	NIL		NULL // pointer to sentinel RBnode
 
 #define	LEFT	0
 #define	RIGHT	1

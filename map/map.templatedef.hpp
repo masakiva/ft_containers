@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 17:43:33 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/28 01:47:38 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/29 18:36:44 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@ namespace	ft
 	template < class Key, class T, class Compare, class Alloc >
 		map<Key,T,Compare,Alloc>::map ( const key_compare& comp,
 				const allocator_type& alloc ) :
-			_alloc( alloc ),
 			_size( 0 ),
-			_comp( comp )
-
+			_comp( comp ),
+			_alloc( alloc )
 		{
 		}
 
@@ -37,7 +36,17 @@ namespace	ft
 		typename map<Key,T,Compare,Alloc>::iterator
 				map<Key,T,Compare,Alloc>::begin ( void )
 		{
-			iterator	it( _tree.get_root() );
+			iterator	it( _tree.get_first_node() );
+
+			return ( it );
+		}
+
+	/* end */
+	template < class Key, class T, class Compare, class Alloc >
+		typename map<Key,T,Compare,Alloc>::iterator
+				map<Key,T,Compare,Alloc>::end ( void )
+		{
+			iterator	it( _tree.get_last_node() );
 
 			return ( it );
 		}
@@ -52,16 +61,14 @@ namespace	ft
 			RBnode*		parent;
 			RBnode*		cur_node;
 			value_type*	cur_pair;
-			bool		cur_comp;
 
 			parent = _tree.get_root();
-			while ( parent != NIL )
+			while ( parent != NULL )
 			{
 				cur_pair = static_cast<value_type*>( parent->get_content() );
 				if ( cur_pair->first == new_pair->first )
 					return ;
-				cur_comp = _comp( new_pair->first, cur_pair->first ); // how does less work
-				if ( cur_comp )
+				if ( _comp( new_pair->first, cur_pair->first ) )
 				{
 					cur_node = parent->get_child( LEFT );
 					if ( cur_node == NIL )
@@ -84,7 +91,7 @@ namespace	ft
 						parent = cur_node;
 				}
 			}
-			_tree.insert( new_node, NULL, LEFT );
+			_tree.insert( new_node, NULL, LEFT ); // insert 
 		}
 
 	/* insert (single element) */

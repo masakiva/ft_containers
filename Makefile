@@ -57,9 +57,9 @@ else
 endif
 
 ifeq ($(d), 0)
-	CXXFLAGS	+= -Wpadded
-	CXXFLAGS	+= -g3
 	CXXFLAGS	+= -fsanitize=address,undefined
+	#CXXFLAGS	+= -g3
+	#CXXFLAGS	+= -Wpadded
 	LDFLAGS		+= -fsanitize=address,undefined
 endif
 

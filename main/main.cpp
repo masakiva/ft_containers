@@ -15,7 +15,7 @@ int		main ( void )
 //	stack_tests();
 
 	std::cout << "MAP TESTS" << std::endl << std::endl;
-	pair();
+//	pair();
 	map_modifiers();
 
 	return ( EXIT_SUCCESS );

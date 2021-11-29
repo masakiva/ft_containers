@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 19:39:54 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/28 00:55:46 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/29 15:39:44 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,10 @@ namespace	ft
 
 		private:
 
-			allocator_type		_alloc;
-			char				__pad[7];
 			size_type			_capacity;
 			size_type			_size;
 			value_type*			_vec;
+			allocator_type		_alloc;
 
 		public:
 

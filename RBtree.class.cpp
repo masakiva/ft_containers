@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 11:41:07 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/26 19:00:53 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/29 18:33:20 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,47 @@ namespace	ft
 
 	RBtree::RBtree ( void ) : _root( NIL ) { }
 
-	RBnode*	RBtree::get_root( void )
+	RBnode*	RBtree::get_root ( void )
 	{
 		return ( _root );
+	}
+
+	RBnode*	RBtree::get_first_node ( void )
+	{
+		if ( _root == NULL )
+			return ( NULL );
+
+		RBnode*	first;
+		RBnode*	left_child;
+
+		first = _root;
+		left_child = first->get_child( LEFT );
+		while ( left_child != NIL )
+		{ // assign to left child if not NIL
+			first = left_child;
+			left_child = first->get_child( LEFT );
+		}
+
+		return ( first );
+	}
+
+	RBnode*	RBtree::get_last_node ( void )
+	{
+		if ( _root == NULL )
+			return ( NULL );
+
+		RBnode*	last;
+		RBnode*	right_child;
+
+		last = _root;
+		right_child = last->get_child( RIGHT );
+		while ( right_child != NIL )
+		{ // assign to right child if not NIL
+			last = right_child;
+			right_child = last->get_child( RIGHT );
+		}
+
+		return ( last );
 	}
 
 	void	RBtree::_rotate_subtree ( RBnode* parent /* root of subtree (may be the root of tree) */, int dir )

@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 18:13:36 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/28 14:52:04 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/29 19:12:04 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,33 +19,30 @@
 namespace	ft
 {
 
-	template < class Compare, bool constness = false >
+	template < class T, bool constness = false >
 	class	m_iterator
 	{
 		public:
 
 			typedef	std::bidirectional_iterator_tag			iterator_category;
-			typedef	typename is_const<RBnode, constness>::type	value_type;
+			typedef	typename is_const<T, constness>::type		value_type;
 			typedef	std::ptrdiff_t								difference_type;
-			typedef	typename is_const<RBnode, constness>::type*	pointer;
-			typedef	typename is_const<RBnode, constness>::type&	reference;
+			typedef	typename is_const<T, constness>::type*		pointer;
+			typedef	typename is_const<T, constness>::type&		reference;
 			typedef	std::size_t									size_type;
-			typedef	Compare										key_compare;
 
 		private:
 
-			value_type*		_node_ptr;
-			key_compare		_comp;
+			RBnode*		_node_ptr;
+			RBnode*		_last_node;
 
 		public:
 
 			/* default constructor */
-			m_iterator ( void ) :
-				_node_ptr( NULL ), _comp( key_compare() )  { }
+			m_iterator ( void ) : _node_ptr( NULL ) { }
 
 			/* parameterized constructor */
-			m_iterator ( value_type* ptr ) :
-				_node_ptr( ptr ), _comp( key_compare() ) { }
+			m_iterator ( RBnode* ptr ) : _node_ptr( ptr ) { }
 
 			/* copy constructor */
 			m_iterator ( const m_iterator& src ) { *this = src; }
@@ -53,7 +50,7 @@ namespace	ft
 			/* copy constructor from non-const to const */
 	//		template < class U >
 	//		m_iterator ( const m_iterator<U, false>& src ) :
-	//			_node_ptr( &*src ), _comp( ) { }
+	//			_node_ptr( &*src ) { }
 
 			/* destructor */
 			~m_iterator ( void ) { }
@@ -64,7 +61,6 @@ namespace	ft
 				if ( this == &rhs )
 					return ( *this );
 				_node_ptr = rhs._node_ptr;
-				_comp = rhs._comp;
 				return ( *this );
 			}
 
@@ -75,55 +71,101 @@ namespace	ft
 
 			/* *it */
 			reference	operator* ( void ) const
-			{ return ( _node_ptr->get_content() ); }
+			{
+				return ( *static_cast<T*>(_node_ptr->get_content()) );
+			}
 
 			/* it->struct_arg */
-	//		pointer		operator-> ( void ) const
-	//		{ return ( &( operator*() ) ); }
+			pointer		operator-> ( void ) const
+			{ return ( &( operator*() ) ); }
 
-			void		get_next_parent( void )
+			void		get_next_parent ( void )
 			{
-				value_type*		next_node;
+				RBnode*		next_node;
 
 				next_node = _node_ptr->get_parent();
-				if ( next_node == NIL )
-					; // END
+				if ( next_node == NULL )
+					_node_ptr = NULL; // node is root: no next node
 				else if ( _node_ptr->child_dir() == LEFT )
-					_node_ptr = next_node;
+				{ // node is left child of parent
+					_node_ptr = next_node; // assign to parent
+				}
 				else
-				{
-					_node_ptr = next_node;
-					get_next_parent();
+				{ // node is right child of parent
+					_node_ptr = next_node; // assign to parent
+					get_next_parent(); // same operations with the parent
 				}
 			}
 
 			/* ++it */
 			m_iterator&	operator++ ( void )
 			{
-//				if ( _node_ptr == NIL )
-//					;
-				value_type*		next_node;
+				RBnode*		next_node;
 
 				next_node = _node_ptr->get_child( RIGHT );
 				if ( next_node != NIL )
-				{
+				{ // right child exists
 					while ( next_node != NIL )
-					{
+					{ // assign to right child, then left child, left child...
 						_node_ptr = next_node;
 						next_node = _node_ptr->get_child( LEFT );
 					}
 				}
 				else
-				{
+				{ // right child doesn't exist
+					_last_node = _node_ptr;
 					get_next_parent();
 				}
 
 				return ( *this );
 			}
-//
-//			/* --it */
-//			m_iterator&	operator-- ( void ) { _node_ptr--; return ( *this ); }
-//
+
+			void		get_prev_parent ( void )
+			{
+				RBnode*		prev_node;
+
+				prev_node = _node_ptr->get_parent();
+				if ( prev_node == NULL )
+					_node_ptr = NULL ; // node is root: no previous node
+				else if ( _node_ptr->child_dir() == RIGHT )
+				{ // node is right child of parent
+					_node_ptr = prev_node; // assign to parent
+				}
+				else
+				{ // node is left child of parent
+					_node_ptr = prev_node; // assign to parent
+					get_prev_parent(); // same operations with the parent
+				}
+			}
+
+			/* --it */
+			m_iterator&	operator-- ( void )
+			{
+				if ( _node_ptr == NULL )
+				{
+					_node_ptr = _last_node;
+					return ( *this );
+				}
+
+				RBnode*		prev_node;
+
+				prev_node = _node_ptr->get_child( LEFT );
+				if ( prev_node != NIL )
+				{ // left child exists
+					while ( prev_node != NIL )
+					{ // assign to left child, then right child, right child...
+						_node_ptr = prev_node;
+						prev_node = _node_ptr->get_child( RIGHT );
+					}
+				}
+				else
+				{ // left child doesn't exist
+					get_prev_parent();
+				}
+
+				return ( *this );
+			}
+
 //			/* it++ */
 //			m_iterator	operator++ ( int )
 //			{ m_iterator before_inc( *this ); _node_ptr++; return ( before_inc ); }
