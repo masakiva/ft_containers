@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 11:30:10 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/27 19:39:32 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/30 19:33:17 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ namespace	ft
 
 	RBnode::RBnode ( void* content ) :
 		_content( content ),
-		_color( RED ),
-		_parent( NULL )
+		_parent( NULL ),
+		_color( RED )
 	{
 		_child[LEFT] = NULL;
 		_child[RIGHT] = NULL;
 	}
 
-	void*	RBnode::get_content ( void )
+	void*	RBnode::get_content ( void ) const
 	{
 		return ( _content );
 	}
@@ -34,14 +34,12 @@ namespace	ft
 		_color = color;
 	}
 
-	bool	RBnode::get_color ( void )
+	bool	RBnode::get_color ( void ) const
 	{
 		return ( _color );
 	}
 
-	// Get the child direction (∈ { LEFT, RIGHT })
-	//   of the non-root non-NIL  RBnode* node:
-	bool	RBnode::child_dir ( void )
+	bool	RBnode::child_dir ( void ) const
 	{
 		return ( this == _parent->_child[LEFT] ? LEFT : RIGHT );
 	}
@@ -51,9 +49,8 @@ namespace	ft
 		_child[dir] = child;
 	}
 
-	RBnode*	RBnode::get_child ( bool dir )
+	RBnode*	RBnode::get_child ( bool dir ) const
 	{
-		// The parent of the root RBnode is set to NULL.
 		return ( _child[dir] );
 	}
 
@@ -62,30 +59,28 @@ namespace	ft
 		_parent = parent;
 	}
 
-	RBnode*	RBnode::get_parent ( void )
+	RBnode*	RBnode::get_parent ( void ) const
 	{
-		// The parent of the root RBnode is set to NULL.
 		return ( _parent );
 	}
 
-	RBnode*	RBnode::get_grandparent ( void )
+	RBnode*	RBnode::get_grandparent ( void ) const
 	{
-		// Will return NULL if node is root or child of root
 		return ( _parent == NULL ? NULL : _parent->_parent );
 	}
 
-	RBnode*	RBnode::get_sibling ( void )
+	RBnode*	RBnode::get_sibling ( void ) const
 	{
 		return ( _parent == NULL ?
 				NULL : _parent->_child[1 - this->child_dir()] );
 	}
 
-	RBnode*	RBnode::get_uncle ( void )
+	RBnode*	RBnode::get_uncle ( void ) const
 	{
 		return ( _parent == NULL ? NULL : _parent->get_sibling() );
 	}
 
-	RBnode*	RBnode::get_closenephew ( void )
+	RBnode*	RBnode::get_closenephew ( void ) const
 	{
 		RBnode*	sibling;
 		bool	dir;
@@ -100,7 +95,7 @@ namespace	ft
 		return ( sibling->_child[dir] );
 	}
 
-	RBnode*	RBnode::get_distantnephew ( void )
+	RBnode*	RBnode::get_distantnephew ( void ) const
 	{
 		RBnode*	sibling;
 		bool	dir;

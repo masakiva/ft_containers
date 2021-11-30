@@ -42,16 +42,16 @@ void	map_modifiers( void )
 {
 	std::cout << "MODIFIERS" << std::endl;
 
-	NAMESPACE::map<char,int>	map;
+	NAMESPACE::map<int,char>	map;
 
-	map.insert ( NAMESPACE::make_pair( 'd', 3 ) );
-	map.insert ( NAMESPACE::make_pair( 's', 5 ) );
-	map.insert ( NAMESPACE::make_pair( 'j', 4 ) );
-	map.insert ( NAMESPACE::make_pair( 'b', 2 ) );
-	map.insert ( NAMESPACE::make_pair( 'a', 1 ) );
+	map.insert ( NAMESPACE::make_pair( 1, '.' ) );
+	map.insert ( NAMESPACE::make_pair( 2, '.' ) );
+	map.insert ( NAMESPACE::make_pair( 3, '.' ) );
+	map.insert ( NAMESPACE::make_pair( 4, '.' ) );
+	map.insert ( NAMESPACE::make_pair( 5, '.' ) );
 
-	NAMESPACE::map<char,int>::iterator it = map.begin();
-	for ( int i = 0; i < 3; i++ )
+	NAMESPACE::map<int,char>::iterator it = map.begin();
+	for ( int i = 0; i < 5; i++ )
 	{
 		std::cout << it->first << " " << it->second << std::endl;
 		++it;

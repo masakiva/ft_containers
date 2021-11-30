@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 17:52:52 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/29 19:18:23 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/30 19:33:02 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,9 @@ namespace	ft
 		private:
 
 			void*		_content;
+			RBnode*		_parent;
+			RBnode*		_child[2];
 			bool		_color;
-			RBnode*		_parent;   // == NULL if root of the tree
-			RBnode*		_child[2]; // == NIL if child is empty
-			// Index is:
-			//   LEFT  := 0, if (key < parent->key)
-			//   RIGHT := 1, if (key > parent->key)
 
 			RBnode ( void );
 
@@ -44,19 +41,19 @@ namespace	ft
 
 			RBnode ( void* content );
 
-			void*		get_content ( void );
-			bool		get_color ( void );
+			void*		get_content ( void ) const;
+			bool		get_color ( void ) const;
 			void		set_color ( bool color );
-			bool		child_dir ( void );
+			bool		child_dir ( void ) const;
 			void		set_child ( bool dir, RBnode* child );
-			RBnode*		get_child ( bool dir );
+			RBnode*		get_child ( bool dir ) const;
 			void		set_parent ( RBnode* parent );
-			RBnode*		get_parent ( void );
-			RBnode*		get_grandparent ( void );
-			RBnode*		get_sibling ( void );
-			RBnode*		get_uncle ( void );
-			RBnode*		get_closenephew ( void );
-			RBnode*		get_distantnephew ( void );
+			RBnode*		get_parent ( void ) const;
+			RBnode*		get_grandparent ( void ) const;
+			RBnode*		get_sibling ( void ) const;
+			RBnode*		get_uncle ( void ) const;
+			RBnode*		get_closenephew ( void ) const;
+			RBnode*		get_distantnephew ( void ) const;
 
 	}; // class RBnode
 

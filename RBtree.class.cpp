@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 11:41:07 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/29 18:33:20 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/30 19:30:36 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,45 @@
 namespace	ft
 {
 
+	void	RBtree::_print_node ( RBnode* node, bool dir, int i ) const
+	{
+		if ( node == NIL )
+			std::cout << ">>> " << ( dir ? "\e[34mright\e[0m" : "\e[32mleft\e[0m" )
+				<< " of " << i << ": \e[30;43mNIL\e[0m" << std::endl;
+		else
+		{
+			int	new_i = i + (dir ? 10 : 100 );
+			std::cout << ">>> " << new_i << ": "
+				<< ( dir ? "\e[34mright\e[0m" : "\e[32mleft\e[0m" ) << " of " << i << ": ";
+			std::cout << ( node->get_color() == RED ?
+					"\e[41mRED\e[0m" : "\e[30;47mBLACK\e[0m" ) << std::endl;
+			this->_print_node( node->get_child( LEFT ), LEFT, new_i );
+			this->_print_node( node->get_child( RIGHT ), RIGHT, new_i );
+		}
+	}
+
+	void	RBtree::print_tree ( void ) const
+	{
+		std::cout << ">>> ROOT: ";
+		if ( _root == NIL )
+			std::cout << ": \e[30;43mNIL\e[0m" << std::endl;
+		else
+		{
+			std::cout << ( _root->get_color() == RED ?
+					"\e[41mRED\e[0m" : "\e[30;47mBLACK\e[0m" ) << std::endl;
+			this->_print_node( _root->get_child( LEFT ), LEFT, 0 );
+			this->_print_node( _root->get_child( RIGHT ), RIGHT, 0 );
+		}
+	}
+
 	RBtree::RBtree ( void ) : _root( NIL ) { }
 
-	RBnode*	RBtree::get_root ( void )
+	RBnode*	RBtree::get_root ( void ) const
 	{
 		return ( _root );
 	}
 
-	RBnode*	RBtree::get_first_node ( void )
+	RBnode*	RBtree::get_first_node ( void ) const
 	{
 		if ( _root == NULL )
 			return ( NULL );
@@ -41,7 +72,7 @@ namespace	ft
 		return ( first );
 	}
 
-	RBnode*	RBtree::get_last_node ( void )
+	RBnode*	RBtree::get_last_node ( void ) const
 	{
 		if ( _root == NULL )
 			return ( NULL );
@@ -60,7 +91,7 @@ namespace	ft
 		return ( last );
 	}
 
-	void	RBtree::_rotate_subtree ( RBnode* parent /* root of subtree (may be the root of tree) */, int dir )
+	void	RBtree::_rotate_subtree( RBnode* parent, bool dir)
 	{
 		RBnode*	grandparent;
 		RBnode*	sibling;
@@ -79,71 +110,85 @@ namespace	ft
 		parent->set_parent( sibling );
 		sibling->set_parent( grandparent );
 		if ( grandparent != NULL )
-			grandparent->set_child( parent->child_dir(), sibling );
+		{
+			if ( parent == grandparent->get_child( RIGHT ) )
+				// cannot write
+				// if ( parent->child_dir() == RIGHT )
+				// because parent's parent is not grandparent anymore
+				grandparent->set_child( RIGHT, sibling );
+			else
+				grandparent->set_child( LEFT, sibling );
+		}
 		else
+		{
 			_root = sibling;
+		}
 	}
 
-	void	RBtree::_insert_rebalancing_loop ( RBnode* node, RBnode* parent,
-			bool dir )
+	void	RBtree::_insert_rebalancing_loop ( RBnode* node, RBnode* parent )
 	{
-		RBnode*	grandparent;  // -> parent node of parent
-		RBnode*	uncle;  // -> uncle of node
+		RBnode*	grandparent;
+		RBnode*	uncle;
+		bool	parent_dir;
 
 		while ( parent != NULL )
 		{
 			if (parent->get_color() == BLACK)
 				break ; // insertion complete
-			// From now on parent is red.
+
+			// else: parent is red
+
 			grandparent = parent->get_parent();
 			if ( grandparent == NULL )
-			{ // parent is the root and red:
+			{ // parent is the root and red
 				parent->set_color( BLACK );
 				break ; // insertion complete
 			}
-			// else: parent red and grandparent!=NULL.
-			dir = parent->child_dir(); // the side of parent grandparent on which node parent is located
-			uncle = grandparent->get_child( 1 - dir );
-			if ( uncle == NIL || uncle->get_color() == BLACK ) // considered black
-			{ // parent red && uncle black:
-				if ( node == parent->get_child( 1 - dir ) )
-				{ // Case_I5 (parent red && uncle black && node inner grandchild of grandparent):
-					this->_rotate_subtree( parent, dir ); // parent is never the root
-					node = parent; // new current node
-					parent = grandparent->get_child( dir ); // new parent of node
-					// fall through to Case_I6
+
+			// else: parent red and grandparent exists
+
+			parent_dir = parent->child_dir();
+			uncle = parent->get_sibling();
+
+			if ( uncle == NIL || uncle->get_color() == BLACK )
+			{ // parent red and uncle black (NIL is black)
+				if ( node == parent->get_child( 1 - parent_dir ) )
+				{ // node is inner grandchild of grandparent
+					this->_rotate_subtree( parent, parent_dir );
+					parent = grandparent->get_child( parent_dir );
 				}
-				// Case_I6 (parent red && uncle black && node outer grandchild of grandparent):
-				this->_rotate_subtree( grandparent, 1 - dir ); // grandparent may be the root
+				// node is outer grandchild of grandparent
+				this->_rotate_subtree( grandparent, 1 - parent_dir );
 				parent->set_color( BLACK );
 				grandparent->set_color( RED );
 				break ; // insertion complete
 			}
-			// Case_I2 (parent+uncle red):
+
+			// else: parent and uncle red
 			parent->set_color( BLACK );
 			uncle->set_color( BLACK );
 			grandparent->set_color( RED );
 			node = grandparent; // new current node
-			// iterate 1 black level
-			//   (= 2 tree levels) higher
+			// iterate 1 black level (= 2 tree levels) higher
 			parent = node->get_parent();
 		}
 	}
 
-	void	RBtree::insert ( RBnode* node, RBnode* parent /* -> parent node of node ( may be NULL ) */, bool dir )
+	void	RBtree::insert ( RBnode* node, RBnode* parent, bool dir )
 	{
-		node->set_color( RED );
+		node->set_color( RED ); // every node is RED at first
 		node->set_child( LEFT, NIL );
 		node->set_child( RIGHT, NIL );
 		node->set_parent( parent );
 		if ( parent == NULL )
-		{   // There is no parent
-			_root = node;     // node is the new root of the tree tree.
+		{
+			_root = node; // node is the new root
 			return ; // insertion complete
 		}
-		parent->set_child( dir, node ); // insert node as dir-child of parent
+		parent->set_child( dir, node ); // insert node
 
-		this->_insert_rebalancing_loop( node, parent, dir );
+		// maintain RBtree properties by rotating subtree or changing colors
+		this->_insert_rebalancing_loop( node, parent );
 	}
 
 } // namespace ft

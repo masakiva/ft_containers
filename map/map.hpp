@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:17:16 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/29 19:15:44 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/11/30 13:14:33 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,11 @@ namespace	ft
 
 			void	_insert_in_tree ( RBnode* new_node, value_type* new_pair );
 
+			void	_print_node ( RBnode* node, bool dir, int i ) const; /////////////////////////////
+
 		public:
+
+			void	print_tree ( void ) const; //////////////////////////////////////////////
 
 			/******* CANONICAL FORM *******************************************/
 			explicit map ( const key_compare& comp = key_compare(),
