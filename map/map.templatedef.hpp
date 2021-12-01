@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 17:43:33 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/30 17:01:12 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/01 16:22:31 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ namespace	ft
 				map<Key,T,Compare,Alloc>::end ( void )
 		{
 			iterator	it( _tree.get_last_node() );
+
+			++it;
 
 			return ( it );
 		}

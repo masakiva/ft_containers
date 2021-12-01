@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 18:13:36 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/29 19:12:04 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/01 17:08:32 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ namespace	ft
 		public:
 
 			/* default constructor */
-			m_iterator ( void ) : _node_ptr( NULL ) { }
+			m_iterator ( void );
 
 			/* parameterized constructor */
-			m_iterator ( RBnode* ptr ) : _node_ptr( ptr ) { }
+			m_iterator ( RBnode* ptr );
 
 			/* copy constructor */
-			m_iterator ( const m_iterator& src ) { *this = src; }
+			m_iterator ( const m_iterator& src );
 
 			/* copy constructor from non-const to const */
 	//		template < class U >
@@ -56,13 +56,7 @@ namespace	ft
 			~m_iterator ( void ) { }
 
 			/* it_copy = it */
-			m_iterator&	operator= ( const m_iterator& rhs )
-			{
-				if ( this == &rhs )
-					return ( *this );
-				_node_ptr = rhs._node_ptr;
-				return ( *this );
-			}
+			m_iterator&	operator= ( const m_iterator& rhs );
 
 			/* const it_copy = it */
 	//		template < class U >
@@ -166,44 +160,58 @@ namespace	ft
 				return ( *this );
 			}
 
-//			/* it++ */
-//			m_iterator	operator++ ( int )
-//			{ m_iterator before_inc( *this ); _node_ptr++; return ( before_inc ); }
-//
-//			/* it-- */
-//			m_iterator	operator-- ( int )
-//			{ m_iterator before_dec( *this ); _node_ptr--; return ( before_dec ); }
-//
-//			/* it == it2 */
-//			bool	operator== ( const m_iterator& rhs ) const
-//			{ return ( _node_ptr == rhs._node_ptr ); }
-//
-//			/* it == const it2 */
-//			template < class U >
-//			bool	operator== ( const m_iterator<U, true>& rhs ) const
-//			{ return ( _node_ptr == &*rhs ); }
-//
-//			/* const it == it2 */
-//			template < class U >
-//			bool	operator== ( const m_iterator<U, false>& rhs ) const
-//			{ return ( _node_ptr == &*rhs ); }
-//
-//			/* it != it2 */
-//			bool	operator!= ( const m_iterator& rhs ) const
-//			{ return ( _node_ptr != rhs._node_ptr ); }
-//
-//			/* it != const it2 */
-//			template < class U >
-//			bool	operator!= ( const m_iterator<U, true>& rhs ) const
-//			{ return ( _node_ptr != &*rhs ); }
-//
-//			/* const it != it2 */
-//			template < class U >
-//			bool	operator!= ( const m_iterator<U, false>& rhs ) const
-//			{ return ( _node_ptr != &*rhs ); }
+			/* it++ */
+			m_iterator	operator++ ( int )
+			{
+				m_iterator	before_inc( *this );
+
+				_node_ptr++;
+
+				return ( before_inc );
+			}
+
+			/* it-- */
+			m_iterator	operator-- ( int )
+			{
+				m_iterator	before_dec( *this );
+
+				_node_ptr--;
+
+				return ( before_dec );
+			}
+
+			/* it == it2 */
+			bool	operator== ( const m_iterator& rhs ) const
+			{ return ( _node_ptr == rhs._node_ptr ); }
+
+			/* it == const it2 */
+			template < class U >
+			bool	operator== ( const m_iterator<U, true>& rhs ) const
+			{ return ( _node_ptr == rhs._node_ptr ); }
+
+			/* const it == it2 */
+			template < class U >
+			bool	operator== ( const m_iterator<U, false>& rhs ) const
+			{ return ( _node_ptr == rhs._node_ptr ); }
+
+			/* it != it2 */
+			bool	operator!= ( const m_iterator& rhs ) const
+			{ return ( _node_ptr != rhs._node_ptr ); }
+
+			/* it != const it2 */
+			template < class U >
+			bool	operator!= ( const m_iterator<U, true>& rhs ) const
+			{ return ( _node_ptr != &*rhs ); }
+
+			/* const it != it2 */
+			template < class U >
+			bool	operator!= ( const m_iterator<U, false>& rhs ) const
+			{ return ( _node_ptr != &*rhs ); }
 
 	}; // class m_iterator
 
 } // namespace ft
+
+#include "map_iterator.templatedef.hpp"
 
 #endif // __MAP_ITERATOR_TEMPLATE_HPP__
