@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:17:16 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/30 13:14:33 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/01 22:36:52 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ namespace	ft
 			typedef	typename allocator_type::pointer			pointer;
 			typedef	typename allocator_type::const_pointer		const_pointer;
 			typedef	m_iterator<value_type>						iterator;
-			//typedef	m_iterator<value_type, true>			const_iterator;
+			typedef	m_iterator<value_type, true>			const_iterator;
 			//typedef	reverse_iterator<iterator>			reverse_iterator;
 			//typedef	ft::reverse_iterator<const_iterator>
 				//const_reverse_iterator;
@@ -83,12 +83,12 @@ namespace	ft
 						const allocator_type& alloc = allocator_type() );
 			map ( const map& src );
 			map&		operator= ( const map &rhs );
-//
+
 //			/******* ITERATORS ************************************************/
 			iterator				begin ( void );
-//			const_iterator			begin ( void ) const;
+			const_iterator			begin ( void ) const;
 			iterator				end ( void );
-//			const_iterator			end ( void ) const;
+			const_iterator			end ( void ) const;
 //			reverse_iterator		rbegin ( void );
 //			const_reverse_iterator	rbegin ( void ) const;
 //			reverse_iterator		rend ( void );

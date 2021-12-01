@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 17:43:33 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/01 16:22:31 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/01 20:25:08 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,34 @@ namespace	ft
 			return ( it );
 		}
 
+	/* begin (const) */
+	template < class Key, class T, class Compare, class Alloc >
+		typename map<Key,T,Compare,Alloc>::const_iterator
+				map<Key,T,Compare,Alloc>::begin ( void ) const
+		{
+			const_iterator	it( _tree.get_first_node() );
+
+			return ( it );
+		}
+
 	/* end */
 	template < class Key, class T, class Compare, class Alloc >
 		typename map<Key,T,Compare,Alloc>::iterator
 				map<Key,T,Compare,Alloc>::end ( void )
 		{
 			iterator	it( _tree.get_last_node() );
+
+			++it;
+
+			return ( it );
+		}
+
+	/* end (const) */
+	template < class Key, class T, class Compare, class Alloc >
+		typename map<Key,T,Compare,Alloc>::const_iterator
+				map<Key,T,Compare,Alloc>::end ( void ) const
+		{
+			const_iterator	it( _tree.get_last_node() );
 
 			++it;
 

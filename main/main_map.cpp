@@ -50,7 +50,7 @@ void	map_modifiers( void )
 	map.insert ( NAMESPACE::make_pair( 4, 'd' ) );
 	map.insert ( NAMESPACE::make_pair( 5, 'e' ) );
 
-	for ( NAMESPACE::map<int,char>::iterator it = map.begin();
+	for ( NAMESPACE::map<int,char>::const_iterator it = map.begin();
 			it != map.end(); ++it )
 	{
 		std::cout << it->first << " " << it->second << std::endl;
