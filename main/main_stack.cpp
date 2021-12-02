@@ -1,6 +1,6 @@
 #include "main.hpp"
 
-void	stack_tests( void )
+void	stack_tests ( void )
 {
 	std::cout << "STACK TESTS" << std::endl << std::endl;
 

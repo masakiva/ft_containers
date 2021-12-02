@@ -1,6 +1,6 @@
 #include "main.hpp"
 
-int		main ( void )
+int		main ( void ) // argv[1] == "vector" -> vector tests, etc
 {
 //	std::cout << "VECTOR TESTS" << std::endl << std::endl;
 //	vector_canonicalform();
@@ -16,7 +16,11 @@ int		main ( void )
 
 	std::cout << "MAP TESTS" << std::endl << std::endl;
 //	pair();
-	map_modifiers();
+//	map_canonicalform();
+//	map_iterator();
+//	map_capacity();
+	map_elementaccess();
+//	map_modifiers();
 
 	return ( EXIT_SUCCESS );
 }

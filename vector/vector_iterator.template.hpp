@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 17:49:02 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/28 00:54:06 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/02 16:10:03 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,18 +74,18 @@ namespace	ft
 			{ return ( &( operator*() ) ); }
 
 			/* ++it */
-			v_iterator&	operator++ ( void ) { _ptr++; return ( *this ); }
+			v_iterator&	operator++ ( void ) { ++_ptr; return ( *this ); }
 
 			/* --it */
-			v_iterator&	operator-- ( void ) { _ptr--; return ( *this ); }
+			v_iterator&	operator-- ( void ) { --_ptr; return ( *this ); }
 
 			/* it++ */
 			v_iterator	operator++ ( int )
-			{ v_iterator before_inc( *this ); _ptr++; return ( before_inc ); }
+			{ v_iterator before_inc( *this ); ++_ptr; return ( before_inc ); }
 
 			/* it-- */
 			v_iterator	operator-- ( int )
-			{ v_iterator before_dec( *this ); _ptr--; return ( before_dec ); }
+			{ v_iterator before_dec( *this ); --_ptr; return ( before_dec ); }
 
 			/* it > it2 */
 			bool	operator> ( const v_iterator& rhs ) const

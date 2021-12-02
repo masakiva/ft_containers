@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 19:07:52 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/28 00:52:29 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/02 16:16:42 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,23 +69,29 @@ namespace	ft
 			iterator_type	base( void ) const { return ( _it ); }
 
 			/* *rit */
-			reference		operator* ( void ) const { return ( *(_it - 1) ); }
+			reference		operator* ( void )
+			{
+				--_it;
+				reverse_iterator	prev_elem( *this );
+				++_it;
+				return ( *(prev_elem._it) );
+			}
 
 			/* rit->struct_arg */
-			pointer		operator-> ( void ) const
+			pointer		operator-> ( void )
 			{ return ( &( operator*() ) ); }
 
 			/* ++rit */
-			reverse_iterator&	operator++( void ) { _it--; return ( *this ); }
+			reverse_iterator&	operator++( void ) { --_it; return ( *this ); }
 
 			/* --rit */
-			reverse_iterator&	operator--( void ) { _it++; return ( *this ); }
+			reverse_iterator&	operator--( void ) { ++_it; return ( *this ); }
 
 			/* rit++ */
 			reverse_iterator 	operator++( int )
 			{
 				reverse_iterator	before_inc( *this );
-				_it--;
+				--_it;
 				return ( before_inc );
 			}
 
@@ -93,7 +99,7 @@ namespace	ft
 			reverse_iterator 	operator--( int )
 			{
 				reverse_iterator	before_dec( *this );
-				_it++;
+				++_it;
 				return ( before_dec );
 			}
 

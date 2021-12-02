@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 20:45:40 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/29 15:41:13 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/02 17:03:47 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ namespace	ft
 
 	/* copy constructor */
 	template < class T, class Alloc >
-		vector<T,Alloc>::vector ( const vector<T,Alloc>& src ) :
+		vector<T,Alloc>::vector ( const vector& src ) :
 			_capacity( 0 ),
 			_size( 0 ),
 			_alloc( src._alloc )
@@ -75,15 +75,14 @@ namespace	ft
 	template < class T, class Alloc >
 		vector<T,Alloc>::~vector ( void )
 		{
-			for ( size_type i = 0; i < _size; i++ )
-				_alloc.destroy( _vec + i );
+			this->clear();
 			_alloc.deallocate( _vec, _size );
 		}
 
 	/* = */
 	template < class T, class Alloc >
 		vector<T,Alloc>&
-				vector<T,Alloc>::operator= ( const vector<T,Alloc>& rhs )
+				vector<T,Alloc>::operator= ( const vector& rhs )
 		{
 			if ( this == &rhs )
 				return ( *this );
@@ -100,81 +99,6 @@ namespace	ft
 				_alloc.construct( _vec + i, rhs._vec[i] );
 
 			return ( *this );
-		}
-
-
-	/******* CAPACITY *********************************************************/
-
-	/* size */
-	template < class T, class Alloc >
-		typename vector<T,Alloc>::size_type
-				vector<T,Alloc>::size ( void ) const
-		{
-			return ( _size );
-		}
-
-	/* max_size */
-	template < class T, class Alloc >
-		typename vector<T,Alloc>::size_type
-				vector<T,Alloc>::max_size ( void ) const
-		{
-			return ( _alloc.max_size() );
-		}
-
-	/* resize */
-	template < class T, class Alloc >
-		void	vector<T,Alloc>::resize ( size_type count, value_type val )
-		{
-			this->reserve( count );
-			if ( count > _size )
-			{
-				for ( size_type i = _size; i < count; i++ )
-					_alloc.construct( _vec + i, val );
-			}
-			else if ( count < _size )
-			{
-				for ( size_type i = count; i < _size; i++ )
-					_alloc.destroy( _vec + i );
-			}
-			_size = count;
-		}
-
-	/* capacity */
-	template < class T, class Alloc >
-		typename vector<T,Alloc>::size_type
-				vector<T,Alloc>::capacity ( void ) const
-		{
-			return ( _capacity );
-		}
-
-	/* empty */
-	template < class T, class Alloc >
-		bool	vector<T,Alloc>::empty ( void ) const
-		{
-			return ( _size == 0 );
-		}
-
-	/* reserve */
-	template < class T, class Alloc >
-		void	vector<T,Alloc>::reserve ( size_type new_cap )
-		{
-			if ( new_cap > _capacity )
-			{
-				if ( new_cap > this->max_size() )
-					throw std::length_error( "new capacity exceeds max_size" );
-
-				value_type*	new_vec;
-
-				new_vec = _alloc.allocate( new_cap ); // allocate new capacity
-				for ( size_type i = 0; i < _size; i++ )
-					_alloc.construct( new_vec + i, _vec[i] ); // do the copy
-
-				for ( size_type i = 0; i < _size; i++ )
-					_alloc.destroy( _vec + i ); // destroy old array
-				_alloc.deallocate( _vec, _capacity );
-				_vec = new_vec;
-				_capacity = new_cap;
-			}
 		}
 
 
@@ -262,6 +186,81 @@ namespace	ft
 			const_reverse_iterator	rev_it( it );
 
 			return ( rev_it );
+		}
+
+
+	/******* CAPACITY *********************************************************/
+
+	/* size */
+	template < class T, class Alloc >
+		typename vector<T,Alloc>::size_type
+				vector<T,Alloc>::size ( void ) const
+		{
+			return ( _size );
+		}
+
+	/* max_size */
+	template < class T, class Alloc >
+		typename vector<T,Alloc>::size_type
+				vector<T,Alloc>::max_size ( void ) const
+		{
+			return ( _alloc.max_size() );
+		}
+
+	/* resize */
+	template < class T, class Alloc >
+		void	vector<T,Alloc>::resize ( size_type count, value_type val )
+		{
+			this->reserve( count );
+			if ( count > _size )
+			{
+				for ( size_type i = _size; i < count; i++ )
+					_alloc.construct( _vec + i, val );
+			}
+			else if ( count < _size )
+			{
+				for ( size_type i = count; i < _size; i++ )
+					_alloc.destroy( _vec + i );
+			}
+			_size = count;
+		}
+
+	/* capacity */
+	template < class T, class Alloc >
+		typename vector<T,Alloc>::size_type
+				vector<T,Alloc>::capacity ( void ) const
+		{
+			return ( _capacity );
+		}
+
+	/* empty */
+	template < class T, class Alloc >
+		bool	vector<T,Alloc>::empty ( void ) const
+		{
+			return ( _size == 0 );
+		}
+
+	/* reserve */
+	template < class T, class Alloc >
+		void	vector<T,Alloc>::reserve ( size_type new_cap )
+		{
+			if ( new_cap > _capacity )
+			{
+				if ( new_cap > this->max_size() )
+					throw std::length_error( "new capacity exceeds max_size" );
+
+				value_type*	new_vec;
+
+				new_vec = _alloc.allocate( new_cap ); // allocate new capacity
+				for ( size_type i = 0; i < _size; i++ )
+					_alloc.construct( new_vec + i, _vec[i] ); // do the copy
+
+				for ( size_type i = 0; i < _size; i++ )
+					_alloc.destroy( _vec + i ); // destroy old array
+				_alloc.deallocate( _vec, _capacity );
+				_vec = new_vec;
+				_capacity = new_cap;
+			}
 		}
 
 

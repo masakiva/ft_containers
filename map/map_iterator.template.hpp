@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 18:13:36 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/01 22:35:43 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/02 12:17:14 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ namespace	ft
 				m_iterator&	operator= ( const m_iterator<U, false>& rhs );
 
 			RBnode*		get_node_ptr ( void ) const;
+			void		set_node_ptr ( RBnode* ptr );
 
 			reference	operator* ( void ) const;
 			pointer		operator-> ( void ) const;

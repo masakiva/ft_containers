@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:17:16 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/01 22:36:52 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/02 17:01:24 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ namespace	ft
 			typedef	typename allocator_type::const_pointer		const_pointer;
 			typedef	m_iterator<value_type>						iterator;
 			typedef	m_iterator<value_type, true>			const_iterator;
-			//typedef	reverse_iterator<iterator>			reverse_iterator;
-			//typedef	ft::reverse_iterator<const_iterator>
-				//const_reverse_iterator;
+			typedef	reverse_iterator<iterator>			reverse_iterator;
+			typedef	ft::reverse_iterator<const_iterator>
+				const_reverse_iterator;
 			typedef	ptrdiff_t							difference_type;
 			typedef	size_t								size_type;
 
@@ -66,7 +66,10 @@ namespace	ft
 				_allocator_type_rbnode;
 			_allocator_type_rbnode	_alloc_node;
 
-			void	_insert_in_tree ( RBnode* new_node, value_type* new_pair );
+			pair<iterator,bool>
+					_insert_in_tree ( RBnode* new_node, value_type* new_pair );
+			void	_free_one_node ( RBnode* node );
+			void	_clear_deeper ( RBnode* node );
 
 			void	_print_node ( RBnode* node, bool dir, int i ) const; /////////////////////////////
 
@@ -82,28 +85,26 @@ namespace	ft
 						const key_compare& comp = key_compare(),
 						const allocator_type& alloc = allocator_type() );
 			map ( const map& src );
+			~map ( void );
 			map&		operator= ( const map &rhs );
 
-//			/******* ITERATORS ************************************************/
+			/******* ITERATORS ************************************************/
 			iterator				begin ( void );
 			const_iterator			begin ( void ) const;
 			iterator				end ( void );
 			const_iterator			end ( void ) const;
-//			reverse_iterator		rbegin ( void );
-//			const_reverse_iterator	rbegin ( void ) const;
-//			reverse_iterator		rend ( void );
-//			const_reverse_iterator	rend ( void ) const;
-//
-//			/******* CAPACITY *************************************************/
-//			size_type	size ( void ) const;
-//			size_type	max_size ( void ) const;
-//			void		resize ( size_type count,
-//					value_type val = value_type() );
-//			size_type	capacity ( void ) const;
-//			bool		empty ( void ) const;
-//			void		reserve ( size_type new_cap );
+			reverse_iterator		rbegin ( void );
+			const_reverse_iterator	rbegin ( void ) const;
+			reverse_iterator		rend ( void );
+			const_reverse_iterator	rend ( void ) const;
+
+			/******* CAPACITY *************************************************/
+			bool		empty ( void ) const;
+			size_type	size ( void ) const;
+			size_type	max_size ( void ) const;
 //
 //			/******* ELEMENT ACCESS *******************************************/
+			mapped_type&	operator[] ( const key_type& key );
 //			reference		operator[] ( size_type pos );
 //			const_reference	operator[] ( size_type pos ) const;
 //			reference		at ( size_type pos );
@@ -114,7 +115,7 @@ namespace	ft
 //			const_reference	back ( void ) const;
 //
 //			/******* MODIFIERS ************************************************/
-			void	insert ( const value_type& val );
+			pair<iterator,bool>		insert ( const value_type& val );
 //			template < class InputIt >
 //				void		assign ( typename enable_if<
 //								!is_integral<InputIt>::value, InputIt
@@ -132,7 +133,7 @@ namespace	ft
 //			iterator	erase ( iterator pos );
 //			iterator	erase ( iterator first, iterator last );
 //			void		swap ( map& other );
-//			void		clear ( void );
+			void		clear ( void );
 
 			/******* OPERATIONS ***********************************************/
 			//iterator		find ( const key_type& key );

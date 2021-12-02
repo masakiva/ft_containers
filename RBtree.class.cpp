@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 11:41:07 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/30 19:30:36 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/02 15:09:44 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,18 @@ namespace	ft
 
 	RBtree::RBtree ( void ) : _root( NIL ) { }
 
-	RBnode*	RBtree::get_root ( void ) const
+	RBnode*		RBtree::get_root ( void ) const
 	{
 		return ( _root );
 	}
 
-	RBnode*	RBtree::get_first_node ( void ) const
+	RBnode*		RBtree::get_first_node ( void ) const
 	{
-		if ( _root == NULL )
+		if ( _root == NIL )
 			return ( NULL );
 
-		RBnode*	first;
-		RBnode*	left_child;
+		RBnode*		first;
+		RBnode*		left_child;
 
 		first = _root;
 		left_child = first->get_child( LEFT );
@@ -72,13 +72,13 @@ namespace	ft
 		return ( first );
 	}
 
-	RBnode*	RBtree::get_last_node ( void ) const
+	RBnode*		RBtree::get_last_node ( void ) const
 	{
-		if ( _root == NULL )
+		if ( _root == NIL )
 			return ( NULL );
 
-		RBnode*	last;
-		RBnode*	right_child;
+		RBnode*		last;
+		RBnode*		right_child;
 
 		last = _root;
 		right_child = last->get_child( RIGHT );
@@ -93,9 +93,9 @@ namespace	ft
 
 	void	RBtree::_rotate_subtree( RBnode* parent, bool dir)
 	{
-		RBnode*	grandparent;
-		RBnode*	sibling;
-		RBnode*	closenephew;
+		RBnode*		grandparent;
+		RBnode*		sibling;
+		RBnode*		closenephew;
 
 		grandparent = parent->get_parent();
 		sibling = parent->get_child( 1 - dir );
@@ -127,9 +127,9 @@ namespace	ft
 
 	void	RBtree::_insert_rebalancing_loop ( RBnode* node, RBnode* parent )
 	{
-		RBnode*	grandparent;
-		RBnode*	uncle;
-		bool	parent_dir;
+		RBnode*		grandparent;
+		RBnode*		uncle;
+		bool		parent_dir;
 
 		while ( parent != NULL )
 		{

@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 11:30:10 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/30 19:33:17 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/02 12:00:21 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ namespace	ft
 		_child[dir] = child;
 	}
 
-	RBnode*	RBnode::get_child ( bool dir ) const
+	RBnode*		RBnode::get_child ( bool dir ) const
 	{
 		return ( _child[dir] );
 	}
@@ -59,31 +59,31 @@ namespace	ft
 		_parent = parent;
 	}
 
-	RBnode*	RBnode::get_parent ( void ) const
+	RBnode*		RBnode::get_parent ( void ) const
 	{
 		return ( _parent );
 	}
 
-	RBnode*	RBnode::get_grandparent ( void ) const
+	RBnode*		RBnode::get_grandparent ( void ) const
 	{
 		return ( _parent == NULL ? NULL : _parent->_parent );
 	}
 
-	RBnode*	RBnode::get_sibling ( void ) const
+	RBnode*		RBnode::get_sibling ( void ) const
 	{
 		return ( _parent == NULL ?
 				NULL : _parent->_child[1 - this->child_dir()] );
 	}
 
-	RBnode*	RBnode::get_uncle ( void ) const
+	RBnode*		RBnode::get_uncle ( void ) const
 	{
 		return ( _parent == NULL ? NULL : _parent->get_sibling() );
 	}
 
-	RBnode*	RBnode::get_closenephew ( void ) const
+	RBnode*		RBnode::get_closenephew ( void ) const
 	{
-		RBnode*	sibling;
-		bool	dir;
+		RBnode*		sibling;
+		bool		dir;
 		
 		if ( _parent == NULL )
 			return ( NULL );
@@ -95,10 +95,10 @@ namespace	ft
 		return ( sibling->_child[dir] );
 	}
 
-	RBnode*	RBnode::get_distantnephew ( void ) const
+	RBnode*		RBnode::get_distantnephew ( void ) const
 	{
-		RBnode*	sibling;
-		bool	dir;
+		RBnode*		sibling;
+		bool		dir;
 		
 		if ( _parent == NULL )
 			return ( NULL );

@@ -63,6 +63,14 @@ class test
 			o << rhs.id;
 			return ( o );
 		}
+		bool	operator== ( const test& rhs ) const
+		{
+			return ( id == rhs.id );
+		}
+		bool	operator< ( const test& rhs ) const
+		{
+			return ( id < rhs.id );
+		}
 };
 
 struct	test_struct
@@ -70,20 +78,24 @@ struct	test_struct
 	int n;
 };
 
-void	vector_canonicalform( void );
-void	vector_iterator( void );
+void	vector_canonicalform ( void );
+void	vector_iterator ( void );
 template < class T, class Alloc >
-	void	print_vector( NAMESPACE::vector<T,Alloc>& vec );
-void	vector_capacity( void );
-void	vector_elementaccess( void );
-void	vector_modifiers( void );
-void	vector_allocator( void );
-void	vector_non_member_functions( void );
-void	reverse_iterator_vector( void );
+	void	print_vector ( NAMESPACE::vector<T,Alloc>& vec );
+void	vector_capacity ( void );
+void	vector_elementaccess ( void );
+void	vector_modifiers ( void );
+void	vector_allocator ( void );
+void	vector_non_member_functions ( void );
+void	reverse_iterator_vector ( void );
 
-void	stack_tests( void );
+void	stack_tests ( void );
 
-void	pair( void );
-void	map_modifiers( void );
+void	pair ( void );
+void	map_canonicalform( void );
+void	map_iterator ( void );
+void	map_capacity ( void );
+void	map_elementaccess ( void );
+void	map_modifiers ( void );
 
 #endif // __MAIN_HPP__

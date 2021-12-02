@@ -16,15 +16,16 @@ void	vector_canonicalform( void )
 	{
 		std::cout << "-> fill constructor (with number of elements as argument), "
 			"copy constructor, and operator= overload" << std::endl;
-		NAMESPACE::vector<test>	vec3( 2 );
+		NAMESPACE::vector<test>	vec( 2 );
 		std::cout << "----------" << std::endl;
-		NAMESPACE::vector<test>	vec4( vec3 );
+		NAMESPACE::vector<test>	vec2( vec );
 		std::cout << "----------" << std::endl;
-		NAMESPACE::vector<test> vec5;
-		vec5 = vec4;
+		NAMESPACE::vector<test> vec3;
+		vec3 = vec2;
 		std::cout << "----------" << std::endl;
 	}
 	std::cout << "----------" << std::endl << std::endl;
+
 	{
 		std::cout << "-> range constructor (with iterators as arguments)"
 			<< std::endl;
