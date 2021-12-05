@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 17:43:33 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/02 17:47:10 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/05 21:55:19 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,36 +210,104 @@ namespace	ft
 			RBnode*			child;
 
 			cur_node = _tree.get_root();
-			while ( cur_node != NULL )
-			{
+			while ( cur_node != NIL )
+			{ // search for the key in the tree
 				cur_pair = static_cast<value_type*>( cur_node->get_content() );
 				if ( cur_pair->first == key )
-				{
-					return ( cur_pair->second );
+				{ // key found
+					return ( cur_pair->second ); // return existent mapped value
 				}
 				if ( _comp( key, cur_pair->first ) )
-				{
 					child = cur_node->get_child( LEFT );
-					if ( child == NIL )
-						break ;
-				}
 				else
-				{
 					child = cur_node->get_child( RIGHT );
-					if ( child == NIL )
-						break ;
-				}
-				cur_node = child; // child exists: iterate one level deeper
+				cur_node = child; // iterate one level deeper (if child != NIL)
 			}
 
-			EUUUUUH
-			mapped_type		m = mapped_type();
-			this->insert( make_pair( key, m ) );
-			return ( m );
+			// key not found:
+			// insert pair with this key and a mapped value default constructed
+			pair<iterator,bool>		new_pair =
+				this->insert( make_pair( key, mapped_type() ) );
+
+			return ( new_pair.first->second ); // return ref to new mapped value
+		}
+
+	/* at */
+	template < class Key, class T, class Compare, class Alloc >
+		typename map<Key,T,Compare,Alloc>::mapped_type&
+				map<Key,T,Compare,Alloc>::at ( const key_type& key )
+		{
+			RBnode*			cur_node;
+			value_type*		cur_pair;
+			RBnode*			child;
+
+			cur_node = _tree.get_root();
+			while ( cur_node != NIL )
+			{ // search for the key in the tree
+				cur_pair = static_cast<value_type*>( cur_node->get_content() );
+				if ( cur_pair->first == key )
+				{ // key found
+					return ( cur_pair->second ); // return existent mapped value
+				}
+				if ( _comp( key, cur_pair->first ) )
+					child = cur_node->get_child( LEFT );
+				else
+					child = cur_node->get_child( RIGHT );
+				cur_node = child; // iterate one level deeper (if child != NIL)
+			}
+
+			// key not found
+			throw std::out_of_range(
+					"at() argument does not match an existing key in the map" );
+		}
+
+	/* at (const) */
+	template < class Key, class T, class Compare, class Alloc >
+		const typename map<Key,T,Compare,Alloc>::mapped_type&
+				map<Key,T,Compare,Alloc>::at ( const key_type& key ) const
+		{
+			RBnode*			cur_node;
+			value_type*		cur_pair;
+			RBnode*			child;
+
+			cur_node = _tree.get_root();
+			while ( cur_node != NIL )
+			{ // search for the key in the tree
+				cur_pair = static_cast<value_type*>( cur_node->get_content() );
+				if ( cur_pair->first == key )
+				{ // key found
+					return ( cur_pair->second ); // return existent mapped value
+				}
+				if ( _comp( key, cur_pair->first ) )
+					child = cur_node->get_child( LEFT );
+				else
+					child = cur_node->get_child( RIGHT );
+				cur_node = child; // iterate one level deeper (if child != NIL)
+			}
+
+			// key not found
+			throw std::out_of_range(
+					"at() argument does not match an existing key in the map" );
 		}
 
 
 	/******* MODIFIERS ********************************************************/
+
+	/* insert (single element) */
+	template < class Key, class T, class Compare, class Alloc >
+		pair<typename map<Key,T,Compare,Alloc>::iterator,bool>
+				map<Key,T,Compare,Alloc>::insert ( const value_type& val )
+		{
+			RBnode*		new_node;
+			value_type*	new_pair;
+
+			new_pair = _alloc.allocate( 1 ); // allocate for the pair
+			_alloc.construct( new_pair, val ); // construct pair
+			new_node = _alloc_node.allocate( 1 ); // allocate for the node
+			_alloc_node.construct( new_node, new_pair ); // construct node
+
+			return ( this->_insert_in_tree( new_node, new_pair ) );
+		}
 
 	/* insert (single element) */
 	template < class Key, class T, class Compare, class Alloc >
@@ -295,9 +363,9 @@ namespace	ft
 			iterator		it( new_node ); // element to return
 
 			cur_node = _tree.get_root();
-			if ( cur_node == NULL )
+			if ( cur_node == NIL )
 				_tree.insert( new_node, NULL, 0 ); // insert as tree root
-			while ( cur_node != NULL )
+			while ( cur_node != NIL )
 			{
 				cur_pair = static_cast<value_type*>( cur_node->get_content() );
 				if ( cur_pair->first == new_pair->first )

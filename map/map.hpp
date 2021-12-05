@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:17:16 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/02 17:01:24 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/05 21:32:03 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,27 +102,14 @@ namespace	ft
 			bool		empty ( void ) const;
 			size_type	size ( void ) const;
 			size_type	max_size ( void ) const;
-//
-//			/******* ELEMENT ACCESS *******************************************/
-			mapped_type&	operator[] ( const key_type& key );
-//			reference		operator[] ( size_type pos );
-//			const_reference	operator[] ( size_type pos ) const;
-//			reference		at ( size_type pos );
-//			const_reference	at ( size_type pos ) const;
-//			reference 		front ( void );
-//			const_reference	front ( void ) const;
-//			reference 		back ( void );
-//			const_reference	back ( void ) const;
-//
-//			/******* MODIFIERS ************************************************/
+
+			/******* ELEMENT ACCESS *******************************************/
+			mapped_type&		operator[] ( const key_type& key );
+			mapped_type&		at ( const key_type& key );
+			const mapped_type&	at ( const key_type& key ) const;
+
+			/******* MODIFIERS ************************************************/
 			pair<iterator,bool>		insert ( const value_type& val );
-//			template < class InputIt >
-//				void		assign ( typename enable_if<
-//								!is_integral<InputIt>::value, InputIt
-//							>::type first, InputIt last );
-//			void		assign ( size_type count, const value_type& val );
-//			void		push_back ( const value_type& val );
-//			void		pop_back ( void );
 //			iterator	insert ( iterator pos, const value_type& val );
 //			void		insert ( iterator pos, size_type count,
 //					const value_type& val );

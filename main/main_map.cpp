@@ -55,9 +55,9 @@ void	map_canonicalform( void )
 		std::cout << "-> fill constructor (with number of elements as argument), "
 			"copy constructor, and operator= overload" << std::endl;
 		NAMESPACE::map<int,test>	map;
-		map.insert ( NAMESPACE::make_pair( 1, 'a' ) );
-		map.insert ( NAMESPACE::make_pair( 2, 'b' ) );
-		map.insert ( NAMESPACE::make_pair( 3, 'c' ) );
+		map.insert( NAMESPACE::make_pair( 1, 'a' ) );
+		map.insert( NAMESPACE::make_pair( 2, 'b' ) );
+		map.insert( NAMESPACE::make_pair( 3, 'c' ) );
 		std::cout << "----------" << std::endl;
 		NAMESPACE::map<int,test>	map2( map );
 		std::cout << "----------" << std::endl;
@@ -72,9 +72,9 @@ void	map_canonicalform( void )
 		std::cout << "-> range constructor (with iterators as arguments)"
 			<< std::endl;
 		NAMESPACE::map<test,test>	map;
-		map.insert ( NAMESPACE::make_pair( 1, 'a' ) );
-		map.insert ( NAMESPACE::make_pair( 2, 'b' ) );
-		map.insert ( NAMESPACE::make_pair( 3, 'c' ) );
+		map.insert( NAMESPACE::make_pair( 1, 'a' ) );
+		map.insert( NAMESPACE::make_pair( 2, 'b' ) );
+		map.insert( NAMESPACE::make_pair( 3, 'c' ) );
 		NAMESPACE::map<test,test>::iterator	it = map.begin();
 		NAMESPACE::map<test,test>::iterator	ite = map.end();
 		NAMESPACE::map<test,test>	map2( it, ite );
@@ -88,11 +88,11 @@ NAMESPACE::map<int,char>	sample_map ( void )
 {
 	NAMESPACE::map<int,char>	map;
 
-	map.insert ( NAMESPACE::make_pair( 1, 'a' ) );
-	map.insert ( NAMESPACE::make_pair( 2, 'b' ) );
-	map.insert ( NAMESPACE::make_pair( 3, 'c' ) );
-	map.insert ( NAMESPACE::make_pair( 4, 'd' ) );
-	map.insert ( NAMESPACE::make_pair( 5, 'e' ) );
+	map.insert( NAMESPACE::make_pair( 1, 'a' ) );
+	map.insert( NAMESPACE::make_pair( 2, 'b' ) );
+	map.insert( NAMESPACE::make_pair( 3, 'c' ) );
+	map.insert( NAMESPACE::make_pair( 4, 'd' ) );
+	map.insert( NAMESPACE::make_pair( 5, 'e' ) );
 
 	return ( map );
 }
@@ -141,12 +141,48 @@ void	map_capacity ( void )
 	std::cout << "--------------------" << std::endl << std::endl;
 }
 
+template < class Key, class T, class Compare, class Alloc >
+	void	print_map ( NAMESPACE::map<Key,T,Compare,Alloc>& map )
+	{
+		std::cout << "[keys, values]:" << std::endl;
+		for ( typename NAMESPACE::map<Key,T,Compare,Alloc>::iterator it =
+				map.begin(); it != map.end(); it++ )
+		{
+			std::cout << '[' << it->first << ", " << it->second << ']'
+				<< std::endl;
+		}
+		std::cout << "size = " << map.size() << std::endl;
+		std::cout << "----------" << std::endl;
+	}
+
 void	map_elementaccess ( void )
 {
 	std::cout << "ELEMENT ACCESS" << std::endl;
 
 	NAMESPACE::map<int,char>	map = sample_map();
+	std::cout << "-> sample map with 5 elements (keys go from 1 to 5, "
+		<< "and values from 'a' to 'e')" << std::endl;
 
+	map[3] = 'p';
+	std::cout << "-> map[3] = 'p'" << std::endl;
+	map[-2] = 'i';
+	std::cout << "-> map[-2] = 'i'" << std::endl;
+	map[68] = 'f';
+	std::cout << "-> map[68] = 'f'" << std::endl;
+	map[7];
+	std::cout << "-> map[7]" << std::endl;
+	print_map( map );
+
+	try
+	{
+		std::cout << "map.at( 4 ) = " << map.at(4) << std::endl;
+		std::cout << "map.at( 8 ) = " << map.at( 8 ) << std::endl;
+	}
+	catch ( std::exception &e )
+	{
+		std::cerr << e.what() << std::endl;
+	}
+	std::cout << "----------" << std::endl;
 }
 
 void	map_modifiers ( void )
@@ -155,11 +191,11 @@ void	map_modifiers ( void )
 
 	NAMESPACE::map<int,char>	map;
 
-	map.insert ( NAMESPACE::make_pair( 1, 'a' ) );
-	map.insert ( NAMESPACE::make_pair( 2, 'b' ) );
-	map.insert ( NAMESPACE::make_pair( 3, 'c' ) );
-	map.insert ( NAMESPACE::make_pair( 4, 'd' ) );
-	map.insert ( NAMESPACE::make_pair( 5, 'e' ) );
+	map.insert( NAMESPACE::make_pair( 1, 'a' ) );
+	map.insert( NAMESPACE::make_pair( 2, 'b' ) );
+	map.insert( NAMESPACE::make_pair( 3, 'c' ) );
+	map.insert( NAMESPACE::make_pair( 4, 'd' ) );
+	map.insert( NAMESPACE::make_pair( 5, 'e' ) );
 
 	for ( NAMESPACE::map<int,char>::const_iterator it = map.begin();
 			it != map.end(); ++it )

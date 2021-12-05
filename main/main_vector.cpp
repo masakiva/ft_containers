@@ -157,7 +157,7 @@ void	vector_elementaccess( void )
 	std::cout << "back = " << vec.back() << std::endl;
 	try
 	{
-		std::cout << vec.at( 4 ) << std::endl;
+		std::cout << "vec.at( 4 ) = " << vec.at( 4 ) << std::endl;
 	}
 	catch ( std::exception &e )
 	{
