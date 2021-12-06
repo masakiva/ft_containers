@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:17:16 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/05 21:32:03 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/06 18:26:36 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,11 @@ namespace	ft
 				_allocator_type_rbnode;
 			_allocator_type_rbnode	_alloc_node;
 
-			pair<iterator,bool>
-					_insert_in_tree ( RBnode* new_node, value_type* new_pair );
+			/******* HELPER FUNCTIONS *****************************************/
+			pair<iterator,bool>		_insert_in_tree ( RBnode* new_node,
+					value_type* new_pair );
+			iterator				_insert_with_iterator ( iterator pos,
+					RBnode* new_node, value_type* new_pair );
 			void	_free_one_node ( RBnode* node );
 			void	_clear_deeper ( RBnode* node );
 
@@ -109,15 +112,12 @@ namespace	ft
 			const mapped_type&	at ( const key_type& key ) const;
 
 			/******* MODIFIERS ************************************************/
-			pair<iterator,bool>		insert ( const value_type& val );
-//			iterator	insert ( iterator pos, const value_type& val );
-//			void		insert ( iterator pos, size_type count,
-//					const value_type& val );
-//			template < class InputIt >
-//    			void		insert (iterator pos, typename enable_if<
-//								!is_integral<InputIt>::value, InputIt
-//							>::type first, InputIt last);
-//			iterator	erase ( iterator pos );
+			pair<iterator,bool>
+						insert ( const value_type& val );
+			iterator	insert ( iterator pos, const value_type& val );
+			template < class InputIt >
+    			void	insert ( InputIt first, InputIt last);
+			//void		erase ( iterator pos );
 //			iterator	erase ( iterator first, iterator last );
 //			void		swap ( map& other );
 			void		clear ( void );

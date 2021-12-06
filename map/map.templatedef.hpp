@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 17:43:33 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/05 21:55:19 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/06 18:22:30 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ namespace	ft
 				for ( ; first != last; first++ )
 				{
 					this->insert( *first );
-					_size++;
 				}
 			}
 
@@ -71,9 +70,9 @@ namespace	ft
 				this->clear();
 
 			_comp = rhs._comp;
-			_size = rhs._size;
 			for ( const_iterator it = rhs.begin(); it != rhs.end(); it++ )
 				this->insert( *it );
+			_size = rhs._size;
 
 			return ( *this );
 		}
@@ -86,7 +85,7 @@ namespace	ft
 		typename map<Key,T,Compare,Alloc>::iterator
 				map<Key,T,Compare,Alloc>::begin ( void )
 		{
-			iterator	it( _tree.get_first_node() );
+			iterator	it( _tree.get_first_node(), this );
 
 			return ( it );
 		}
@@ -96,7 +95,7 @@ namespace	ft
 		typename map<Key,T,Compare,Alloc>::const_iterator
 				map<Key,T,Compare,Alloc>::begin ( void ) const
 		{
-			const_iterator	it( _tree.get_first_node() );
+			const_iterator	it( _tree.get_first_node(), (void*) this );
 
 			return ( it );
 		}
@@ -106,7 +105,7 @@ namespace	ft
 		typename map<Key,T,Compare,Alloc>::iterator
 				map<Key,T,Compare,Alloc>::end ( void )
 		{
-			iterator	it( _tree.get_last_node() );
+			iterator	it( _tree.get_last_node(), this );
 
 			if ( it.get_node_ptr() != NULL )
 				++it;
@@ -119,7 +118,7 @@ namespace	ft
 		typename map<Key,T,Compare,Alloc>::const_iterator
 				map<Key,T,Compare,Alloc>::end ( void ) const
 		{
-			const_iterator	it( _tree.get_last_node() );
+			const_iterator	it( _tree.get_last_node(), (void*) this );
 
 			if ( it.get_node_ptr() != NULL )
 				++it;
@@ -309,10 +308,11 @@ namespace	ft
 			return ( this->_insert_in_tree( new_node, new_pair ) );
 		}
 
-	/* insert (single element) */
+	/* insert (with hint for position) */
 	template < class Key, class T, class Compare, class Alloc >
-		pair<typename map<Key,T,Compare,Alloc>::iterator,bool>
-				map<Key,T,Compare,Alloc>::insert ( const value_type& val )
+		typename map<Key,T,Compare,Alloc>::iterator
+				map<Key,T,Compare,Alloc>::insert ( iterator pos,
+				const value_type& val )
 		{
 			RBnode*		new_node;
 			value_type*	new_pair;
@@ -322,8 +322,20 @@ namespace	ft
 			new_node = _alloc_node.allocate( 1 ); // allocate for the node
 			_alloc_node.construct( new_node, new_pair ); // construct node
 
-			return ( this->_insert_in_tree( new_node, new_pair ) );
+			return ( this->_insert_with_iterator( pos, new_node, new_pair ) );
 		}
+
+	/* insert (from a range of iterators) */
+	template < class Key, class T, class Compare, class Alloc >
+		template < class InputIt >
+			void	map<Key,T,Compare,Alloc>::insert ( InputIt first,
+					InputIt last )
+			{
+				for ( ; first != last; first++ )
+				{
+					this->insert( *first );
+				}
+			}
 
 	/* clear */
 	template < class Key, class T, class Compare, class Alloc >
@@ -360,7 +372,7 @@ namespace	ft
 			RBnode*			cur_node;
 			value_type*		cur_pair;
 			RBnode*			child;
-			iterator		it( new_node ); // element to return
+			iterator		it( new_node, this ); // element to return
 
 			cur_node = _tree.get_root();
 			if ( cur_node == NIL )
@@ -370,7 +382,7 @@ namespace	ft
 				cur_pair = static_cast<value_type*>( cur_node->get_content() );
 				if ( cur_pair->first == new_pair->first )
 				{ // the same key is already in the tree
-					it.set_node_ptr( cur_node ); // return existent node
+					it.set_node_ptr( cur_node, this ); // return existent node
 					return ( make_pair( it, false ) ); // false: no insertion
 				}
 				if ( _comp( new_pair->first, cur_pair->first ) )
@@ -384,7 +396,7 @@ namespace	ft
 					}
 				}
 				else
-				{
+				{ // ... new_key > cur_key
 					child = cur_node->get_child( RIGHT );
 					if ( child == NIL )
 					{
@@ -396,7 +408,51 @@ namespace	ft
 				cur_node = child; // child exists: iterate one level deeper
 			}
 			_size++;
+
 			return ( make_pair( it, true ) ); // true: node inserted
+		}
+
+	/* _insert_with_iterator */
+	template < class Key, class T, class Compare, class Alloc >
+		typename map<Key,T,Compare,Alloc>::iterator
+				map<Key,T,Compare,Alloc>::_insert_with_iterator ( iterator pos,
+				RBnode* new_node, value_type* new_pair )
+		{
+			RBnode* 	cur_node;
+			RBnode* 	next_node;
+
+			cur_node = pos.get_node_ptr();
+			if ( pos.get_map_ptr() == this // pos points to the same map
+					&& cur_node != NULL // pos != map.end()
+					&& _comp( pos->first, new_pair->first ) )
+			{ // new pair/node comes after pos
+				++pos;
+				next_node = pos.get_node_ptr();
+				if ( next_node == NULL )
+				{ // given pos is the last node: insert at the end of the tree
+					_tree.insert( new_node, cur_node, RIGHT );
+					// return iterator to new node
+					pos.set_node_ptr( new_node, this );
+					_size++;
+					return ( pos );
+				}
+				if ( _comp( new_pair->first, pos->first ) )
+				{ // new pair/node comes before incremented pos
+					// insert as right or left child whether it already exists
+					if ( cur_node->get_child( RIGHT ) == NIL )
+						_tree.insert( new_node, cur_node, RIGHT );
+					else
+						_tree.insert( new_node, next_node, LEFT );
+					// return iterator to new node
+					pos.set_node_ptr( new_node, this );
+					_size++;
+					return ( pos );
+				}
+			}
+
+			// pos does not immediately precede the newly inserted node
+			// so it's a false hint: fall back to general insert function
+			return ( this->_insert_in_tree( new_node, new_pair ).first );
 		}
 
 	/* _free_one_node */

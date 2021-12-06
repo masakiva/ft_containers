@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 18:13:36 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/02 12:17:14 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/06 17:26:20 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ namespace	ft
 		private:
 
 			RBnode*		_node_ptr;
-			RBnode*		_last_node;
+			RBnode*		_last_node_ptr;
+			void*		_map_ptr;
 
 			void		_get_next_parent ( bool dir );
 			void		_iterate ( bool dir );
@@ -42,7 +43,7 @@ namespace	ft
 		public:
 
 			m_iterator ( void );
-			m_iterator ( RBnode* ptr );
+			m_iterator ( RBnode* ptr, void* map_ptr );
 			m_iterator ( const m_iterator& src );
 			template < class U >
 				m_iterator ( const m_iterator<U, false>& src );
@@ -53,7 +54,9 @@ namespace	ft
 				m_iterator&	operator= ( const m_iterator<U, false>& rhs );
 
 			RBnode*		get_node_ptr ( void ) const;
-			void		set_node_ptr ( RBnode* ptr );
+			void		set_node_ptr ( RBnode* ptr, void* map_ptr );
+			RBnode*		get_last_node_ptr ( void ) const;
+			void*		get_map_ptr ( void ) const;
 
 			reference	operator* ( void ) const;
 			pointer		operator-> ( void ) const;

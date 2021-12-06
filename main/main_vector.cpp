@@ -14,8 +14,8 @@ void	vector_canonicalform( void )
 	std::cout << "----------" << std::endl << std::endl;
 
 	{
-		std::cout << "-> fill constructor (with number of elements as argument), "
-			"copy constructor, and operator= overload" << std::endl;
+		std::cout << "-> fill constructor (with number of elements as "
+			"argument), copy constructor, and operator= overload" << std::endl;
 		NAMESPACE::vector<test>	vec( 2 );
 		std::cout << "----------" << std::endl;
 		NAMESPACE::vector<test>	vec2( vec );

@@ -52,8 +52,8 @@ void	map_canonicalform( void )
 	std::cout << "----------" << std::endl << std::endl;
 
 	{
-		std::cout << "-> fill constructor (with number of elements as argument), "
-			"copy constructor, and operator= overload" << std::endl;
+		std::cout << "-> copy constructor from filled map, and operator= "
+			"overload" << std::endl;
 		NAMESPACE::map<int,test>	map;
 		map.insert( NAMESPACE::make_pair( 1, 'a' ) );
 		map.insert( NAMESPACE::make_pair( 2, 'b' ) );
@@ -63,6 +63,9 @@ void	map_canonicalform( void )
 		std::cout << "----------" << std::endl;
 		NAMESPACE::map<int,test>	map3;
 		map3 = map2;
+		std::cout << "map size = " << map.size() << std::endl;
+		std::cout << "map2 size = " << map2.size() << std::endl;
+		std::cout << "map3 size = " << map3.size() << std::endl;
 		std::cout << "----------" << std::endl;
 	}
 
@@ -78,6 +81,8 @@ void	map_canonicalform( void )
 		NAMESPACE::map<test,test>::iterator	it = map.begin();
 		NAMESPACE::map<test,test>::iterator	ite = map.end();
 		NAMESPACE::map<test,test>	map2( it, ite );
+		std::cout << "map size = " << map.size() << std::endl;
+		std::cout << "map2 size = " << map2.size() << std::endl;
 		std::cout << "----------" << std::endl;
 	}
 
@@ -103,7 +108,7 @@ void	map_iterator ( void )
 
 	NAMESPACE::map<int,char>	map = sample_map();
 	std::cout << "-> sample map with 5 elements (keys go from 1 to 5, "
-		<< "and values from 'a' to 'e')" << std::endl;
+		"and values from 'a' to 'e')" << std::endl;
 
 	std::cout << "map:\t";
 	NAMESPACE::map<int,char>::const_iterator cit = map.begin();
@@ -128,7 +133,7 @@ void	map_capacity ( void )
 
 	NAMESPACE::map<int,char>	map = sample_map();
 	std::cout << "-> sample map with 5 elements (keys go from 1 to 5, "
-		<< "and values from 'a' to 'e')" << std::endl;
+		"and values from 'a' to 'e')" << std::endl;
 	std::cout << "map.size() = " << map.size() << std::endl;
 	std::cout << "map.max_size() = " << map.max_size() << std::endl;
 	std::cout << "map.empty() = " << map.empty() << std::endl;
@@ -161,7 +166,7 @@ void	map_elementaccess ( void )
 
 	NAMESPACE::map<int,char>	map = sample_map();
 	std::cout << "-> sample map with 5 elements (keys go from 1 to 5, "
-		<< "and values from 'a' to 'e')" << std::endl;
+		"and values from 'a' to 'e')" << std::endl;
 
 	map[3] = 'p';
 	std::cout << "-> map[3] = 'p'" << std::endl;
@@ -190,18 +195,85 @@ void	map_modifiers ( void )
 	std::cout << "MODIFIERS" << std::endl;
 
 	NAMESPACE::map<int,char>	map;
+	NAMESPACE::pair<NAMESPACE::map<int,char>::iterator,bool>	res;
 
-	map.insert( NAMESPACE::make_pair( 1, 'a' ) );
-	map.insert( NAMESPACE::make_pair( 2, 'b' ) );
-	map.insert( NAMESPACE::make_pair( 3, 'c' ) );
-	map.insert( NAMESPACE::make_pair( 4, 'd' ) );
-	map.insert( NAMESPACE::make_pair( 5, 'e' ) );
+	std::cout << std::boolalpha;
+	res = map.insert( NAMESPACE::make_pair( 0, 'a' ) );
+	std::cout << "-> map.insert( make_pair( 0, 'a' ) )" << std::endl
+		<< "returned iterator points to: " << res.first->first << ", "
+		<< res.first->second << std::endl
+		<< "insertion success: " << res.second << std::endl;
+	res = map.insert( NAMESPACE::make_pair( 7, 'b' ) );
+	std::cout << "-> map.insert( make_pair( 7, 'b' ) )" << std::endl
+		<< "returned iterator points to: " << res.first->first << ", "
+		<< res.first->second << std::endl
+		<< "insertion success: " << res.second << std::endl;
+	res = map.insert( NAMESPACE::make_pair( -2, 'c' ) );
+	std::cout << "-> map.insert( make_pair( -2, 'c' ) )" << std::endl
+		<< "returned iterator points to: " << res.first->first << ", "
+		<< res.first->second << std::endl
+		<< "insertion success: " << res.second << std::endl;
+	res = map.insert( NAMESPACE::make_pair( 7, 'd' ) );
+	std::cout << "-> map.insert( make_pair( 7, 'd' ) )" << std::endl
+		<< "returned iterator points to: " << res.first->first << ", "
+		<< res.first->second << std::endl
+		<< "insertion success: " << res.second << std::endl;
+	res = map.insert( NAMESPACE::make_pair( 10, 'e' ) );
+	std::cout << "-> map.insert( make_pair( 10, 'e' ) )" << std::endl
+		<< "returned iterator points to: " << res.first->first << ", "
+		<< res.first->second << std::endl
+		<< "insertion success: " << res.second << std::endl;
 
-	for ( NAMESPACE::map<int,char>::const_iterator it = map.begin();
-			it != map.end(); ++it )
-	{
-		std::cout << it->first << " " << it->second << std::endl;
-	}
+	print_map( map );
+
+	NAMESPACE::map<int,char>::iterator	it = map.begin();
+	std::cout << "-> it = map.begin()" << std::endl;
+	NAMESPACE::map<int,char>::iterator	it_res;
+
+	it_res = map.insert( it, NAMESPACE::make_pair( -1, 'f' ) );
+	std::cout << "-> map.insert( it, make_pair( -1, 'f' ) )" << std::endl
+		<< "returned iterator points to: " << it_res->first << ", "
+		<< it_res->second << std::endl;
+	++it;
+	std::cout << "-> it++" << std::endl;
+	++it;
+	std::cout << "-> it++" << std::endl;
+	it_res = map.insert( it, NAMESPACE::make_pair( 6, 'g' ) );
+	std::cout << "-> map.insert( it, make_pair( 6, 'g' ) )" << std::endl
+		<< "returned iterator points to: " << it_res->first << ", "
+		<< it_res->second << std::endl;
+	++it;
+	std::cout << "-> it++" << std::endl;
+	++it;
+	std::cout << "-> it++" << std::endl;
+	it_res = map.insert( it, NAMESPACE::make_pair( 8, 'h' ) );
+	std::cout << "-> map.insert( it, make_pair( 8, 'h' ) )" << std::endl
+		<< "returned iterator points to: " << it_res->first << ", "
+		<< it_res->second << std::endl;
+	++it;
+	std::cout << "-> it++" << std::endl;
+	it_res = map.insert( it, NAMESPACE::make_pair( 9, 'i' ) );
+	std::cout << "-> map.insert( it, make_pair( 9, 'i' ) )" << std::endl
+		<< "returned iterator points to: " << it_res->first << ", "
+		<< it_res->second << std::endl;
+	++it;
+	std::cout << "-> it++" << std::endl;
+	++it;
+	std::cout << "-> it++" << std::endl;
+	it_res = map.insert( it, NAMESPACE::make_pair( 11, 'j' ) );
+	std::cout << "-> map.insert( it, make_pair( 11, 'j' ) )" << std::endl
+		<< "returned iterator points to: " << it_res->first << ", "
+		<< it_res->second << std::endl;
+
+	print_map( map );
+
+	NAMESPACE::map<int,char>	map_input = sample_map();
+	std::cout << "-> map_input = sample map() i.e. with 5 elements (keys go "
+		"from 1 to 5, and values from 'a' to 'e')" << std::endl;
+	map.insert( map_input.begin(), map_input.end() );
+
+	print_map( map );
+
 
 	std::cout << "----------" << std::endl << std::endl;
 }
