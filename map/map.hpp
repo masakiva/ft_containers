@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:17:16 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/06 18:26:36 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/07 19:35:30 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ namespace	ft
 			iterator	insert ( iterator pos, const value_type& val );
 			template < class InputIt >
     			void	insert ( InputIt first, InputIt last);
-			//void		erase ( iterator pos );
+			void		erase ( iterator pos );
 //			iterator	erase ( iterator first, iterator last );
 //			void		swap ( map& other );
 			void		clear ( void );

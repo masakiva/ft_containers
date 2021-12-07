@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 17:52:52 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/02 11:59:59 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/07 19:22:22 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ namespace	ft
 
 			void	_rotate_subtree ( RBnode* parent, bool dir );
 			void	_insert_rebalancing_loop ( RBnode* node, RBnode* parent );
+			void	_remove_black_leaf ( RBnode* node, RBnode* parent );
 
 			void	_print_node ( RBnode* node, bool dir, int i ) const; /////////////////////////////
 
@@ -37,9 +38,9 @@ namespace	ft
 			RBtree ( void );
 
 			RBnode*		get_root ( void ) const;
-			RBnode*		get_first_node ( void ) const;
-			RBnode*		get_last_node ( void ) const;
+			RBnode*		get_extremity ( bool dir ) const;
 			void		insert ( RBnode* node, RBnode* parent, bool dir );
+			void		remove ( RBnode* node );
 
 	}; // class RBtree
 

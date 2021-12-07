@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 18:13:36 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/06 17:26:20 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/07 15:18:22 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,6 @@ namespace	ft
 			RBnode*		_node_ptr;
 			RBnode*		_last_node_ptr;
 			void*		_map_ptr;
-
-			void		_get_next_parent ( bool dir );
-			void		_iterate ( bool dir );
 
 		public:
 

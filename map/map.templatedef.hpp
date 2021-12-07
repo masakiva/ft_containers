@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 17:43:33 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/06 18:22:30 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/07 19:36:35 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ namespace	ft
 		typename map<Key,T,Compare,Alloc>::iterator
 				map<Key,T,Compare,Alloc>::begin ( void )
 		{
-			iterator	it( _tree.get_first_node(), this );
+			iterator	it( _tree.get_extremity( LEFT ), this );
 
 			return ( it );
 		}
@@ -95,7 +95,7 @@ namespace	ft
 		typename map<Key,T,Compare,Alloc>::const_iterator
 				map<Key,T,Compare,Alloc>::begin ( void ) const
 		{
-			const_iterator	it( _tree.get_first_node(), (void*) this );
+			const_iterator	it( _tree.get_extremity( LEFT ), (void*) this );
 
 			return ( it );
 		}
@@ -105,7 +105,7 @@ namespace	ft
 		typename map<Key,T,Compare,Alloc>::iterator
 				map<Key,T,Compare,Alloc>::end ( void )
 		{
-			iterator	it( _tree.get_last_node(), this );
+			iterator	it( _tree.get_extremity( RIGHT ), this );
 
 			if ( it.get_node_ptr() != NULL )
 				++it;
@@ -118,7 +118,7 @@ namespace	ft
 		typename map<Key,T,Compare,Alloc>::const_iterator
 				map<Key,T,Compare,Alloc>::end ( void ) const
 		{
-			const_iterator	it( _tree.get_last_node(), (void*) this );
+			const_iterator	it( _tree.get_extremity( RIGHT ), (void*) this );
 
 			if ( it.get_node_ptr() != NULL )
 				++it;
@@ -336,6 +336,12 @@ namespace	ft
 					this->insert( *first );
 				}
 			}
+
+	/* erase ( single element ) */
+	template < class Key, class T, class Compare, class Alloc >
+		void	map<Key,T,Compare,Alloc>::erase ( iterator pos )
+		{
+		}
 
 	/* clear */
 	template < class Key, class T, class Compare, class Alloc >

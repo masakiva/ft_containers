@@ -96,6 +96,7 @@ void	map_canonicalform( void );
 void	map_iterator ( void );
 void	map_capacity ( void );
 void	map_elementaccess ( void );
-void	map_modifiers ( void );
+void	map_insert ( void );
+void	map_erase ( void );
 
 #endif // __MAIN_HPP__

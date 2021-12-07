@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 11:30:10 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/02 12:00:21 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/07 19:22:02 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 namespace	ft
 {
+
+	// the code in this file is largely inspired by
+	// https://en.wikipedia.org/wiki/Red%E2%80%93black_tree#Operations
 
 	RBnode::RBnode ( void* content ) :
 		_content( content ),
@@ -108,6 +111,64 @@ namespace	ft
 			return ( NULL );
 
 		return ( sibling->_child[1 - dir] );
+	}
+
+	RBnode*		RBnode::get_next ( bool dir ) const
+	{ // comments are for dir == RIGHT (for iterator's operator++ )
+		RBnode*		next_node;
+
+		if ( _child[dir] != NIL )
+		{ // right child exists
+			next_node = _child[dir]; // assign to right child
+			while ( next_node->_child[1 - dir] != NULL )
+			{ // assign to left child, left child... as long as there is one
+				next_node = next_node->_child[1 - dir];
+			}
+		}
+		else
+		{ // right child doesn't exist
+			next_node = this->_get_next_parent( dir );
+		}
+		return ( next_node );
+	}
+
+	RBnode*		RBnode::_get_next_parent ( bool dir ) const
+	{ // comments are for dir == RIGHT (for iterator's operator++ )
+		RBnode*		next_node;
+
+		if ( _parent == NULL )
+			next_node = NULL; // current node is root: no next node
+		else if ( this->child_dir() == 1 - dir )
+		{ // current node is left child of parent
+			next_node = _parent; // assign to parent
+		}
+		else
+		{ // current node is right child of parent
+			next_node = _parent->_get_next_parent( dir ); // same with parent
+		}
+		return ( next_node );
+	}
+
+	void	RBnode::swap_position ( RBnode* rhs )
+	{
+		RBnode*		temp_node_ptr;
+		bool		temp_color;
+
+		temp_node_ptr = rhs->_parent;
+		rhs->_parent = _parent;
+		_parent = temp_node_ptr;
+
+		temp_node_ptr = rhs->_child[LEFT];
+		rhs->_child[LEFT] = _child[LEFT];
+		_child[LEFT] = temp_node_ptr;
+
+		temp_node_ptr = rhs->_child[RIGHT];
+		rhs->_child[RIGHT] = _child[RIGHT];
+		_child[RIGHT] = temp_node_ptr;
+
+		temp_color = rhs->_color;
+		rhs->_color = _color;
+		_color = temp_color;
 	}
 
 } // namespace ft

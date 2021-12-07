@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 17:52:52 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/30 19:33:02 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/07 16:59:26 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ namespace	ft
 
 			RBnode ( void );
 
+			RBnode*		_get_next_parent ( bool dir ) const;
+
 		public:
 
 			RBnode ( void* content );
@@ -54,6 +56,9 @@ namespace	ft
 			RBnode*		get_uncle ( void ) const;
 			RBnode*		get_closenephew ( void ) const;
 			RBnode*		get_distantnephew ( void ) const;
+
+			RBnode*		get_next ( bool dir ) const;
+			void		swap_position ( RBnode* rhs );
 
 	}; // class RBnode
 

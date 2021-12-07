@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 16:40:31 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/06 17:26:22 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/07 16:00:38 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,8 +140,8 @@ namespace	ft
 		m_iterator<T,constness>&
 				m_iterator<T,constness>::operator++ ( void )
 		{
-			_last_node_ptr = _node_ptr;
-			this->_iterate( RIGHT );
+			_last_node_ptr = _node_ptr; // backup in case last node is reached
+			_node_ptr = _node_ptr->get_next( RIGHT );
 
 			return ( *this );
 		}
@@ -152,9 +152,9 @@ namespace	ft
 				m_iterator<T,constness>::operator-- ( void )
 		{
 			if ( _node_ptr == NULL )
-				_node_ptr = _last_node_ptr;
+				_node_ptr = _last_node_ptr; // last node
 			else
-				this->_iterate( LEFT );
+				_node_ptr = _node_ptr->get_next( LEFT );
 
 			return ( *this );
 		}
@@ -166,8 +166,7 @@ namespace	ft
 		{
 			m_iterator	before_inc( *this );
 
-			_last_node_ptr = _node_ptr;
-			this->_iterate( RIGHT );
+			this->operator++();
 
 			return ( before_inc );
 		}
@@ -179,10 +178,7 @@ namespace	ft
 		{
 			m_iterator	before_dec( *this );
 
-			if ( _node_ptr == NULL )
-				_node_ptr = _last_node_ptr;
-			else
-				this->_iterate( LEFT );
+			this->operator--();
 
 			return ( before_dec );
 		}
@@ -236,48 +232,6 @@ namespace	ft
 				( const m_iterator<T, false>& rhs )
 		{
 			return ( _node_ptr != rhs.get_node_ptr() );
-		}
-
-
-	/******* HELPER FUNCTIONS *************************************************/
-
-	template < class T, bool constness >
-		void	m_iterator<T,constness>::_get_next_parent ( bool dir )
-		{ // comments are for dir == RIGHT (for operator++ )
-			RBnode*		next_node;
-
-			next_node = _node_ptr->get_parent();
-			if ( next_node == NULL )
-				_node_ptr = NULL; // current node is root: no next node
-			else if ( _node_ptr->child_dir() == 1 - dir )
-			{ // current node is left child of parent
-				_node_ptr = next_node; // assign to parent
-			}
-			else
-			{ // current node is right child of parent
-				_node_ptr = next_node; // assign to parent
-				this->_get_next_parent( dir ); // same operations with parent
-			}
-		}
-
-	template < class T, bool constness >
-		void	m_iterator<T,constness>::_iterate ( bool dir )
-		{ // comments are for dir == RIGHT (for operator++ )
-			RBnode*		next_node;
-
-			next_node = _node_ptr->get_child( dir );
-			if ( next_node != NIL )
-			{ // right child exists
-				do
-				{ // assign to right child, then left child, left child...
-					_node_ptr = next_node;
-					next_node = _node_ptr->get_child( 1 - dir );
-				} while ( next_node != NIL );
-			}
-			else
-			{ // right child doesn't exist
-				this->_get_next_parent( dir );
-			}
 		}
 
 } // namespace ft
