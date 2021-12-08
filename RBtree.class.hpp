@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 17:52:52 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/07 19:22:22 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/08 21:55:06 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define __RBTREE_CLASS_HPP__
 
 #include "RBnode.class.hpp"
-#include <iostream>
+#include <iostream> //////////////////////////////////////////////////////////////////////////
 
 namespace	ft
 {
@@ -40,7 +40,7 @@ namespace	ft
 			RBnode*		get_root ( void ) const;
 			RBnode*		get_extremity ( bool dir ) const;
 			void		insert ( RBnode* node, RBnode* parent, bool dir );
-			void		remove ( RBnode* node );
+			RBnode*		remove ( RBnode* node );
 
 	}; // class RBtree
 

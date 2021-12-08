@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 17:43:33 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/07 19:36:35 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/08 21:55:50 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,6 +341,12 @@ namespace	ft
 	template < class Key, class T, class Compare, class Alloc >
 		void	map<Key,T,Compare,Alloc>::erase ( iterator pos )
 		{
+			RBnode*		old_node;
+
+			old_node = _tree.remove( pos.get_node_ptr() );
+			_size--;
+
+			_free_one_node( old_node );
 		}
 
 	/* clear */

@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 11:41:07 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/07 19:22:46 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/08 21:58:16 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ namespace	ft
 		do
 		{
 			sibling = parent->get_child( 1 - dir ); // sibling of node (has black height >= 1)
+			std::cout << sibling << std::endl;
 			distantnephew = sibling->get_child( 1 - dir );
 			closenephew = sibling->get_child( dir );
 			if ( sibling->get_color() == RED )
@@ -257,19 +258,24 @@ Case_D6: // distantnephew red && sibling black:
 		return; // deletion complete
 	}
 
-	void	RBtree::remove ( RBnode* node )
+	RBnode*		RBtree::remove ( RBnode* node )
 	{
 		RBnode*		parent;
 		RBnode*		child;
+		RBnode*		next;
 
+		print_tree();
 		if ( node->get_child( LEFT ) != NIL
 				&& node->get_child( RIGHT ) != NIL)
 		{ // node has two children
 			// swap the parent, children pointers and the color with next node
-			node->swap_position( node->get_next( RIGHT ) );
+			next = node->get_next( RIGHT );
+			node->swap_content( next );
+			node = next;
 		}
 
 		// from now node has zero or one child
+		print_tree();
 
 		parent = node->get_parent();
 		if ( node->get_color() == RED )
@@ -279,7 +285,7 @@ Case_D6: // distantnephew red && sibling black:
 				_root = NIL;
 			else
 				parent->set_child( node->child_dir(), NIL );
-			return ; // deletion complete
+			return ( node ); // deletion complete
 		}
 
 		// else: node is black
@@ -294,16 +300,18 @@ Case_D6: // distantnephew red && sibling black:
 				_root = child;
 			else
 				parent->set_child( node->child_dir(), child );
-			return ; // deletion complete
+			return ( node ); // deletion complete
 		}
 
 		// else: node is black and does not have any children
 		if ( parent == NULL )
 		{ // node is the root
 			_root = NIL;
-			return ; // deletion complete
+			return ( node ); // deletion complete
 		}
 		this->_remove_black_leaf( node, parent ); // complex case
+
+		return ( node );
 	}
 
 } // namespace ft

@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 11:30:10 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/07 19:22:02 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/08 21:57:19 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,15 +127,20 @@ namespace	ft
 		}
 		else
 		{ // right child doesn't exist
-			next_node = this->_get_next_parent( dir );
+			next_node = this->_get_next_parent( dir, 0 );
 		}
 		return ( next_node );
 	}
 
-	RBnode*		RBnode::_get_next_parent ( bool dir ) const
+	RBnode*		RBnode::_get_next_parent ( bool dir, int i) const
 	{ // comments are for dir == RIGHT (for iterator's operator++ )
 		RBnode*		next_node;
 
+	//	if ( i == 100 )
+	//	{
+	//		std::cout << "i == 100" << std::endl;
+	//		return ( NULL );
+	//	}
 		if ( _parent == NULL )
 			next_node = NULL; // current node is root: no next node
 		else if ( this->child_dir() == 1 - dir )
@@ -144,9 +149,18 @@ namespace	ft
 		}
 		else
 		{ // current node is right child of parent
-			next_node = _parent->_get_next_parent( dir ); // same with parent
+			next_node = _parent->_get_next_parent( dir, ++i ); // same with parent
 		}
 		return ( next_node );
+	}
+
+	void	RBnode::swap_content ( RBnode* rhs )
+	{
+		void*	temp_content;
+
+		temp_content = rhs->_content;
+		rhs->_content = _content;
+		_content = temp_content;
 	}
 
 	void	RBnode::swap_position ( RBnode* rhs )
@@ -154,9 +168,28 @@ namespace	ft
 		RBnode*		temp_node_ptr;
 		bool		temp_color;
 
-		temp_node_ptr = rhs->_parent;
-		rhs->_parent = _parent;
-		_parent = temp_node_ptr;
+//		if ( _parent != NULL )
+//		{
+//			temp_node_ptr = rhs->_parent->_child[ rhs->child_dir() ];
+//			rhs->_parent->_child[ rhs->child_dir() ] = _parent->_child[ this->child_dir() ];
+//			_parent->_child[ this->child_dir() ] = temp_node_ptr;
+//		}
+		if ( rhs->_parent == this )
+		{
+			rhs->_parent = _parent;
+			_parent = rhs;
+		}
+		else if ( _parent == rhs )
+		{
+			_parent = rhs->_parent;
+			rhs->_parent = this;
+		}
+		else
+		{
+			temp_node_ptr = rhs->_parent;
+			rhs->_parent = _parent;
+			_parent = temp_node_ptr;
+		}
 
 		temp_node_ptr = rhs->_child[LEFT];
 		rhs->_child[LEFT] = _child[LEFT];
@@ -165,6 +198,7 @@ namespace	ft
 		temp_node_ptr = rhs->_child[RIGHT];
 		rhs->_child[RIGHT] = _child[RIGHT];
 		_child[RIGHT] = temp_node_ptr;
+		std::cout << rhs->_child[RIGHT] << std::endl << rhs << std::endl;
 
 		temp_color = rhs->_color;
 		rhs->_color = _color;

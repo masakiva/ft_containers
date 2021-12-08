@@ -190,7 +190,7 @@ void	map_elementaccess ( void )
 	std::cout << "----------" << std::endl;
 }
 
-void	map_insert ( void )
+NAMESPACE::map<int,char>	map_insert ( void )
 {
 	std::cout << "MODIFIERS" << std::endl;
 
@@ -275,10 +275,28 @@ void	map_insert ( void )
 	print_map( map );
 
 	std::cout << "--------------------" << std::endl << std::endl;
+
+	return ( map );
 }
 
-void	map_erase ( void )
+void	map_erase ( NAMESPACE::map<int,char> map )
 {
+	NAMESPACE::map<int,char>::iterator	it = map.begin();
+
+	++it;
+	//map.print_tree();
+	map.erase( it );
+	//print_map( map );
+}
+
+void	map_modifiers ( void )
+{
+	std::cout << "MODIFIERS" << std::endl;
+
+	NAMESPACE::map<int,char>	map;
+
+	map = map_insert();
+	map_erase( map );
 }
 
 //	NAMESPACE::map<char,int, more<char> >	map;

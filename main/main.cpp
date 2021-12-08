@@ -17,11 +17,10 @@ int		main ( void ) // argv[1] == "vector" -> vector tests, etc
 	std::cout << "MAP TESTS" << std::endl << std::endl;
 //	pair();
 //	map_canonicalform();
-	map_iterator();
-	map_capacity();
-	map_elementaccess();
-	map_insert();
-	map_erase();
+//	map_iterator();
+//	map_capacity();
+//	map_elementaccess();
+	map_modifiers();
 
 	return ( EXIT_SUCCESS );
 }
