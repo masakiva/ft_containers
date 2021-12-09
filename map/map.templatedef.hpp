@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 17:43:33 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/08 21:55:50 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/09 18:36:28 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,14 +212,14 @@ namespace	ft
 			while ( cur_node != NIL )
 			{ // search for the key in the tree
 				cur_pair = static_cast<value_type*>( cur_node->get_content() );
-				if ( cur_pair->first == key )
+				if ( _comp( key, cur_pair->first ) )
+					child = cur_node->get_child( LEFT );
+				else if ( _comp( cur_pair->first, key ) )
+					child = cur_node->get_child( RIGHT );
+				else
 				{ // key found
 					return ( cur_pair->second ); // return existent mapped value
 				}
-				if ( _comp( key, cur_pair->first ) )
-					child = cur_node->get_child( LEFT );
-				else
-					child = cur_node->get_child( RIGHT );
 				cur_node = child; // iterate one level deeper (if child != NIL)
 			}
 
@@ -244,14 +244,14 @@ namespace	ft
 			while ( cur_node != NIL )
 			{ // search for the key in the tree
 				cur_pair = static_cast<value_type*>( cur_node->get_content() );
-				if ( cur_pair->first == key )
+				if ( _comp( key, cur_pair->first ) )
+					child = cur_node->get_child( LEFT );
+				else if ( _comp( cur_pair->first, key ) )
+					child = cur_node->get_child( RIGHT );
+				else
 				{ // key found
 					return ( cur_pair->second ); // return existent mapped value
 				}
-				if ( _comp( key, cur_pair->first ) )
-					child = cur_node->get_child( LEFT );
-				else
-					child = cur_node->get_child( RIGHT );
 				cur_node = child; // iterate one level deeper (if child != NIL)
 			}
 
@@ -273,14 +273,14 @@ namespace	ft
 			while ( cur_node != NIL )
 			{ // search for the key in the tree
 				cur_pair = static_cast<value_type*>( cur_node->get_content() );
-				if ( cur_pair->first == key )
+				if ( _comp( key, cur_pair->first ) )
+					child = cur_node->get_child( LEFT );
+				else if ( _comp( cur_pair->first, key ) )
+					child = cur_node->get_child( RIGHT );
+				else
 				{ // key found
 					return ( cur_pair->second ); // return existent mapped value
 				}
-				if ( _comp( key, cur_pair->first ) )
-					child = cur_node->get_child( LEFT );
-				else
-					child = cur_node->get_child( RIGHT );
 				cur_node = child; // iterate one level deeper (if child != NIL)
 			}
 
@@ -305,10 +305,10 @@ namespace	ft
 			new_node = _alloc_node.allocate( 1 ); // allocate for the node
 			_alloc_node.construct( new_node, new_pair ); // construct node
 
-			return ( this->_insert_in_tree( new_node, new_pair ) );
+			return ( this->_search_and_insert( new_node, new_pair ) );
 		}
 
-	/* insert (with hint for position) */
+	/* insert (single element, with hint for position) */
 	template < class Key, class T, class Compare, class Alloc >
 		typename map<Key,T,Compare,Alloc>::iterator
 				map<Key,T,Compare,Alloc>::insert ( iterator pos,
@@ -337,16 +337,62 @@ namespace	ft
 				}
 			}
 
-	/* erase ( single element ) */
+	/* erase (single element, from iterator) */
 	template < class Key, class T, class Compare, class Alloc >
 		void	map<Key,T,Compare,Alloc>::erase ( iterator pos )
 		{
-			RBnode*		old_node;
+			RBnode*		node;
 
-			old_node = _tree.remove( pos.get_node_ptr() );
+			node = pos.get_node_ptr();
+
+			_tree.remove( node );
 			_size--;
 
-			_free_one_node( old_node );
+			this->_free_one_node( node );
+		}
+
+	/* erase (single element, from key) */
+	template < class Key, class T, class Compare, class Alloc >
+		typename map<Key,T,Compare,Alloc>::size_type
+				map<Key,T,Compare,Alloc>::erase ( const key_type& key )
+		{
+			return ( this->_search_and_erase( key ) );
+		}
+
+	/* erase (from a range of iterators) */
+	template < class Key, class T, class Compare, class Alloc >
+		void	map<Key,T,Compare,Alloc>::erase ( iterator first,
+				iterator last )
+		{
+			iterator	it;
+
+			while ( first != last )
+			{
+				it = first;
+				++first;
+				this->erase( it );
+			}
+		}
+
+	/* swap */
+	template < class Key, class T, class Compare, class Alloc >
+		void	map<Key,T,Compare,Alloc>::swap ( map& other )
+		{
+			size_type		temp_size;
+			RBtree			temp_tree;
+			key_compare		temp_comp;
+
+			temp_size = other._size;
+			other._size = _size;
+			_size = temp_size;
+
+			temp_tree = other._tree;
+			other._tree = _tree;
+			_tree = temp_tree;
+
+			temp_comp = other._comp;
+			other._comp = _comp;
+			_comp = temp_comp;
 		}
 
 	/* clear */
@@ -362,6 +408,16 @@ namespace	ft
 		}
 
 
+	/******* OBSERVERS ********************************************************/
+
+	template < class Key, class T, class Compare, class Alloc >
+		typename map<Key,T,Compare,Alloc>::key_compare
+				map<Key,T,Compare,Alloc>::key_comp ( void ) const
+		{
+			return ( _comp );
+		}
+
+
 	/******* ALLOCATOR ********************************************************/
 
 	/* get_allocator */
@@ -373,12 +429,23 @@ namespace	ft
 		}
 
 
+	/******* NON-MEMBER FUNCTIONS *********************************************/
+
+	/* swap */
+	template < class Key, class T, class Compare, class Alloc >
+		void	swap ( map<Key,T,Compare,Alloc>& lhs,
+				map<Key,T,Compare,Alloc>& rhs )
+		{
+			lhs.swap( rhs );
+		}
+
+
 	/******* HELPER FUNCTIONS *************************************************/
 
-	/* _insert_in_tree */
+	/* _search_and_insert */
 	template < class Key, class T, class Compare, class Alloc >
 		pair<typename map<Key,T,Compare,Alloc>::iterator,bool>
-				map<Key,T,Compare,Alloc>::_insert_in_tree ( RBnode* new_node,
+				map<Key,T,Compare,Alloc>::_search_and_insert ( RBnode* new_node,
 				value_type* new_pair )
 		{
 			RBnode*			cur_node;
@@ -392,11 +459,6 @@ namespace	ft
 			while ( cur_node != NIL )
 			{
 				cur_pair = static_cast<value_type*>( cur_node->get_content() );
-				if ( cur_pair->first == new_pair->first )
-				{ // the same key is already in the tree
-					it.set_node_ptr( cur_node, this ); // return existent node
-					return ( make_pair( it, false ) ); // false: no insertion
-				}
 				if ( _comp( new_pair->first, cur_pair->first ) )
 				{ // with _comp defined from std::less<Key>, new_key < cur_key
 					child = cur_node->get_child( LEFT );
@@ -407,7 +469,7 @@ namespace	ft
 						break ; // insertion complete
 					}
 				}
-				else
+				else if ( _comp( cur_pair->first, new_pair->first ) )
 				{ // ... new_key > cur_key
 					child = cur_node->get_child( RIGHT );
 					if ( child == NIL )
@@ -416,6 +478,12 @@ namespace	ft
 						_tree.insert( new_node, cur_node, RIGHT );
 						break ; // insertion complete
 					}
+				}
+				else
+				{ // the same key is already in the tree
+					it.set_node_ptr( cur_node, this ); // return existent node
+					this->_free_one_node( new_node );
+					return ( make_pair( it, false ) ); // false: no insertion
 				}
 				cur_node = child; // child exists: iterate one level deeper
 			}
@@ -464,7 +532,36 @@ namespace	ft
 
 			// pos does not immediately precede the newly inserted node
 			// so it's a false hint: fall back to general insert function
-			return ( this->_insert_in_tree( new_node, new_pair ).first );
+			return ( this->_search_and_insert( new_node, new_pair ).first );
+		}
+
+	/* _search_and_erase */
+	template < class Key, class T, class Compare, class Alloc >
+		typename map<Key,T,Compare,Alloc>::size_type
+				map<Key,T,Compare,Alloc>::_search_and_erase
+				( const key_type& key )
+		{
+			RBnode*			cur_node;
+			value_type*		cur_pair;
+
+			cur_node = _tree.get_root();
+			while ( cur_node != NIL )
+			{
+				cur_pair = static_cast<value_type*>( cur_node->get_content() );
+				if ( _comp( key, cur_pair->first ) )
+					cur_node = cur_node->get_child( LEFT );
+				else if ( _comp( cur_pair->first, key ) )
+					cur_node = cur_node->get_child( RIGHT );
+				else
+				{ // found the key
+					_tree.remove( cur_node );
+					_size--;
+					this->_free_one_node( cur_node );
+					return ( 1 ); // one node removed
+				}
+			}
+
+			return ( 0 ); // key not found: no node removed
 		}
 
 	/* _free_one_node */
@@ -543,7 +640,6 @@ namespace	ft
 				this->_print_node( root->get_child( RIGHT ), RIGHT, 0 );
 			}
 		}
-
 
 } // namespace ft
 

@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 11:41:07 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/08 21:58:16 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/09 17:48:39 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,66 @@ namespace	ft
 		this->_insert_rebalancing_loop( node, parent );
 	}
 
+	void	RBtree::_rebalance_red_parent ( RBnode* parent, RBnode *sibling )
+	{ // parent red, sibling and nephews black
+		sibling->set_color( RED );
+		parent->set_color( BLACK );
+	}
+
+	void	RBtree::_rebalance_red_distantnephew ( RBnode* parent, bool dir,
+			RBnode *sibling, RBnode* distantnephew )
+	{ // distantnephew red, sibling black
+		_rotate_subtree( parent, dir );
+		sibling->set_color( parent->get_color() );
+		parent->set_color( BLACK );
+		distantnephew->set_color( BLACK );
+	}
+
+	void	RBtree::_rebalance_red_closenephew ( RBnode* parent, bool dir,
+			RBnode *sibling, RBnode* closenephew, RBnode* distantnephew )
+	{ // closenephew red, sibling and distantnephew black
+		_rotate_subtree( sibling, 1 - dir );
+		sibling->set_color( RED );
+		closenephew->set_color( BLACK );
+		distantnephew = sibling;
+		sibling = closenephew;
+
+		// now distantnephew is red and sibling black
+		this->_rebalance_red_distantnephew( parent, dir, sibling,
+				distantnephew );
+	}
+
+	void	RBtree::_rebalance_red_sibling ( RBnode* parent, bool dir,
+			RBnode *sibling, RBnode* closenephew, RBnode* distantnephew )
+	{ // sibling red, parent and nephews black
+		_rotate_subtree( parent, dir );
+		parent->set_color( RED );
+		sibling->set_color( BLACK );
+		sibling = closenephew; // != NIL
+
+		// now parent is red and sibling black
+
+		distantnephew = sibling->get_child( 1 - dir );
+		if ( distantnephew != NIL && distantnephew->get_color() == RED )
+		{
+			this->_rebalance_red_distantnephew( parent, dir, sibling,
+					distantnephew );
+			return; // deletion complete
+		}
+
+		closenephew = sibling->get_child( dir );
+		if ( closenephew != NIL && closenephew->get_color() == RED )
+		{
+			this->_rebalance_red_closenephew( parent, dir, sibling, closenephew,
+					distantnephew );
+			return; // deletion complete
+		}
+
+		// else: nephews considered black
+		this->_rebalance_red_parent( parent, sibling );
+	}
+
+
 	void	RBtree::_remove_black_leaf ( RBnode* node, RBnode* parent )
 	{
 		bool		dir;
@@ -192,90 +252,66 @@ namespace	ft
 		// this is fixed by the following rebalancing loop
 		do
 		{
-			sibling = parent->get_child( 1 - dir ); // sibling of node (has black height >= 1)
-			std::cout << sibling << std::endl;
+			sibling = parent->get_child( 1 - dir );
 			distantnephew = sibling->get_child( 1 - dir );
 			closenephew = sibling->get_child( dir );
+
 			if ( sibling->get_color() == RED )
-				goto Case_D3; // sibling red ===> parent+closenephew+distantnephew black
+			{ // sibling red, thus parent, closenephew and distantnephew black
+				this->_rebalance_red_sibling( parent, dir, sibling, closenephew,
+						distantnephew );
+				return ; // deletion complete
+			}
 
 			// else: sibling is black
-			if ( distantnephew != NIL && distantnephew->get_color() == RED ) // not considered black
-				goto Case_D6; // distantnephew red && sibling black
-			if ( closenephew != NIL && closenephew->get_color() == RED ) // not considered black
-				goto Case_D5; // closenephew red && sibling+distantnephew black
+			if ( distantnephew != NIL && distantnephew->get_color() == RED )
+			{ // distantnephew red
+				this->_rebalance_red_distantnephew( parent, dir, sibling,
+						distantnephew );
+				return; // deletion complete
+			}
 
-			// Here both nephews are == NIL (first iteration) or black (later).
+			// else: distantnephew is black
+			if ( closenephew != NIL && closenephew->get_color() == RED )
+			{ // closenephew red
+				this->_rebalance_red_closenephew( parent, dir, sibling,
+						closenephew, distantnephew );
+				return; // deletion complete
+			}
+
+			// else: both nephews are NIL (first iteration) or black (later)
 			if ( parent->get_color() == RED )
-				goto Case_D4; // parent red && closenephew+sibling+distantnephew black
+			{ // parent red
+				this->_rebalance_red_parent( parent, sibling );
+				return; // deletion complete
+			}
 
-			// Case_D1 (parent+closenephew+sibling+distantnephew black):
+			// else: parent, sibling and nephews are black
 			sibling->set_color( RED );
-			node = parent; // new current node (maybe the root)
-			// iterate 1 black level
-			//   (= 1 tree level) higher
+			node = parent; // new current node
+			// iterate 1 black level (= 1 tree level) higher
 			parent = node->get_parent();
 			if ( parent != NULL )
 				dir = node->child_dir();
+
 		} while ( parent != NULL );
-
-		// Case_D2 (parent == NULL):
-		return; // deletion complete
-Case_D3: // sibling red && parent+closenephew+distantnephew black:
-		_rotate_subtree( parent, dir ); // parent may be the root
-		parent->set_color( RED );
-		sibling->set_color( BLACK );
-		sibling = closenephew; // != NIL
-		// now: parent red && sibling black
-		distantnephew = sibling->get_child( 1 - dir ); // distant nephew
-		if ( distantnephew != NIL && distantnephew->get_color() == RED )
-			goto Case_D6;      // distantnephew red && sibling black
-		closenephew = sibling->get_child( dir ); // close   nephew
-		if ( closenephew != NIL && closenephew->get_color() == RED )
-			goto Case_D5;      // closenephew red && sibling+distantnephew black
-		// Otherwise closenephew+distantnephew considered black.
-		// fall through to Case_D4
-
-Case_D4: // parent red && sibling+closenephew+distantnephew black:
-		sibling->set_color( RED );
-		parent->set_color( BLACK );
-		return; // deletion complete
-
-Case_D5: // closenephew red && sibling+distantnephew black:
-		_rotate_subtree( sibling, 1 - dir ); // sibling is never the root
-		sibling->set_color( RED );
-		closenephew->set_color( BLACK );
-		distantnephew = sibling;
-		sibling = closenephew;
-		// now: distantnephew red && sibling black
-		// fall through to Case_D6
-
-Case_D6: // distantnephew red && sibling black:
-		_rotate_subtree( parent, dir ); // parent may be the root
-		sibling->set_color( parent->get_color() );
-		parent->set_color( BLACK );
-		distantnephew->set_color( BLACK );
-		return; // deletion complete
 	}
 
-	RBnode*		RBtree::remove ( RBnode* node )
+	void	RBtree::remove ( RBnode* node )
 	{
 		RBnode*		parent;
 		RBnode*		child;
 		RBnode*		next;
 
-		print_tree();
 		if ( node->get_child( LEFT ) != NIL
 				&& node->get_child( RIGHT ) != NIL)
 		{ // node has two children
 			// swap the parent, children pointers and the color with next node
 			next = node->get_next( RIGHT );
-			node->swap_content( next );
-			node = next;
+			node->swap_position( next, &_root );
 		}
 
 		// from now node has zero or one child
-		print_tree();
 
 		parent = node->get_parent();
 		if ( node->get_color() == RED )
@@ -285,7 +321,7 @@ Case_D6: // distantnephew red && sibling black:
 				_root = NIL;
 			else
 				parent->set_child( node->child_dir(), NIL );
-			return ( node ); // deletion complete
+			return ; // deletion complete
 		}
 
 		// else: node is black
@@ -300,18 +336,16 @@ Case_D6: // distantnephew red && sibling black:
 				_root = child;
 			else
 				parent->set_child( node->child_dir(), child );
-			return ( node ); // deletion complete
+			return ; // deletion complete
 		}
 
 		// else: node is black and does not have any children
 		if ( parent == NULL )
 		{ // node is the root
 			_root = NIL;
-			return ( node ); // deletion complete
+			return ; // deletion complete
 		}
 		this->_remove_black_leaf( node, parent ); // complex case
-
-		return ( node );
 	}
 
 } // namespace ft

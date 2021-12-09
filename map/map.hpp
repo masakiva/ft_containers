@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:17:16 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/08 21:10:51 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/09 18:29:49 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,11 @@ namespace	ft
 			_allocator_type_rbnode	_alloc_node;
 
 			/******* HELPER FUNCTIONS *****************************************/
-			pair<iterator,bool>		_insert_in_tree ( RBnode* new_node,
+			pair<iterator,bool>		_search_and_insert ( RBnode* new_node,
 					value_type* new_pair );
 			iterator				_insert_with_iterator ( iterator pos,
 					RBnode* new_node, value_type* new_pair );
+			size_type				_search_and_erase ( const key_type& key );
 			void	_free_one_node ( RBnode* node );
 			void	_clear_deeper ( RBnode* node );
 
@@ -118,9 +119,13 @@ namespace	ft
 			template < class InputIt >
     			void	insert ( InputIt first, InputIt last);
 			void		erase ( iterator pos );
-//			iterator	erase ( iterator first, iterator last );
-//			void		swap ( map& other );
+			size_type	erase ( const key_type& key );
+			void		erase ( iterator first, iterator last );
+			void		swap ( map& other );
 			void		clear ( void );
+
+			/******* OBSERVERS ************************************************/
+			key_compare		key_comp( void ) const;
 
 			/******* OPERATIONS ***********************************************/
 			//iterator		find ( const key_type& key );
@@ -130,6 +135,10 @@ namespace	ft
 			allocator_type	get_allocator ( void ) const;
 
 	}; // class map
+
+	template < class Key, class T, class Compare, class Alloc >
+		void	swap ( map<Key,T,Compare,Alloc>& lhs,
+				map<Key,T,Compare,Alloc>& rhs );
 
 } // namespace ft
 

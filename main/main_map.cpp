@@ -282,11 +282,44 @@ NAMESPACE::map<int,char>	map_insert ( void )
 void	map_erase ( NAMESPACE::map<int,char> map )
 {
 	NAMESPACE::map<int,char>::iterator	it = map.begin();
+	std::cout << "-> it = map.begin()" << std::endl;
+
+	map.erase( it );
+	std::cout << "map.erase( it )" << std::endl;
+	print_map( map );
+
+	it = map.begin();
+	std::cout << "-> it = map.begin()" << std::endl;
+
+	NAMESPACE::map<int,char>::size_type	res = map.erase( 5 );
+	std::cout << "map.erase( 5 )" << std::endl;
+	std::cout << res << " element removed" << std::endl;
+	print_map( map );
+
+	res = map.erase( 13 );
+	std::cout << "map.erase( 13 )" << std::endl;
+	std::cout << res << " element removed" << std::endl;
+	print_map( map );
 
 	++it;
-	//map.print_tree();
-	map.erase( it );
-	//print_map( map );
+	std::cout << "++it" << std::endl;
+	++it;
+	std::cout << "++it" << std::endl;
+	++it;
+	std::cout << "++it" << std::endl;
+	++it;
+	std::cout << "++it" << std::endl;
+	++it;
+	std::cout << "++it" << std::endl;
+	++it;
+	std::cout << "++it" << std::endl;
+	++it;
+	std::cout << "++it" << std::endl;
+	++it;
+	std::cout << "++it" << std::endl;
+	map.erase( it, map.end() );
+	std::cout << "map.erase( it, map.end() )" << std::endl;
+	print_map( map );
 }
 
 void	map_modifiers ( void )

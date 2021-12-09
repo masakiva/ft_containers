@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 11:30:10 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/08 21:57:19 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/09 18:30:10 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,55 +154,127 @@ namespace	ft
 		return ( next_node );
 	}
 
-	void	RBnode::swap_content ( RBnode* rhs )
+	void	RBnode::swap_position ( RBnode* other, RBnode** root_link )
 	{
-		void*	temp_content;
+		RBnode*		new_self_parent;
+		RBnode*		new_self_left;
+		RBnode*		new_self_right;
+		RBnode**	new_self_link; // child ptr of other's parent
+								   // that will point to "this"
 
-		temp_content = rhs->_content;
-		rhs->_content = _content;
-		_content = temp_content;
+		RBnode*		new_other_parent;
+		RBnode*		new_other_left;
+		RBnode*		new_other_right;
+		RBnode**	new_other_link; // child ptr of this' parent
+									// that will point to "other"
+
+		// general case
+		new_self_parent = other->_parent;
+		new_self_left = other->_child[LEFT];
+		new_self_right = other->_child[RIGHT];
+		if ( other->_parent != NULL )
+		{
+			if ( other->child_dir() == LEFT )
+				new_self_link = &other->_parent->_child[LEFT];
+			else
+				new_self_link = &other->_parent->_child[RIGHT];
+		}
+		else // other is root
+			new_self_link = root_link;
+
+		new_other_parent = _parent;
+		new_other_left = _child[LEFT];
+		new_other_right = _child[RIGHT];
+		if ( _parent != NULL )
+		{
+			if ( this->child_dir() == LEFT )
+				new_other_link = &_parent->_child[LEFT];
+			else
+				new_other_link = &_parent->_child[RIGHT];
+		}
+		else // this is root
+			new_other_link = root_link;
+
+		// special case: if one is the other's parent
+		if ( other->_parent == this )
+		{
+			new_self_parent = other;
+			new_self_link = NULL;
+			if (_child[LEFT] == other)
+				new_other_left = this;
+			else
+				new_other_right = this;
+		}
+		else if ( _parent == other )
+		{
+			new_other_parent = this;
+			new_other_link = NULL;
+			if (other->_child[LEFT] == this)
+				new_self_left = other;
+			else
+				new_self_right = other;
+		}
+
+		// set all pointers
+		_parent = new_self_parent;
+		_child[LEFT] = new_self_left;
+		if ( _child[LEFT] != NIL )
+			_child[LEFT]->_parent = this;
+		_child[RIGHT] = new_self_right;
+		if ( _child[RIGHT] != NIL )
+			_child[RIGHT]->_parent = this;
+		if ( new_self_link != NULL )
+			*new_self_link = this;
+
+		other->_parent = new_other_parent;
+		other->_child[LEFT] = new_other_left;
+		if ( other->_child[LEFT] != NIL )
+			other->_child[LEFT]->_parent = other;
+		other->_child[RIGHT] = new_other_right;
+		if ( other->_child[RIGHT] != NIL )
+			other->_child[RIGHT]->_parent = other;
+		if ( new_other_link != NULL )
+			*new_other_link = other;
 	}
 
-	void	RBnode::swap_position ( RBnode* rhs )
-	{
-		RBnode*		temp_node_ptr;
-		bool		temp_color;
-
+//		RBnode*		temp_node_ptr;
+//		bool		temp_color;
 //		if ( _parent != NULL )
 //		{
 //			temp_node_ptr = rhs->_parent->_child[ rhs->child_dir() ];
 //			rhs->_parent->_child[ rhs->child_dir() ] = _parent->_child[ this->child_dir() ];
 //			_parent->_child[ this->child_dir() ] = temp_node_ptr;
 //		}
-		if ( rhs->_parent == this )
-		{
-			rhs->_parent = _parent;
-			_parent = rhs;
-		}
-		else if ( _parent == rhs )
-		{
-			_parent = rhs->_parent;
-			rhs->_parent = this;
-		}
-		else
-		{
-			temp_node_ptr = rhs->_parent;
-			rhs->_parent = _parent;
-			_parent = temp_node_ptr;
-		}
-
-		temp_node_ptr = rhs->_child[LEFT];
-		rhs->_child[LEFT] = _child[LEFT];
-		_child[LEFT] = temp_node_ptr;
-
-		temp_node_ptr = rhs->_child[RIGHT];
-		rhs->_child[RIGHT] = _child[RIGHT];
-		_child[RIGHT] = temp_node_ptr;
-		std::cout << rhs->_child[RIGHT] << std::endl << rhs << std::endl;
-
-		temp_color = rhs->_color;
-		rhs->_color = _color;
-		_color = temp_color;
-	}
+//		if ( rhs->_parent == this )
+//		{
+//			_child[]...
+//			rhs->_child[ rhs->child_dir() ] = this;
+//			rhs->_parent = _parent;
+//			_parent = rhs;
+//		}
+//		else if ( _parent == rhs )
+//		{
+//			_parent = rhs->_parent;
+//			rhs->_parent = this;
+//		}
+//		else
+//		{
+//			temp_node_ptr = rhs->_parent;
+//			rhs->_parent = _parent;
+//			_parent = temp_node_ptr;
+//		}
+//
+//		temp_node_ptr = rhs->_child[LEFT];
+//		rhs->_child[LEFT] = _child[LEFT];
+//		_child[LEFT] = temp_node_ptr;
+//
+//		temp_node_ptr = rhs->_child[RIGHT];
+//		rhs->_child[RIGHT] = _child[RIGHT];
+//		_child[RIGHT] = temp_node_ptr;
+//		//std::cout << rhs->_child[RIGHT] << std::endl << rhs << std::endl;
+//
+//		temp_color = rhs->_color;
+//		rhs->_color = _color;
+//		_color = temp_color;
 
 } // namespace ft
