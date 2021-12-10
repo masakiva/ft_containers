@@ -3,8 +3,8 @@ NAME		+= ft_containers
 SRCS_DIRS	+= main/
 
 SRCS		+= main.cpp
-SRCS		+= main_vector.cpp
-SRCS		+= main_stack.cpp
+#SRCS		+= main_vector.cpp
+#SRCS		+= main_stack.cpp
 SRCS		+= main_map.cpp
 SRCS		+= RBnode.class.cpp
 SRCS		+= RBtree.class.cpp

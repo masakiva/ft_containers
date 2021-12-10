@@ -99,5 +99,9 @@ void	map_elementaccess ( void );
 void	map_modifiers ( void );
 void	map_observers ( void );
 void	map_operations ( void );
+void	map_allocator( void );
+void	map_non_member_functions( void );
+void	map_more( void );
+void	map_same( void );
 
 #endif // __MAIN_HPP__

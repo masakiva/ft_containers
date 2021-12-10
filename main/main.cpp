@@ -7,7 +7,7 @@ int		main ( void ) // argv[1] == "vector" -> vector tests, etc
 //	vector_iterator();
 //	vector_capacity();
 //	vector_elementaccess();
-	vector_modifiers();
+//	vector_modifiers();
 //	vector_allocator();
 //	vector_non_member_functions();
 //	reverse_iterator_vector();
@@ -23,6 +23,10 @@ int		main ( void ) // argv[1] == "vector" -> vector tests, etc
 //	map_modifiers();
 //	map_observers();
 //	map_operations();
+//	map_allocator();
+//	map_non_member_functions();
+//	map_more();
+//	map_same();
 
 	return ( EXIT_SUCCESS );
 }

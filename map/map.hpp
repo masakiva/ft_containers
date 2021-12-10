@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:17:16 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/10 15:46:09 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/10 19:31:59 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,11 @@
 #include <cstddef> // NULL
 #include <stdexcept>
 #include "map_iterator.template.hpp"
+#include "reverse_iterator.template.hpp"
 #include "pair.template.hpp"
 #include "RBtree.class.hpp"
+#include "equal.template.hpp"
+#include "lexicographical_compare.template.hpp"
 
 #include <iostream> //////////////////////////////////////////////////////////////////////////
 
@@ -48,7 +51,7 @@ namespace	ft
 			typedef	typename allocator_type::const_pointer		const_pointer;
 			typedef	m_iterator<value_type>						iterator;
 			typedef	m_iterator<value_type, true>			const_iterator;
-			typedef	reverse_iterator<iterator>			reverse_iterator;
+			typedef	ft::reverse_iterator<iterator>			reverse_iterator;
 			typedef	ft::reverse_iterator<const_iterator>
 				const_reverse_iterator;
 			typedef	ptrdiff_t							difference_type;
@@ -160,6 +163,32 @@ namespace	ft
 			allocator_type	get_allocator ( void ) const;
 
 	}; // class map
+
+	/******* NON-MEMBER FUNCTIONS *********************************************/
+
+	template < class Key, class T, class Compare, class Alloc >
+		bool	operator== ( const map<Key,T,Compare,Alloc>& lhs,
+				const map<Key,T,Compare,Alloc>& rhs );
+
+	template < class Key, class T, class Compare, class Alloc >
+		bool	operator!= ( const map<Key,T,Compare,Alloc>& lhs,
+				const map<Key,T,Compare,Alloc>& rhs );
+
+	template < class Key, class T, class Compare, class Alloc >
+		bool	operator<  ( const map<Key,T,Compare,Alloc>& lhs,
+				const map<Key,T,Compare,Alloc>& rhs );
+
+	template < class Key, class T, class Compare, class Alloc >
+		bool	operator<= ( const map<Key,T,Compare,Alloc>& lhs,
+				const map<Key,T,Compare,Alloc>& rhs );
+
+	template < class Key, class T, class Compare, class Alloc >
+		bool	operator>  ( const map<Key,T,Compare,Alloc>& lhs,
+				const map<Key,T,Compare,Alloc>& rhs );
+
+	template < class Key, class T, class Compare, class Alloc >
+		bool	operator>= ( const map<Key,T,Compare,Alloc>& lhs,
+				const map<Key,T,Compare,Alloc>& rhs );
 
 	template < class Key, class T, class Compare, class Alloc >
 		void	swap ( map<Key,T,Compare,Alloc>& lhs,

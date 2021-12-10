@@ -71,8 +71,9 @@ void	vector_iterator( void )
 
 	const NAMESPACE::vector<int>	vec3( vec.begin(), 3 + vec.begin() );
 	std::cout << "vec3 (const):";
+	NAMESPACE::vector<int>::const_iterator cite = vec3.end();
 	for ( NAMESPACE::vector<int>::const_iterator cit = vec3.begin();
-			cit != vec3.end(); ++cit )
+			cit != cite; ++cit )
 		std::cout << ' ' << *cit;
 	std::cout << std::endl;
 	std::cout << "vec3 reversed (const):";
@@ -308,7 +309,7 @@ void	vector_modifiers( void )
 
 void	vector_allocator( void )
 {
-	NAMESPACE::vector<int> vec;
+	NAMESPACE::vector<int>	vec;
 	vec.get_allocator();
 }
 

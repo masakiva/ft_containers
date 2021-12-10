@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 19:39:54 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/06 17:54:41 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/10 19:31:38 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ namespace	ft
 			typedef	typename allocator_type::const_pointer		const_pointer;
 			typedef	v_iterator<value_type>				iterator;
 			typedef	v_iterator<value_type, true>		const_iterator;
-			typedef	reverse_iterator<iterator>			reverse_iterator;
+			typedef	ft::reverse_iterator<iterator>		reverse_iterator;
 			typedef	ft::reverse_iterator<const_iterator>
 				const_reverse_iterator;
 			typedef	std::ptrdiff_t						difference_type;

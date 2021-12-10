@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 11:30:10 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/10 14:37:01 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/10 19:16:30 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,8 @@ namespace	ft
 		RBnode**	new_other_link; // child ptr of this' parent
 									// that will point to "other"
 
+		bool		temp_color;
+
 		// general case
 		new_self_parent = other->_parent;
 		new_self_left = other->_child[LEFT];
@@ -235,6 +237,10 @@ namespace	ft
 			other->_child[RIGHT]->_parent = other;
 		if ( new_other_link != NULL )
 			*new_other_link = other;
+
+		temp_color = other->_color;
+		other->_color = _color;
+		_color = temp_color;
 	}
 
 } // namespace ft

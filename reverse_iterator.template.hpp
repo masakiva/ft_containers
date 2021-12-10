@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 19:07:52 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/02 16:16:42 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/10 17:21:01 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ namespace	ft
 
 		private:
 
-			Iterator	_it;
+			iterator_type	_it;
 
 		public:
 
 			/* default constructor */
-			reverse_iterator ( void ) : _it( Iterator() ) { }
+			reverse_iterator ( void ) : _it( iterator_type() ) { }
 
 			/* parameterized constructor */
 			explicit reverse_iterator ( iterator_type it ) : _it( it ) { }
@@ -69,16 +69,16 @@ namespace	ft
 			iterator_type	base( void ) const { return ( _it ); }
 
 			/* *rit */
-			reference		operator* ( void )
+			reference		operator* ( void ) const
 			{
-				--_it;
-				reverse_iterator	prev_elem( *this );
-				++_it;
+				iterator_type	it( _it );
+				--it;
+				reverse_iterator	prev_elem( it );
 				return ( *(prev_elem._it) );
 			}
 
 			/* rit->struct_arg */
-			pointer		operator-> ( void )
+			pointer		operator-> ( void ) const
 			{ return ( &( operator*() ) ); }
 
 			/* ++rit */

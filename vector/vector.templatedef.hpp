@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 20:45:40 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/10 16:13:09 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/10 16:17:10 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -526,7 +526,8 @@ namespace	ft
 				vector<T,Alloc>::erase ( iterator pos )
 		{
 			iterator	it;
-			for ( it = pos; it < this->end() - 1; it++ )
+			iterator	it_last = this->end() - 1;
+			for ( it = pos; it < it_last; it++ )
 			{ // shift backwards every element after pos
 				*it = *(it + 1);
 			}
@@ -544,14 +545,15 @@ namespace	ft
 			difference_type	range = last - first;
 
 			iterator	it = first;
-			while ( last < this->end() )
+			iterator	ite = this->end();
+			while ( last < ite )
 			{ // shift backwards every element after pos
 				*it = *last;
 				it++;
 				last++;
 			}
 
-			for ( ; it < this->end(); it++ )
+			for ( ; it < ite; it++ )
 				_alloc.destroy( &*it ); // remove elements at end of array
 			_size -= range;
 

@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 17:43:33 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/10 16:04:58 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/10 19:04:46 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,12 @@ namespace	ft
 				this->clear();
 
 			_comp = rhs._comp;
-			for ( const_iterator it = rhs.begin(); it != rhs.end(); it++ )
+
+			const_iterator	it = rhs.begin();
+			const_iterator	ite = rhs.end();
+			for ( ; it != ite; it++ )
 				this->insert( *it );
+
 			_size = rhs._size;
 
 			return ( *this );
@@ -107,7 +111,6 @@ namespace	ft
 		{
 			iterator	it( _tree.get_extremity( RIGHT ), this );
 
-			std::cout << "END" << std::endl;
 			if ( it.get_node_ptr() != NULL )
 				++it;
 
@@ -227,7 +230,7 @@ namespace	ft
 			// key not found:
 			// insert pair with this key and a mapped value default constructed
 			pair<iterator,bool>		new_pair =
-				this->insert( make_pair( key, mapped_type() ) );
+				this->insert( ft::make_pair( key, mapped_type() ) );
 
 			return ( new_pair.first->second ); // return ref to new mapped value
 		}
@@ -473,7 +476,7 @@ namespace	ft
 					cur_node = cur_node->get_child( RIGHT );
 				else
 				{ // found the key
-					iterator	it( cur_node, this );
+					const_iterator	it( cur_node, (void*) this );
 					return ( it );
 				}
 			}
@@ -510,14 +513,15 @@ namespace	ft
 				map<Key,T,Compare,Alloc>::lower_bound ( const key_type& key )
 		{
 			iterator		it = this->begin();
+			iterator		ite = this->end();
 
-			for ( ; it != this->end(); ++it )
+			for ( ; it != ite; ++it )
 			{
 				if ( !_comp( it->first, key ) )
 					return ( it );
 			}
 
-			return ( this->end() );
+			return ( ite );
 		}
 
 	template < class Key, class T, class Compare, class Alloc >
@@ -525,15 +529,16 @@ namespace	ft
 				map<Key,T,Compare,Alloc>::lower_bound ( const key_type& key )
 				const
 		{
-			iterator		it = this->begin();
+			const_iterator		it = this->begin();
+			const_iterator		ite = this->end();
 
-			for ( ; it != this->end(); ++it )
+			for ( ; it != ite; ++it )
 			{
 				if ( !_comp( it->first, key ) )
 					return ( it );
 			}
 
-			return ( this->end() );
+			return ( ite );
 		}
 
 	template < class Key, class T, class Compare, class Alloc >
@@ -541,14 +546,15 @@ namespace	ft
 				map<Key,T,Compare,Alloc>::upper_bound ( const key_type& key )
 		{
 			iterator		it = this->begin();
+			iterator		ite = this->end();
 
-			for ( ; it != this->end(); ++it )
+			for ( ; it != ite; ++it )
 			{
 				if ( _comp( key, it->first ) )
 					return ( it );
 			}
 
-			return ( this->end() );
+			return ( ite );
 		}
 
 	template < class Key, class T, class Compare, class Alloc >
@@ -556,15 +562,16 @@ namespace	ft
 				map<Key,T,Compare,Alloc>::upper_bound ( const key_type& key )
 				const
 		{
-			iterator		it = this->begin();
+			const_iterator		it = this->begin();
+			const_iterator		ite = this->end();
 
-			for ( ; it != this->end(); ++it )
+			for ( ; it != ite; ++it )
 			{
-				if ( !_comp( it->first, key ) )
+				if ( _comp( key, it->first ) )
 					return ( it );
 			}
 
-			return ( this->end() );
+			return ( ite );
 		}
 
 	template < class Key, class T, class Compare, class Alloc >
@@ -572,7 +579,7 @@ namespace	ft
 		typename map<Key,T,Compare,Alloc>::iterator>
 				map<Key,T,Compare,Alloc>::equal_range ( const key_type& key )
 		{
-			return ( make_pair( lower_bound( key ), upper_bound( key ) ) );
+			return ( ft::make_pair( lower_bound( key ), upper_bound( key ) ) );
 		}
 
 	template < class Key, class T, class Compare, class Alloc >
@@ -581,7 +588,7 @@ namespace	ft
 				map<Key,T,Compare,Alloc>::equal_range ( const key_type& key )
 				const
 		{
-			return ( make_pair( lower_bound( key ), upper_bound( key ) ) );
+			return ( ft::make_pair( lower_bound( key ), upper_bound( key ) ) );
 		}
 
 
@@ -597,6 +604,57 @@ namespace	ft
 
 
 	/******* NON-MEMBER FUNCTIONS *********************************************/
+
+	/* == */
+	template < class Key, class T, class Compare, class Alloc >
+		bool	operator== ( const map<Key,T,Compare,Alloc>& lhs,
+				const map<Key,T,Compare,Alloc>& rhs )
+		{
+			if ( lhs.size() != rhs.size() )
+				return ( false );
+			return ( ft::equal( lhs.begin(), lhs.end(), rhs.begin() ) );
+		}
+
+	/* != */
+	template < class Key, class T, class Compare, class Alloc >
+		bool	operator!= ( const map<Key,T,Compare,Alloc>& lhs,
+				const map<Key,T,Compare,Alloc>& rhs )
+		{
+			return ( !operator==( lhs, rhs ) );
+		}
+
+	/* < */
+	template < class Key, class T, class Compare, class Alloc >
+		bool	operator<  ( const map<Key,T,Compare,Alloc>& lhs,
+				const map<Key,T,Compare,Alloc>& rhs )
+		{
+			return ( ft::lexicographical_compare( lhs.begin(), lhs.end(),
+						rhs.begin(), rhs.end() ) );
+		}
+
+	/* <= */
+	template < class Key, class T, class Compare, class Alloc >
+		bool	operator<= ( const map<Key,T,Compare,Alloc>& lhs,
+				const map<Key,T,Compare,Alloc>& rhs )
+		{
+			return ( !operator<( rhs, lhs ) );
+		}
+
+	/* > */
+	template < class Key, class T, class Compare, class Alloc >
+		bool	operator>  ( const map<Key,T,Compare,Alloc>& lhs,
+				const map<Key,T,Compare,Alloc>& rhs )
+		{
+			return ( operator<( rhs, lhs ) );
+		}
+
+	/* >= */
+	template < class Key, class T, class Compare, class Alloc >
+		bool	operator>= ( const map<Key,T,Compare,Alloc>& lhs,
+				const map<Key,T,Compare,Alloc>& rhs )
+		{
+			return ( !operator<( lhs, rhs ) );
+		}
 
 	/* swap */
 	template < class Key, class T, class Compare, class Alloc >
@@ -650,13 +708,13 @@ namespace	ft
 				{ // the same key is already in the tree
 					it.set_node_ptr( cur_node, this ); // return existent node
 					this->_free_one_node( new_node );
-					return ( make_pair( it, false ) ); // false: no insertion
+					return ( ft::make_pair( it, false ) ); //false: no insertion
 				}
 				cur_node = child; // child exists: iterate one level deeper
 			}
 			_size++;
 
-			return ( make_pair( it, true ) ); // true: node inserted
+			return ( ft::make_pair( it, true ) ); // true: node inserted
 		}
 
 	/* _insert_with_iterator */

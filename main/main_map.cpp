@@ -26,18 +26,6 @@ void	pair ( void )
 	std::cout << "----------" << std::endl << std::endl;
 }
 
-template < class T >
-struct	more
-{
-	bool	operator() ( const T& a, const T& b ) const { return ( a > b ); }
-};
-
-template < class T >
-struct	same
-{
-	bool	operator() ( const T& a, const T& b ) const { return ( a == b ); }
-};
-
 void	map_canonicalform( void )
 {
 	std::cout << "CANONICAL FORM" << std::endl;
@@ -150,8 +138,9 @@ template < class Key, class T, class Compare, class Alloc >
 	void	print_map ( NAMESPACE::map<Key,T,Compare,Alloc>& map )
 	{
 		std::cout << "[keys, values]:" << std::endl;
-		for ( typename NAMESPACE::map<Key,T,Compare,Alloc>::iterator it =
-				map.begin(); it != map.end(); it++ )
+		typename NAMESPACE::map<Key,T,Compare,Alloc>::iterator it = map.begin();
+		typename NAMESPACE::map<Key,T,Compare,Alloc>::iterator ite = map.end();
+		for ( ; it != ite; it++ )
 		{
 			std::cout << '[' << it->first << ", " << it->second << ']'
 				<< std::endl;
@@ -446,5 +435,96 @@ void	map_operations ( void )
 	std::cout << "--------------------" << std::endl << std::endl;
 }
 
-//	NAMESPACE::map<char,int, more<char> >	map;
+void	map_allocator( void )
+{
+	NAMESPACE::map<int,char>	map;
+	map.get_allocator();
+}
 
+void	map_non_member_functions( void )
+{
+	std::cout << "NON MEMBER FUNCTIONS" << std::endl;
+
+	NAMESPACE::map<int,char>	map1 = sample_map();
+	std::cout << "=== print map1 ===" << std::endl;
+	print_map( map1 );
+	NAMESPACE::map<int,char>	map2 = sample_map();
+	map2.erase( 3 );
+	map2.insert( NAMESPACE::make_pair( 9, 'i' ) );
+	std::cout << "=== print map2 ===" << std::endl;
+	print_map( map2 );
+	NAMESPACE::map<int,char>	map3 = sample_map();
+	std::cout << "=== print map3 ===" << std::endl;
+	print_map( map3 );
+
+	std::cout << std::boolalpha;
+	std::cout << "map1 == map2: " << (map1 == map2) << std::endl;
+	std::cout << "map1 == map3: " << (map1 == map3) << std::endl;
+	std::cout << "----------" << std::endl;
+	std::cout << "map1 != map2: " << (map1 != map2) << std::endl;
+	std::cout << "map1 != map3: " << (map1 != map3) << std::endl;
+	std::cout << "----------" << std::endl;
+	std::cout << "map1 < map2: " << (map1 < map2) << std::endl;
+	std::cout << "map1 < map3: " << (map1 < map3) << std::endl;
+	std::cout << "----------" << std::endl;
+	std::cout << "map1 <= map2: " << (map1 <= map2) << std::endl;
+	std::cout << "map1 <= map3: " << (map1 <= map3) << std::endl;
+	std::cout << "----------" << std::endl;
+	std::cout << "map1 > map2: " << (map1 > map2) << std::endl;
+	std::cout << "map1 > map3: " << (map1 > map3) << std::endl;
+	std::cout << "----------" << std::endl;
+	std::cout << "map1 >= map2: " << (map1 >= map2) << std::endl;
+	std::cout << "map1 >= map3: " << (map1 >= map3) << std::endl;
+	std::cout << "----------" << std::endl;
+
+	std::cout << "-> swap( map1, map2 )" << std::endl;
+	swap( map1, map2 );
+	std::cout << "=== print map1 ===" << std::endl;
+	print_map( map1 );
+	std::cout << "=== print map2 ===" << std::endl;
+	print_map( map2 );
+}
+
+template < class T >
+struct	more
+{
+	bool	operator() ( const T& a, const T& b ) const { return ( a > b ); }
+};
+
+void	map_more( void )
+{
+	NAMESPACE::map<int,char, more<int> >	map;
+	map.insert( NAMESPACE::make_pair( 1, 'a' ) );
+	map.insert( NAMESPACE::make_pair( 2, 'b' ) );
+	map.insert( NAMESPACE::make_pair( 3, 'c' ) );
+	map.insert( NAMESPACE::make_pair( 4, 'd' ) );
+	map.insert( NAMESPACE::make_pair( 5, 'e' ) );
+	std::cout << "-> map = sample map with 5 elements (keys go from 1 to 5, "
+		"and values from 'a' to 'e')" << std::endl
+		<< "key_compare function passed to map is more<int>" << std::endl;
+
+	std::cout << "=== print map ===" << std::endl;
+	print_map( map );
+}
+
+template < class T >
+struct	same
+{
+	bool	operator() ( const T& a, const T& b ) const { return ( a == b ); }
+};
+
+void	map_same( void )
+{
+	NAMESPACE::map<int,char, same<int> >	map;
+	map.insert( NAMESPACE::make_pair( 1, 'a' ) );
+	map.insert( NAMESPACE::make_pair( 2, 'b' ) );
+	map.insert( NAMESPACE::make_pair( 3, 'c' ) );
+	map.insert( NAMESPACE::make_pair( 4, 'd' ) );
+	map.insert( NAMESPACE::make_pair( 5, 'e' ) );
+	std::cout << "-> map = sample map with 5 elements (keys go from 1 to 5, "
+		"and values from 'a' to 'e')" << std::endl
+		<< "key_compare function passed to map is same<int>" << std::endl;
+
+	std::cout << "=== print map ===" << std::endl;
+	print_map( map );
+}
