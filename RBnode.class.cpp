@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 11:30:10 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/09 18:30:10 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/10 14:37:01 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,45 +236,5 @@ namespace	ft
 		if ( new_other_link != NULL )
 			*new_other_link = other;
 	}
-
-//		RBnode*		temp_node_ptr;
-//		bool		temp_color;
-//		if ( _parent != NULL )
-//		{
-//			temp_node_ptr = rhs->_parent->_child[ rhs->child_dir() ];
-//			rhs->_parent->_child[ rhs->child_dir() ] = _parent->_child[ this->child_dir() ];
-//			_parent->_child[ this->child_dir() ] = temp_node_ptr;
-//		}
-//		if ( rhs->_parent == this )
-//		{
-//			_child[]...
-//			rhs->_child[ rhs->child_dir() ] = this;
-//			rhs->_parent = _parent;
-//			_parent = rhs;
-//		}
-//		else if ( _parent == rhs )
-//		{
-//			_parent = rhs->_parent;
-//			rhs->_parent = this;
-//		}
-//		else
-//		{
-//			temp_node_ptr = rhs->_parent;
-//			rhs->_parent = _parent;
-//			_parent = temp_node_ptr;
-//		}
-//
-//		temp_node_ptr = rhs->_child[LEFT];
-//		rhs->_child[LEFT] = _child[LEFT];
-//		_child[LEFT] = temp_node_ptr;
-//
-//		temp_node_ptr = rhs->_child[RIGHT];
-//		rhs->_child[RIGHT] = _child[RIGHT];
-//		_child[RIGHT] = temp_node_ptr;
-//		//std::cout << rhs->_child[RIGHT] << std::endl << rhs << std::endl;
-//
-//		temp_color = rhs->_color;
-//		rhs->_color = _color;
-//		_color = temp_color;
 
 } // namespace ft

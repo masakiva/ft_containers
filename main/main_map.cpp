@@ -107,7 +107,7 @@ void	map_iterator ( void )
 	std::cout << "ITERATOR" << std::endl;
 
 	NAMESPACE::map<int,char>	map = sample_map();
-	std::cout << "-> sample map with 5 elements (keys go from 1 to 5, "
+	std::cout << "-> map = sample map with 5 elements (keys go from 1 to 5, "
 		"and values from 'a' to 'e')" << std::endl;
 
 	std::cout << "map:\t";
@@ -132,7 +132,7 @@ void	map_capacity ( void )
 	std::cout << "CAPACITY" << std::endl;
 
 	NAMESPACE::map<int,char>	map = sample_map();
-	std::cout << "-> sample map with 5 elements (keys go from 1 to 5, "
+	std::cout << "-> map = sample map with 5 elements (keys go from 1 to 5, "
 		"and values from 'a' to 'e')" << std::endl;
 	std::cout << "map.size() = " << map.size() << std::endl;
 	std::cout << "map.max_size() = " << map.max_size() << std::endl;
@@ -165,7 +165,7 @@ void	map_elementaccess ( void )
 	std::cout << "ELEMENT ACCESS" << std::endl;
 
 	NAMESPACE::map<int,char>	map = sample_map();
-	std::cout << "-> sample map with 5 elements (keys go from 1 to 5, "
+	std::cout << "-> map = sample map with 5 elements (keys go from 1 to 5, "
 		"and values from 'a' to 'e')" << std::endl;
 
 	map[3] = 'p';
@@ -320,6 +320,28 @@ void	map_erase ( NAMESPACE::map<int,char> map )
 	map.erase( it, map.end() );
 	std::cout << "map.erase( it, map.end() )" << std::endl;
 	print_map( map );
+
+	std::cout << "--------------------" << std::endl << std::endl;
+}
+
+void	map_swap_clear ( NAMESPACE::map<int,char> map )
+{
+	NAMESPACE::map<int,char>	map2 = sample_map();
+	std::cout << "-> map2 = sample map with 5 elements (keys go from 1 to 5, "
+		"and values from 'a' to 'e')" << std::endl;
+
+	map.swap( map2 );
+	std::cout << "-> map.swap( map2 )" << std::endl;
+	std::cout << "=== print map ===" << std::endl;
+	print_map( map );
+	std::cout << "=== print map2 ===" << std::endl;
+	print_map( map2 );
+
+	map.clear();
+	std::cout << "-> map.clear()" << std::endl;
+	print_map( map );
+
+	std::cout << "--------------------" << std::endl << std::endl;
 }
 
 void	map_modifiers ( void )
@@ -330,6 +352,98 @@ void	map_modifiers ( void )
 
 	map = map_insert();
 	map_erase( map );
+	map_swap_clear( map );
+}
+
+void	map_observers ( void )
+{
+	std::cout << "OBSERVERS" << std::endl;
+
+	// key_comp()
+	// from https://cplusplus.com/reference/map/map/key_comp/
+	NAMESPACE::map<char,int>	map;
+	NAMESPACE::map<char,int>::key_compare	comp = map.key_comp();
+
+	map['a'] = 100;
+	map['b'] = 200;
+	map['c'] = 300;
+
+	char	highest = map.rbegin()->first;
+	NAMESPACE::map<char,int>::iterator	it = map.begin();
+	std::cout << "map contains:" << std::endl;
+	do
+	{
+		std::cout << it->first << " => " << it->second << std::endl;
+	} while ( comp( (*it++).first, highest ) );
+	std::cout << std::endl;
+
+
+	// value_comp()
+	// from https://cplusplus.com/reference/map/map/value_comp/
+	NAMESPACE::map<char,int>	map2;
+
+	map2['x'] = 1001;
+	map2['y'] = 2002;
+	map2['z'] = 3003;
+
+	NAMESPACE::pair<char,int>	highest2 = *map2.rbegin();
+	NAMESPACE::map<char,int>::iterator	it2 = map2.begin();
+	std::cout << "map2 contains:" << std::endl;
+	do
+	{
+		std::cout << it2->first << " => " << it2->second << std::endl;
+	} while ( map2.value_comp()( *it2++, highest2 ) );
+
+	std::cout << "--------------------" << std::endl << std::endl;
+}
+
+void	map_operations ( void )
+{
+	std::cout << "OPERATIONS" << std::endl;
+
+	NAMESPACE::map<int,char>	map = sample_map();
+	std::cout << "-> map = sample map with 5 elements (keys go from 1 to 5, "
+		"and values from 'a' to 'e')" << std::endl;
+
+	NAMESPACE::map<int,char>::iterator	it = map.find( 4 );
+	std::cout << "-> it = map.find( 4 )" << std::endl;
+	std::cout << "it->first = " << it->first << ", it->second = " << it->second
+		<< std::endl;
+
+	it = map.find( 9 );
+	std::cout << "-> it = map.find( 9 )" << std::endl;
+	std::cout << std::boolalpha << "it == map.end(): " << ( it == map.end() )
+		<< std::endl;
+	std::cout << "----------" << std::endl;
+
+	std::cout << "map.count( 2 ) = " << map.count( 2 ) << std::endl;
+	std::cout << "map.count( 8 ) = " << map.count( 8 ) << std::endl;
+	std::cout << "----------" << std::endl;
+
+	it = map.lower_bound( 2 );
+	std::cout << "-> it = map.lower_bound( 2 )" << std::endl;
+	std::cout << "it->first = " << it->first << ", it->second = " << it->second
+		<< std::endl;
+	std::cout << "----------" << std::endl;
+
+	it = map.upper_bound( 2 );
+	std::cout << "-> it = map.upper_bound( 2 )" << std::endl;
+	std::cout << "it->first = " << it->first << ", it->second = " << it->second
+		<< std::endl;
+	std::cout << "----------" << std::endl;
+
+	NAMESPACE::pair<NAMESPACE::map<int,char>::iterator,
+		NAMESPACE::map<int,char>::iterator> range;
+	range = map.equal_range( 4 );
+	std::cout << "-> range = map.equal_range( 4 )" << std::endl;
+
+	std::cout << "range.first->first = " << range.first->first
+		<< ", range.first->second = " << range.first->second << std::endl;
+	std::cout << "range.second->first = " << range.second->first
+		<< ", range.second->second = " << range.second->second << std::endl;
+	std::cout << "----------" << std::endl;
+
+	std::cout << "--------------------" << std::endl << std::endl;
 }
 
 //	NAMESPACE::map<char,int, more<char> >	map;

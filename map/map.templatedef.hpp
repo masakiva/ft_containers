@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 17:43:33 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/09 18:36:28 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/10 16:04:58 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ namespace	ft
 		{
 			iterator	it( _tree.get_extremity( RIGHT ), this );
 
+			std::cout << "END" << std::endl;
 			if ( it.get_node_ptr() != NULL )
 				++it;
 
@@ -404,6 +405,7 @@ namespace	ft
 			node = _tree.get_root();
 			if ( node != NIL )
 				this->_clear_deeper( node );
+			_tree.set_root_to_nil();
 			_size = 0;
 		}
 
@@ -415,6 +417,171 @@ namespace	ft
 				map<Key,T,Compare,Alloc>::key_comp ( void ) const
 		{
 			return ( _comp );
+		}
+
+	template < class Key, class T, class Compare, class Alloc >
+		typename map<Key,T,Compare,Alloc>::value_compare
+				map<Key,T,Compare,Alloc>::value_comp ( void ) const
+		{
+			value_compare	value_comp( _comp );
+
+			return ( value_comp );
+		}
+
+
+	/******* OPERATIONS *******************************************************/
+
+	template < class Key, class T, class Compare, class Alloc >
+		typename map<Key,T,Compare,Alloc>::iterator
+				map<Key,T,Compare,Alloc>::find ( const key_type& key )
+		{
+			RBnode*			cur_node;
+			value_type*		cur_pair;
+
+			cur_node = _tree.get_root();
+			while ( cur_node != NIL )
+			{
+				cur_pair = static_cast<value_type*>( cur_node->get_content() );
+				if ( _comp( key, cur_pair->first ) )
+					cur_node = cur_node->get_child( LEFT );
+				else if ( _comp( cur_pair->first, key ) )
+					cur_node = cur_node->get_child( RIGHT );
+				else
+				{ // found the key
+					iterator	it( cur_node, this );
+					return ( it );
+				}
+			}
+
+			return ( this->end() ); // key not found
+		}
+
+	template < class Key, class T, class Compare, class Alloc >
+		typename map<Key,T,Compare,Alloc>::const_iterator
+				map<Key,T,Compare,Alloc>::find ( const key_type& key ) const
+		{
+			RBnode*			cur_node;
+			value_type*		cur_pair;
+
+			cur_node = _tree.get_root();
+			while ( cur_node != NIL )
+			{
+				cur_pair = static_cast<value_type*>( cur_node->get_content() );
+				if ( _comp( key, cur_pair->first ) )
+					cur_node = cur_node->get_child( LEFT );
+				else if ( _comp( cur_pair->first, key ) )
+					cur_node = cur_node->get_child( RIGHT );
+				else
+				{ // found the key
+					iterator	it( cur_node, this );
+					return ( it );
+				}
+			}
+
+			return ( this->end() ); // key not found
+		}
+
+	template < class Key, class T, class Compare, class Alloc >
+		typename map<Key,T,Compare,Alloc>::size_type
+				map<Key,T,Compare,Alloc>::count ( const key_type& key ) const
+		{
+			RBnode*			cur_node;
+			value_type*		cur_pair;
+
+			cur_node = _tree.get_root();
+			while ( cur_node != NIL )
+			{
+				cur_pair = static_cast<value_type*>( cur_node->get_content() );
+				if ( _comp( key, cur_pair->first ) )
+					cur_node = cur_node->get_child( LEFT );
+				else if ( _comp( cur_pair->first, key ) )
+					cur_node = cur_node->get_child( RIGHT );
+				else
+				{ // found the key
+					return ( 1 );
+				}
+			}
+
+			return ( 0 ); // key not found
+		}
+
+	template < class Key, class T, class Compare, class Alloc >
+		typename map<Key,T,Compare,Alloc>::iterator
+				map<Key,T,Compare,Alloc>::lower_bound ( const key_type& key )
+		{
+			iterator		it = this->begin();
+
+			for ( ; it != this->end(); ++it )
+			{
+				if ( !_comp( it->first, key ) )
+					return ( it );
+			}
+
+			return ( this->end() );
+		}
+
+	template < class Key, class T, class Compare, class Alloc >
+		typename map<Key,T,Compare,Alloc>::const_iterator
+				map<Key,T,Compare,Alloc>::lower_bound ( const key_type& key )
+				const
+		{
+			iterator		it = this->begin();
+
+			for ( ; it != this->end(); ++it )
+			{
+				if ( !_comp( it->first, key ) )
+					return ( it );
+			}
+
+			return ( this->end() );
+		}
+
+	template < class Key, class T, class Compare, class Alloc >
+		typename map<Key,T,Compare,Alloc>::iterator
+				map<Key,T,Compare,Alloc>::upper_bound ( const key_type& key )
+		{
+			iterator		it = this->begin();
+
+			for ( ; it != this->end(); ++it )
+			{
+				if ( _comp( key, it->first ) )
+					return ( it );
+			}
+
+			return ( this->end() );
+		}
+
+	template < class Key, class T, class Compare, class Alloc >
+		typename map<Key,T,Compare,Alloc>::const_iterator
+				map<Key,T,Compare,Alloc>::upper_bound ( const key_type& key )
+				const
+		{
+			iterator		it = this->begin();
+
+			for ( ; it != this->end(); ++it )
+			{
+				if ( !_comp( it->first, key ) )
+					return ( it );
+			}
+
+			return ( this->end() );
+		}
+
+	template < class Key, class T, class Compare, class Alloc >
+		pair<typename map<Key,T,Compare,Alloc>::iterator,
+		typename map<Key,T,Compare,Alloc>::iterator>
+				map<Key,T,Compare,Alloc>::equal_range ( const key_type& key )
+		{
+			return ( make_pair( lower_bound( key ), upper_bound( key ) ) );
+		}
+
+	template < class Key, class T, class Compare, class Alloc >
+		pair<typename map<Key,T,Compare,Alloc>::const_iterator,
+		typename map<Key,T,Compare,Alloc>::const_iterator>
+				map<Key,T,Compare,Alloc>::equal_range ( const key_type& key )
+				const
+		{
+			return ( make_pair( lower_bound( key ), upper_bound( key ) ) );
 		}
 
 

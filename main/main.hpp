@@ -97,7 +97,7 @@ void	map_iterator ( void );
 void	map_capacity ( void );
 void	map_elementaccess ( void );
 void	map_modifiers ( void );
-NAMESPACE::map<int,char>	map_insert ( void );
-void	map_erase ( NAMESPACE::map<int,char> map );
+void	map_observers ( void );
+void	map_operations ( void );
 
 #endif // __MAIN_HPP__

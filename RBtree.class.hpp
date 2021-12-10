@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 17:52:52 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/09 17:49:30 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/10 14:39:30 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ namespace	ft
 			RBtree ( void );
 
 			RBnode*		get_root ( void ) const;
+			void		set_root_to_nil ( void );
 			RBnode*		get_extremity ( bool dir ) const;
 			void		insert ( RBnode* node, RBnode* parent, bool dir );
 			void		remove ( RBnode* node );

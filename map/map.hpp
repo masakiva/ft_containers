@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:17:16 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/09 18:29:49 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/10 15:46:09 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ namespace	ft
 			typedef	T											mapped_type;
 			typedef	pair<const key_type, mapped_type>			value_type;
 			typedef	Compare										key_compare;
-			//typedef												value_compare;
 			typedef	Alloc										allocator_type;
 			typedef	typename allocator_type::reference			reference;
 			typedef	typename allocator_type::const_reference	const_reference;
@@ -54,6 +53,22 @@ namespace	ft
 				const_reverse_iterator;
 			typedef	ptrdiff_t							difference_type;
 			typedef	size_t								size_type;
+
+			class	value_compare :
+				public std::binary_function<value_type,value_type,bool>
+			{
+				public:
+					typedef	bool		result_type;
+					typedef	value_type	first_argument_type;
+					typedef	value_type	second_argument_type;
+				private:
+					key_compare		_comp;
+				public:
+					value_compare ( key_compare comp ) : _comp( comp ) { }
+					bool	operator() ( const value_type& x,
+							const value_type& y ) const
+					{ return _comp( x.first, y.first ); }
+			};
 
 		private:
 
@@ -126,10 +141,20 @@ namespace	ft
 
 			/******* OBSERVERS ************************************************/
 			key_compare		key_comp( void ) const;
+			value_compare	value_comp( void ) const;
 
 			/******* OPERATIONS ***********************************************/
-			//iterator		find ( const key_type& key );
-			//const_iterator	find ( const key_type& key ) const;
+			iterator		find ( const key_type& key );
+			const_iterator	find ( const key_type& key ) const;
+			size_type		count ( const key_type& key ) const;
+			iterator		lower_bound ( const key_type& key );
+			const_iterator	lower_bound ( const key_type& key ) const;
+			iterator		upper_bound ( const key_type& key );
+			const_iterator	upper_bound ( const key_type& key ) const;
+			pair<iterator,iterator>				equal_range
+				( const key_type& key );
+			pair<const_iterator,const_iterator>	equal_range
+				( const key_type& key ) const;
 
 			/******* ALLOCATOR ************************************************/
 			allocator_type	get_allocator ( void ) const;
