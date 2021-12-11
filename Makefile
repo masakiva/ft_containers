@@ -1,6 +1,7 @@
 NAME		+= ft_containers
 
 SRCS_DIRS	+= main/
+SRCS_DIRS	+= map/
 
 SRCS		+= main.cpp
 SRCS		+= main_vector.cpp
@@ -11,10 +12,10 @@ SRCS		+= RBtree.class.cpp
 
 vpath %.cpp $(SRCS_DIRS)
 
-HDRS_DIRS	+= ./
 HDRS_DIRS	+= vector/
 HDRS_DIRS	+= stack/
 HDRS_DIRS	+= map/
+HDRS_DIRS	+= utils/
 HDRS_DIRS	+= main/
 
 HDRS		+= vector.hpp
