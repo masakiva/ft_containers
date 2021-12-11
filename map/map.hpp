@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:17:16 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/10 19:31:59 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/11 14:22:19 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 #include "RBtree.class.hpp"
 #include "equal.template.hpp"
 #include "lexicographical_compare.template.hpp"
-
-#include <iostream> //////////////////////////////////////////////////////////////////////////
 
 namespace	ft
 {
@@ -93,11 +91,7 @@ namespace	ft
 			void	_free_one_node ( RBnode* node );
 			void	_clear_deeper ( RBnode* node );
 
-			void	_print_node ( RBnode* node, bool dir, int i ) const; /////////////////////////////
-
 		public:
-
-			void	print_tree ( void ) const; //////////////////////////////////////////////
 
 			/******* CANONICAL FORM *******************************************/
 			explicit map ( const key_compare& comp = key_compare(),

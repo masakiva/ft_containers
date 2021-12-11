@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 11:41:07 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/10 19:16:44 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/11 14:22:42 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,6 @@
 
 namespace	ft
 {
-
-	void	RBtree::_print_node ( RBnode* node, bool dir, int i ) const
-	{
-		if ( node == NIL )
-			std::cout << ">>> " << ( dir ? "\e[34mright\e[0m" : "\e[32mleft\e[0m" )
-				<< " of " << i << ": \e[30;43mNIL\e[0m" << std::endl;
-		else
-		{
-			int	new_i = i + (dir ? 10 : 100 );
-			std::cout << ">>> " << new_i << ": "
-				<< ( dir ? "\e[34mright\e[0m" : "\e[32mleft\e[0m" ) << " of " << i << ": ";
-			std::cout << ( node->get_color() == RED ?
-					"\e[41mRED\e[0m" : "\e[30;47mBLACK\e[0m" ) << std::endl;
-			this->_print_node( node->get_child( LEFT ), LEFT, new_i );
-			this->_print_node( node->get_child( RIGHT ), RIGHT, new_i );
-		}
-	}
-
-	void	RBtree::print_tree ( void ) const
-	{
-		std::cout << ">>> ROOT: ";
-		if ( _root == NIL )
-			std::cout << ": \e[30;43mNIL\e[0m" << std::endl;
-		else
-		{
-			std::cout << ( _root->get_color() == RED ?
-					"\e[41mRED\e[0m" : "\e[30;47mBLACK\e[0m" ) << std::endl;
-			this->_print_node( _root->get_child( LEFT ), LEFT, 0 );
-			this->_print_node( _root->get_child( RIGHT ), RIGHT, 0 );
-		}
-	}
 
 	RBtree::RBtree ( void ) : _root( NIL ) { }
 

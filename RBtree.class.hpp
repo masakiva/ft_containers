@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 17:52:52 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/10 14:39:30 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/11 14:22:35 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define __RBTREE_CLASS_HPP__
 
 #include "RBnode.class.hpp"
-#include <iostream> //////////////////////////////////////////////////////////////////////////
 
 namespace	ft
 {
@@ -38,11 +37,7 @@ namespace	ft
 					RBnode *sibling, RBnode* closenephew,
 					RBnode* distantnephew );
 
-			void	_print_node ( RBnode* node, bool dir, int i ) const; /////////////////////////////
-
 		public:
-
-			void	print_tree ( void ) const; //////////////////////////////////////////////
 
 			RBtree ( void );
 

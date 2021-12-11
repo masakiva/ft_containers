@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 17:43:33 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/12/10 19:04:46 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/11 14:22:17 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -817,53 +817,6 @@ namespace	ft
 				this->_clear_deeper( child );
 
 			this->_free_one_node( node );
-		}
-
-
-
-	template < class Key, class T, class Compare, class Alloc >
-		void	map<Key,T,Compare,Alloc>::_print_node ( RBnode* node, bool dir, int i ) const
-		{
-			value_type*	pair;
-
-			if ( node == NIL )
-			{
-				std::cout << ">>> " << ( dir ? "\e[34mright\e[0m" : "\e[32mleft\e[0m" )
-					<< " of " << i << ": \e[30;43mNIL\e[0m" << std::endl;
-			}
-			else
-			{
-				int	new_i = i + (dir ? 10 : 100 );
-				std::cout << ">>> " << new_i << ": "
-					<< ( dir ? "\e[34mright\e[0m" : "\e[32mleft\e[0m" ) << " of " << i << ": ";
-				pair = static_cast<value_type*>( node->get_content() );
-				std::cout << ( node->get_color() == RED ?
-						"\e[41mRED\e[0m" : "\e[30;47mBLACK\e[0m" );
-				std::cout << std::endl << pair->first << std::endl;// << pair->second << std::endl;
-				this->_print_node( node->get_child( LEFT ), LEFT, new_i );
-				this->_print_node( node->get_child( RIGHT ), RIGHT, new_i );
-			}
-		}
-
-	template < class Key, class T, class Compare, class Alloc >
-		void	map<Key,T,Compare,Alloc>::print_tree ( void ) const
-		{
-			RBnode*		root;
-			value_type*	pair;
-
-			std::cout << ">>> ROOT: ";
-			root = _tree.get_root();
-			if ( root == NIL )
-				std::cout << ": \e[30;43mNIL\e[0m" << std::endl;
-			else
-			{
-				pair = static_cast<value_type*>( root->get_content() );
-				std::cout << ( root->get_color() == RED ?
-						"\e[41mRED\e[0m" : "\e[30;47mBLACK\e[0m" );
-				std::cout << std::endl << pair->first << std::endl;// << pair->second << std::endl;
-				this->_print_node( root->get_child( LEFT ), LEFT, 0 );
-				this->_print_node( root->get_child( RIGHT ), RIGHT, 0 );
-			}
 		}
 
 } // namespace ft
