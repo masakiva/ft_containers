@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:43:38 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/29 15:37:40 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/13 17:43:18 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ namespace	ft
 		typedef	T1		first_type;
 		typedef	T2		second_type;
 
-		T1		first;
-		T2		second;
+		first_type		first;
+		second_type		second;
 
 		/* default constructor */
 		pair( void ) :

@@ -6,7 +6,7 @@
 /*   By: mvidal-a <mvidal-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:51:32 by mvidal-a          #+#    #+#             */
-/*   Updated: 2021/11/21 13:37:52 by mvidal-a         ###   ########.fr       */
+/*   Updated: 2021/12/13 17:51:35 by mvidal-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ namespace	ft
 			typedef	Container						container_type;
 			typedef	typename Container::size_type	size_type;
 
-		private:
+		protected:
 
-			container_type		_cont;
+			container_type		c;
 
 		public:
 
 			/* default constructor */
 			explicit stack ( const container_type& cont = container_type() ) :
-				_cont( cont ) { }
+				c( cont ) { }
 
 			/* copy constructor */
 			stack ( const stack& src ) { *this = src; }
@@ -47,70 +47,70 @@ namespace	ft
 			{
 				if ( this == &rhs )
 					return ( *this );
-				_cont = rhs._cont;
+				c = rhs.c;
 				return ( *this );
 			}
 
 			/* empty */
 			bool				empty( void ) const
-			{ return ( _cont.empty() ); }
+			{ return ( c.empty() ); }
 
 			/* size */
 			size_type			size( void ) const
-			{ return ( _cont.size() ); }
+			{ return ( c.size() ); }
 
 			/* top */
 			value_type&			top( void )
-			{ return ( _cont.back() ); }
+			{ return ( c.back() ); }
 
 			/* top (const) */
 			const value_type&	top( void ) const
-			{ return ( _cont.back() ); }
+			{ return ( c.back() ); }
 
 			/* push */
 			void				push ( const value_type& val )
-			{ _cont.push_back( val ); }
+			{ c.push_back( val ); }
 
 			/* pop */
 			void				pop( void )
-			{ _cont.pop_back(); }
+			{ c.pop_back(); }
 
 
 			/* == */
 			template < class U, class Cont >
 				friend bool		operator== ( const stack<U,Cont>& lhs,
 						const stack<U,Cont>& rhs )
-				{ return ( lhs._cont == rhs._cont ); }
+				{ return ( lhs.c == rhs.c ); }
 
 			/* != */
 			template < class U, class Cont >
 				friend bool		operator!= ( const stack<U,Cont>& lhs,
 						const stack<U,Cont>& rhs )
-				{ return ( lhs._cont != rhs._cont ); }
+				{ return ( lhs.c != rhs.c ); }
 
 			/* < */
 			template < class U, class Cont >
 				friend bool		operator<  ( const stack<U,Cont>& lhs,
 						const stack<U,Cont>& rhs )
-				{ return ( lhs._cont < rhs._cont ); }
+				{ return ( lhs.c < rhs.c ); }
 
 			/* <= */
 			template < class U, class Cont >
 				friend bool		operator<= ( const stack<U,Cont>& lhs,
 						const stack<U,Cont>& rhs )
-				{ return ( lhs._cont <= rhs._cont ); }
+				{ return ( lhs.c <= rhs.c ); }
 
 			/* > */
 			template < class U, class Cont >
 				friend bool		operator>  ( const stack<U,Cont>& lhs,
 						const stack<U,Cont>& rhs )
-				{ return ( lhs._cont > rhs._cont ); }
+				{ return ( lhs.c > rhs.c ); }
 
 			/* >= */
 			template < class U, class Cont >
 				friend bool		operator>= ( const stack<U,Cont>& lhs,
 						const stack<U,Cont>& rhs )
-				{ return ( lhs._cont >= rhs._cont ); }
+				{ return ( lhs.c >= rhs.c ); }
 	};
 
 } // namespace ft
